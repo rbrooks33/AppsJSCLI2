@@ -1,0 +1,219 @@
+﻿.debugContainerStyle {
+    border: 1px darkgrey solid;
+    position: fixed;
+    bottom: 0px;
+    height: 59px;
+    width: 100%;
+    background-color: lightgray;
+    border-left-width: 1px;
+    border-right-width: 1px;
+}
+.debugButton {
+    width: 95px;
+    height: 28px;
+    border: 1px black solid;
+    position: relative;
+    top: 0px;
+    margin-left: 7px;
+    /*text-align: center;*/
+    vertical-align: middle;
+    padding-top: 0px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius:5px;
+}
+.componentButton{
+       border: 1px solid black;
+    width: 146px;
+    height: 30px;
+    margin-top: 14px;
+    margin-left: 187px;
+    font-weight: bold;
+    color: white;
+    background-color: darkgray;
+    padding-top: 4px;
+    padding-left: 9px;
+    cursor:pointer;
+}
+.debugButton :hover
+{
+    background-color:aliceblue;
+}
+.fourth-level-menu {
+    position: absolute;
+    /*top: 0;*/
+    right: -168px;
+    width: 150px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    /*display: none;*/
+}
+
+    .fourth-level-menu > li {
+        height: 30px;
+        background: #999999;
+    }
+.fourth-level-menu > li:hover {
+    background: #CCCCCC;
+}
+
+.third-level-menu {
+    position: absolute;
+    /*top: 0;*/
+    right: -200px;
+    width: 200px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+}
+
+    .third-level-menu > li {
+        height: 30px;
+        background: #999999;
+    }
+
+        .third-level-menu > li:hover {
+            background: #CCCCCC;
+        }
+
+.second-level-menu {
+    position: absolute;
+    /*top: 30px;*/
+    left: 0;
+    width: 200px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+}
+
+    .second-level-menu > li {
+        position: relative;
+        height: 30px;
+        background: #999999;
+    }
+
+    .second-level-menu > li:hover {
+        background: #CCCCCC;
+    }
+
+.top-level-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.debugButtonDropdown {
+    position: relative;
+    top: 14px;
+    left: 15px;
+}
+
+    .top-level-menu > li {
+        position: relative;
+        float: left;
+        height: 30px;
+        width: 150px;
+        background: #999999;
+    }
+
+        .top-level-menu > li:hover {
+            background: #CCCCCC;
+        }
+
+    .top-level-menu li:hover > ul {
+        /* On hover, display the next level's menu */
+        display: inline;
+    }
+
+
+    /* Menu Link Styles */
+
+    .top-level-menu a /* Apply to all links inside the multi-level menu */ {
+        font: bold 14px Arial, Helvetica, sans-serif;
+        color: #FFFFFF;
+        text-decoration: none;
+        padding: 0 0 0 10px;
+        /* Make the link cover the entire list item-container */
+        display: block;
+        line-height: 30px;
+    }
+
+        .top-level-menu a:hover {
+            color: #000000;
+        }
+
+#primary_nav_wrap {
+    margin-top: 15px
+}
+
+    #primary_nav_wrap ul {
+        list-style: none;
+        position: relative;
+        float: left;
+        margin: 0;
+        padding: 0
+    }
+
+        #primary_nav_wrap ul a {
+            display: block;
+            color: #333;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 12px;
+            line-height: 32px;
+            padding: 0 15px;
+            font-family: "HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif
+        }
+
+        #primary_nav_wrap ul li {
+            position: relative;
+            float: left;
+            margin: 0;
+            padding: 0
+        }
+
+            #primary_nav_wrap ul li.current-menu-item {
+                background: #ddd
+            }
+
+            #primary_nav_wrap ul li:hover {
+                background: #f6f6f6
+            }
+
+        #primary_nav_wrap ul ul {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            padding: 0
+        }
+
+            #primary_nav_wrap ul ul li {
+                float: none;
+                width: 200px
+            }
+
+            #primary_nav_wrap ul ul a {
+                line-height: 120%;
+                padding: 10px 15px
+            }
+
+            #primary_nav_wrap ul ul ul {
+                top: 0;
+                left: 100%
+            }
+
+        #primary_nav_wrap ul li:hover > ul {
+            display: block
+        }
+.debugActionButtonStyle {
+    float: right;
+    position: relative;
+    top: -30px;
+    right: 11px;
+    margin-top:9px;
+}

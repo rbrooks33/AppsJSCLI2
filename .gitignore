@@ -3,3 +3,7 @@
 ################################################################################
 
 /AppsJSCLI2/.vs/AppsJSCLI2
+/AppsJSCLI2/bin
+/AppsJSCLI2/.config
+/AppsJSCLI2/obj
+/AppsJSCLI2/Properties

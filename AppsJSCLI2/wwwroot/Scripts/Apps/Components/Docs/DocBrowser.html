@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Doc Browser</title>
+    <script src="../../Apps.js"></script>
+    <script>
+        Apps.ComponentsReady = function () {
+
+
+        };
+
+        function Search() {
+
+            Apps.Components.Docs.SearchDocs($('#inputSearchDocs').val(), function (html) {
+                $('#divSearchDocsResult').html(html);
+            });
+            
+        }
+    </script>
+</head>
+<body>
+    <div style="margin-left:50px;margin-bottom:28px;">
+        <h3>Search</h3>
+        <input id="inputSearchDocs" type="text" class="form-control" onkeyup="Search();" style="width:400px;display:inline;" />
+        <div id="btnSearchDocs" onclick="Search();" class="btn btn-primary" style="margin-top:-4px;">Search</div>
+    </div>
+    <div id="divSearchDocsResult" style="margin-right:41px;"></div>
+</body>
+</html>

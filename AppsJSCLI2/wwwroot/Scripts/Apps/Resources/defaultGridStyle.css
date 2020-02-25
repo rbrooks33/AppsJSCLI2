@@ -1,0 +1,11 @@
+﻿
+.editCellStyle{
+        position: absolute;
+    top: 207px;
+    border: 1px lightgray solid;
+    height: 80px;
+    display: block;
+    width: 305px;
+    padding: 3px;
+    height: 38px;
+}

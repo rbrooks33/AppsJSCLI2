@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="../../../../References/jquery.js"></script>
+    <script src="../../../../References/bootstrap4.min.js"></script>
+    <link href="../../../../References/bootstrap4.min.css" rel="stylesheet" />
+</head>
+<body>
+    <form id="uploadForm">
+
+        <input type="hidden" id="uploadDocID" />
+        <p>
+            <input id="uploadInput"
+                   type="file"
+                   value="Select File"
+                   name="myFiles"
+                   onchange="window.parent.Apps.Pages.DocsEdit.Event('show_upload_files');">
+            Selected file: <span id="fileNum">0</span>;
+            Size: <span id="fileSize">0</span>
+        </p>
+        <input id="uploadFriendlyName" type="text" placeholder="Friendly name with no extension" class="form-control" />
+        <input id="uploadDescription" type="text" placeholder="Optional description" class="form-control" />
+        
+        <table>
+            <tr>
+                <td>
+                    <div onclick="window.parent.Apps.Pages.DocsEdit.Event('upload_files');" class="btn btn-primary">Save</div>
+                </td>
+                <!--<td>
+                    <div onclick="window.parent.Apps.Pages.DocsEdit.Event('save_file');" class="btn btn-warning">Save</div>
+                </td>-->
+                <td>
+                    <div onclick="window.parent.Apps.Pages.DocsEdit.Event('cancel_new_file');" class="btn btn-warning">Cancel</div>
+                </td>
+            </tr>
+        </table>    
+            
+
+            
+        
+    </form>
+
+</body>
+</html>

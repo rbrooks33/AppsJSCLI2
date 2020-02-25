@@ -1,0 +1,25 @@
+<!-- LinkPicker Template Container 0=First parameter, 1=Second parameter
+    NOTE: content must be a single div and must have a unique id!
+    -->
+<script id="templateLinkPicker" type="text/template">
+
+    <div id="divLinkPickerContent" class="LinkPickerContentStyle">
+
+        <div style="height:0px;width:100%;">
+            <div onclick="Apps.Pages.LinkPicker.Event('hide');" style="float: right;    cursor: pointer;    position: relative;    top: -16px;    font-size: 22px;    left: 5px;">
+                X
+            </div>
+        </div>
+
+
+        <h3 style="margin-top: 0px;">
+            <span id="spanLinkPickerTitle" style="position: relative;    top: -6px;">Link Picker</span>
+        </h3>
+        <h4>Doc Types on Local Server</h4>
+        <div id="divLinkPickerTable"></div>
+        <div id="divLinkPickerViewer">
+            <!--<iframe id="iframeLinkPickerViewer"></iframe>-->
+        </div>
+</div>
+
+</script>

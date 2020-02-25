@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <OutputType>WinExe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\Scripts\Apps\_AppsIgnore\**" />
+    <Content Remove="wwwroot\Scripts\Apps\_AppsIgnore\**" />
+    <EmbeddedResource Remove="wwwroot\Scripts\Apps\_AppsIgnore\**" />
+    <None Remove="wwwroot\Scripts\Apps\_AppsIgnore\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LiteDB" Version="4.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Scripts\Apps\Components\Docs\Files\" />
+  </ItemGroup>
+
+
+</Project>

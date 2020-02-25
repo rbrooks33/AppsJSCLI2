@@ -1,0 +1,182 @@
+﻿<div id="tabstrip">
+
+    <!-- TABS -->
+
+    <ul>
+        <li id="tabProperties" class="k-state-active" style="margin-left: 120px;">Properties<span id="spanPropertiesTabValidationFlag" style="position: relative; top: -4px; left: 6px; color: red; display: none;">*</span></li>
+        <li id="tabLayout">Layout</li>
+        <li id="tabTags">Tags</li>
+    </ul>
+
+    <!-- PROPERTIES TAB -->
+    <div id="tabPropertiesContent" style="padding-top: 20px; padding-left: 40px;">
+
+
+        <table class="tableproperties">
+
+            <tr>
+                <td>
+                    <table>
+                        <tr>
+                            <td>
+                                <h4><span id="lblPanelNameHeader">Panel Name</span></h4>
+                            </td>
+                            <td>
+                                <input id="txtPanelName" onblur="if(Editor.IsValid('loadconditions')) { Editor.SetProperty('panelname', this.value); };" type="text" />&nbsp;<span id="spanPanelNameValidationFlag" style="color: red; display: none;">* Name required.</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>ID</h4>
+                            </td>
+                            <td>
+                                <div id="divPanelID"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>Refresh Interval</h4>
+                            </td>
+                            <td>
+                                <input id="txtRefreshInterval" value="5" onblur="Editor.SetProperty('refreshinterval', this.value);" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h4>Panel Fit</h4>
+                            </td>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td style="width: 150px">
+                                            <input id="radioPanelFitStretch" onchange="Editor.SetProperty('panelfit', 0);" type="radio" value="0" name="panelfit" />
+                                            <label>Stretch</label>
+                                        </td>
+                                        <td style="width: 150px">
+                                            <input id="radioPanelFitAspect" onchange="Editor.SetProperty('panelfit', 1);" type="radio" value="1" name="panelfit" />
+                                            <label>Aspect</label>
+                                        </td>
+                                        <td style="width: 150px">
+                                            <input id="radioPanelFitActual" onchange="Editor.SetProperty('panelfit', 2);" type="radio" value="2" name="panelfit" />
+                                            <label>Actual Size</label>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-left:20px;">
+                    <table>
+                        <tr class="classNonStretchFit classAspectRatioFit">
+                            <td id="tdFitOptionLabel"><strong>Option</strong></td>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <input id="radioAspectRatioStandardOption" onchange="Editor.SetProperty('fitaspecttype', 0);" type="radio" name="aspectratiooption" />
+                                            <label>Standard</label>
+                                            <input id="radioAspectRatioCustomOption" onchange="Editor.SetProperty('fitaspecttype', 1);" type="radio" name="aspectratiooption" />
+                                            <label>Custom</label>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </td>
+                        </tr>
+                        <tr class="classNonStretchFit classAspectRatioFit">
+                            <td id="tdFitRatioLabel"><strong>Ratio</strong></td>
+                            <td>
+                                <table class="classAspectRatioFit">
+                                    <tr>
+                                        <td>
+                                            <div id="divAspectRatioStandardOption">
+                                                <select id="cboAspectRatios" onchange="Editor.SetProperty('panelfitaspect',this.options[this.selectedIndex])">
+                                                    <option data-x="5" data-y="3">5 x 3</option>
+                                                    <option data-x="800" data-y="600">800 x 600</option>
+                                                </select>
+
+                                            </div>
+
+                                        </td>
+                                        <td>
+                                            <div id="divAspectRatioCustomOption">
+
+                                                <input id="txtAspectRatioCustomWidth" onblur="Editor.SetProperty('aspectratiocustomwidth', this.value);" type="text" style="width: 50px;text-align:center;" />  :
+                                                <input id="txtAspectRatioCustomHeight" onblur="Editor.SetProperty('aspectratiocustomheight', this.value);" type="text" style="width: 50px;text-align:center;" />
+
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </td>
+                        </tr>
+                        <tr class="classNonStretchFit classActualSizeFit">
+                            <td id="tdFitHeightLabel"><strong>Height</strong></td>
+
+                            <td id="tdFitActualSizeHeight"><input id="txtFitActualSizeHeight" onblur="Editor.SetProperty('actualvalueheight', this.value);" type="text" style="width: 50px;" />&nbsp;px</td>
+
+
+                        </tr>
+                        <tr class="classNonStretchFit classActualSizeFit">
+                            <td id="tdFitWidthLabel"><strong>Width</strong></td>
+
+                            <td id="tdFitActualSizeWidth"><input id="txtFitActualSizeWidth" onblur="Editor.SetProperty('actualvaluewidth', this.value);" type="text" style="width: 50px;" />&nbsp;px</td>
+
+
+                        </tr>
+
+                        <tr class="classNonStretchFit classFitAlignment">
+                            <td id="tdFitHorizontalLabel"><strong>Horizontal Alignment</strong></td>
+                            <td id="tdFitHorizontalControls">
+                                <input id="radioFitHorizontalAlignmentLeft" data-value="1" onchange="Editor.SetProperty('fithorizontalalignment', 1);" type="radio" name="fithorizontalalignment" />&nbsp;<label>Left</label>&nbsp;
+                                <input id="radioFitHorizontalAlignmentCenter" data-value="2" onchange="Editor.SetProperty('fithorizontalalignment', 2);" type="radio" name="fithorizontalalignment" />&nbsp;<label>Center</label>&nbsp;
+                                <input id="radioFitHorizontalAlignmentRight" data-value="3" onchange="Editor.SetProperty('fithorizontalalignment', 3);" type="radio" name="fithorizontalalignment" />&nbsp;<label>Right</label>
+                            </td>
+                        </tr>
+                        <tr class="classNonStretchFit classFitAlignment">
+                            <td id="tdFitVerticalLabel"><strong>Vertical Alignment</strong></td>
+                            <td id="tdFitVerticalControls">
+                                <input id="radioFitVerticalAlignmentTop" data-value="1" onchange="Editor.SetProperty('fitverticalalignment', 1);" type="radio" name="fitverticalalignment" />&nbsp;<label>Top</label>&nbsp;
+                                <input id="radioFitVerticalAlignmentMiddle" data-value="2" onchange="Editor.SetProperty('fitverticalalignment', 2);" type="radio" name="fitverticalalignment" />&nbsp;<label>Middle</label>&nbsp;
+                                <input id="radioFitVerticalAlignmentBottom" data-value="3" onchange="Editor.SetProperty('fitverticalalignment', 3);" type="radio" name="fitverticalalignment" />&nbsp;<label>Bottom</label>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+
+    <!-- LAYOUT TAB -->
+    <div id="tabLayoutContent">
+        <CC:ClientPanelGrid runat="server" ID="ClientPanelGrid" />
+    </div>
+
+    <!-- TAGS TAB -->
+    <style>
+        .loadingPanel {
+            position: absolute;
+            left: 900px;
+            top: 70px;
+        }
+    </style>
+    <div id="tabTagsContent">
+
+        <asp:UpdatePanel ID="UpdatePanel1" UpdateMode="Always" OnLoad="UpdatePanel1_Load" runat="server">
+
+            <ContentTemplate>
+                <CC:EditTags runat="server" ID="MyLocalTagsEditor" />
+            </ContentTemplate>
+
+        </asp:UpdatePanel>
+
+    </div>
+</div>

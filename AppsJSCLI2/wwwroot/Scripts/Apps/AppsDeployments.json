@@ -1,0 +1,26 @@
+{
+  "Dev": {
+    "Active": true,
+    "Version": "1.0.1",
+    "WebRoot": "https://localhost",
+    "VirtualFolder": "",
+    "Port": "44371",
+    "AppsRoot": "Scripts/Apps",
+    "Debug": false,
+    "Required": "jquery, require, linq, bootstrap4, blockui, dialogs, grids, jqte, notify, binder",
+    "UseServer": false,
+    "MinimumJavaScriptVersion": "es5"
+  },
+  "Prod": {
+    "Active": false,
+    "Version": "1.0.2",
+    "WebRoot": "https://localhost",
+    "VirtualFolder": "",
+    "Port": "5010",
+    "AppsRoot": "Scripts/Apps",
+    "Debug": true,
+    "Required": "jquery, require, linq, bootstrap4, blockui, dialogs, grids, jqte, notify, binder",
+    "UseServer": false,
+    "MinimumJavaScriptVersion": "es5"
+  }
+}

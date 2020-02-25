@@ -1,0 +1,11 @@
+.DocMoveContentStyle {
+    margin-top: 72px;
+    background-color: white;
+    padding: 20px;
+    width: 435px;
+    max-height: 500px;
+    border-radius: 5px;
+    border: 2px solid #337ab7;
+    position: absolute;
+    z-index: 300;
+}

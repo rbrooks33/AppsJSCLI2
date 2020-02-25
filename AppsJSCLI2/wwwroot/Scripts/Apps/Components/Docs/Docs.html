@@ -1,0 +1,118 @@
+<!--<h3 style="margin-top: -14px;    margin-bottom: 38px;">
+    <span id="spanDocsTitle" style="position: relative;    top: 25px;">Docs</span>
+    <span id="spanDocsSubTitle" style="font-style: italic;    display: block;    margin-top: 28px;    font-size: 14px;"></span>
+</h3>
+<h3 id="divPageSubTitle"></h3>
+<input id="txtDocIDSearch"
+       placeholder="Search Doc ID"
+       type="text"
+       class="form-control Docs_txtDocIDSearch_Style" />
+<input id="txtDocContentSearch"
+       placeholder="Search Content"
+       type="text"
+       class="form-control Docs_txtDocContentSearch_Style" />-->
+
+
+<div id="divDocButtons" style="display:none;">
+    <table style="width: 95%; position: absolute;">
+        <tr>
+            <td>
+                <div class="btn-group">
+                    <div id="btnHome" class="btn btn-primary fa fa-home" onclick="Apps.AutoComponents.Docs.Event('home');"></div>
+                    <div id="btnBackToParent" onclick="Apps.AutoComponents.Docs.Event('back_to_parent');" class="btn btn-primary fa fa-level-up"></div>
+                    <div id="btnCollapse" class="btn btn-primary fa fa-bars"></div>
+                    <div id="btnExpand" class="btn btn-primary fa fa-square-o"></div>
+                    <div id="btnAddProjectDoc" class="btn btn-primary fa fa-plus"></div>
+                    <div id="Docs_MoreButton" class="btn btn-primary fa fa-ellipsis-v" onclick="Apps.Pages.Tags.Show();"></div>
+                    <!--<div onclick="Apps.Pages.DocTypes.Show();" class="btn btn-primary">Manage Doc Types</div>
+                    <div onclick="Apps.Pages.Tags.Show();" class="btn btn-warning">Tags</div>-->
+                </div>
+            </td>
+            <td style="float:right;">
+                <table>
+                    <tr>
+                        <td>
+                            <span style="margin-right: 9px;font-size:20px;">
+                                Show Levels:
+                            </span>
+                        </td>
+                        <td>
+                            <div>
+                                <select id="Doc_selectShowLevels"
+                                        onchange="Apps.AutoComponents.Docs.Event('show_level_changed');"
+                                        class="form-control"
+                                        style="width:60px;height:32px;">
+                                    <option value="0" selected>1</option>
+                                    <option value="1">2</option>
+                                    <option value="2">3</option>
+                                    <option value="3">4</option>
+                                    <option value="-1">All</option>
+                                </select>
+                            </div>
+
+                        </td>
+                        <td style="width:183px;">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <span class="Docs_spanShowArchived">Show Archived:</span>
+                                    </td>
+                                    <td>
+                                        <input id="chkShowArchived" onchange="Apps.AutoComponents.Docs.Event('show_archived_changed');" type="checkbox" class="form-control Docs_chkShowArchived" />
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+<table>
+    <tr>
+        <td><div id="divDocs_ParentName" style="font-size: 37px;    margin-top: 40px;">        </div></td>
+        <td style="padding-top: 43px;padding-left: 13px;">
+            <span id="spanDocs_ParentName" class="btn btn-primary fa fa-pencil-square-o" onclick=""></span>
+        </td>
+    </tr>
+</table>
+
+
+<div id="divDocs_ParentContent"></div>
+<div id="divDocsContainer" style="margin-top:8px;"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="Index_PageTitle">Study Helper</h1>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            <div class="Index_TagStatContainer">
+                <div class="Index_FavoritesContainer">
+                    <h2>Favorites</h2>
+                    <div id="Index_Favorites"></div>
+                </div>
+                <div class="Index_SkillupsContainer">
+                    <h2>Skill-Ups</h2>
+                    <h3>JavaScript</h3>
+                    <div id="Index_SkillUpStats_JS"></div>
+                    <h3>CSS</h3>
+                    <div id="Index_SkillUpStats_CSS"></div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-10">
+            <div class="Index_DocsContainer"></div>
+        </div>
+        <div class="col-2">
+
+        </div>
+    </div>
+</div>

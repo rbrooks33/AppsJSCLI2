@@ -1,0 +1,51 @@
+﻿
+
+    <div id="divDebugDataDropdown" class="debugButtonDropdown">
+        <ul class="top-level-menu">
+
+            <li class="debugButton">
+                <a id="linkAppsDataButton" style="border-radius:5px;" href="#">Data</a>
+
+                <ul class="data second-level-menu"></ul>
+
+            </li>
+
+        </ul>
+    </div>
+    <div style="position: relative;    left: 190px;    top: 12px;">
+        <input type="text" id="txtNewComponentName" style="border-radius: 5px;border-style: inherit;height: 31px;" />
+        <input type="button" class="btn btn-default" onclick="Apps.Debug.Event('new_component');" value="New Component" />
+        <!--<input type="checkbox" id="chkDebugShowSmartTags" />&nbsp;Show Smart Tags-->
+    </div>
+    <!-- Controls -->
+    <div id="divDebugControls">
+        <!--<input type="button" id="btnSettingsPage" class="btn btn-default debugActionButtonStyle" value="Settings" onclick="Apps.Debug.Event('settings');" />-->
+        <input type="button" id="btnEditPage" class="btn btn-default debugActionButtonStyle" value="Trace" onclick="Apps.Debug.Event('design');" />
+        <!--<input type="button" id="btnDebugTestPage" class="btn btn-default debugActionButtonStyle" value="Test" onclick="Apps.Debug.Event('test');" />-->
+    </div>
+
+
+
+<script id="templateAppsDebugDataShow" type="text/template">
+
+    <tr>
+        <td></td>
+    </tr>
+
+</script>
+
+<script id="templateAppsSettings" type="text/template">
+
+    <h3>Apps Settings</h3>
+    <h4>Web Root</h4>
+    <input id="txtWebRoot" value="{0}" class="form-control" />
+    <h4>Port</h4>
+    <input id="txtPort" value="{1}" class="form-control" />
+    <h4>Virtual Folder</h4>
+    <input id="txtVirtualFolder" value="{2}" class="form-control" />
+    <h4>Apps Root</h4>
+    <input id="txtAppsRoot" value="{3}" class="form-control" />
+    <h4>Required Components</h4>
+    <input id="txtRequired" value="{4}" class="form-control" />
+</script>
+

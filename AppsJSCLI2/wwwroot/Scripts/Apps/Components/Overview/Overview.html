@@ -1,0 +1,38 @@
+
+<div style="height:0px;width:100%;">
+    <div onclick="Apps.Components.Overview.Hide();" style="float: right;    cursor: pointer;    position: relative;    top: -16px;    font-size: 22px;    left: 5px;">
+        X
+    </div>
+</div>
+<h2>AppsJS Application</h2>
+<p>Located at <span id="Overview_WebRootPath"></span></p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="Overview_LeftColumn col-3">
+            <!--<h3>Project Configurations</h3>
+            <h4>Components Folder</h4>
+            <input id="Overview_BaseComponentsFolder" type="text" class="form-control" />
+            <p>Folder</p>-->
+            <h3>Validation</h3>
+            <div id="Overview_ValidationSteps"></div>
+        </div>
+        <div class="Overview_RightColumn col-9">
+            <!--<h3>Components</h3>-->
+            <div id="Overview_ComponentTable"></div>
+            <!--<h3>Resources</h3>-->
+            <div id="Overview_ResourceTable"></div>
+        </div>
+    </div>
+</div>
+<script id="Overview_AddComponentTemplate" type="text/template">
+    <h3>Name</h3>
+    <input id="Overview_NewComponentName" type="text" class="form-control" />
+    <h3>Description</h3>
+    <input id="Overview_NewComponentDescription" type="text" class="form-control" />
+    <h3>Version</h3>
+    <input id="Overview_NewComponentVersion" type="text" class="form-control" />
+    <h3>Module Type</h3>
+    <select id="Overview_NewComponentModuleTypes" class="form-control">
+        <option id="require" selected>RequireJS Module</option>
+    </select>
+</script>

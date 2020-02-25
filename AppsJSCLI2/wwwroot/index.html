@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>AppsJS Desktop</title>
+    <link rel='manifest' href='manifest.json'>
+    <meta name="google-signin-client_id" content="92970341323-cond57q8ldud62kcv7fghjoa81cma9i2.apps.googleusercontent.com">
+    <script src="Scripts/Apps/Resources/signalr.js"></script>
+    <script src="Scripts/Apps/Apps.js"></script>
+    <script src="pwabuilder-sw-register.js"></script>
+    <script>
+
+        Apps.ComponentsReady = function () {
+            Apps.Components.Login.Show();
+            Apps.Components.Home.Show();
+            //Apps.Components.Home.LoadSignalR();
+            //Apps.Components.Home.LoadDirectories();
+        }
+
+        function View() {
+
+            let webRootFolder = $('#Index_WebRootFolder').val();
+            Apps.Components.Overview.Event('view_project', webRootFolder);
+        }
+    </script>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="index.css" rel="stylesheet" />
+</head>
+<body>
+</body>
+</html>

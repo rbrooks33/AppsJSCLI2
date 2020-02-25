@@ -1,0 +1,16 @@
+.OverviewContentStyle {
+    /* margin-top: 72px; */
+    background-color: white;
+    padding: 20px;
+    width: 100%;
+    /* max-height: 500px; */
+    border-radius: 5px;
+    border: 2px solid #337ab7;
+    position: fixed;
+    top: 0px;
+    z-index:200;
+}
+.Overview_RightColumn{
+    height: 500px;
+    overflow:auto;
+}

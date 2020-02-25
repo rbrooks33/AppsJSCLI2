@@ -1,0 +1,75 @@
+{
+  "Components": [
+    
+    {
+      "Name": "Debug",
+      "Version": "1.0.0",
+      "Description": "",
+      "ComponentFolder": null,
+      "TemplateFolder": null,
+      "Load": true,
+      "Initialize": true,
+      "Color": "blue",
+      "ModuleType": "require",
+      "Framework": "default",
+      "Components": [],
+      "IsOnDisk": true
+    },
+    {
+      "Name": "Login",
+      "Version": "1.0.0",
+      "Description": "",
+      "ComponentFolder": null,
+      "TemplateFolder": null,
+      "Load": true,
+      "Initialize": true,
+      "Color": "blue",
+      "ModuleType": "require",
+      "Framework": "default",
+      "Components": [],
+      "IsOnDisk": true
+    },
+    {
+      "Name": "Overview",
+      "Version": "1.0.0",
+      "Description": "",
+      "ComponentFolder": null,
+      "TemplateFolder": null,
+      "Load": true,
+      "Initialize": true,
+      "Color": "blue",
+      "ModuleType": "require",
+      "Framework": "default",
+      "Components": [],
+      "IsOnDisk": true
+    },
+    {
+      "Name": "Docs",
+      "Version": "1.0.0",
+      "Description": "",
+      "ComponentFolder": null,
+      "TemplateFolder": null,
+      "Load": true,
+      "Initialize": false,
+      "Color": "blue",
+      "ModuleType": "require",
+      "Framework": "default",
+      "Components": [],
+      "IsOnDisk": true
+    },
+    {
+      "Name": "Home",
+      "Version": null,
+      "Description": null,
+      "ComponentFolder": null,
+      "TemplateFolder": null,
+      "Load": true,
+      "Initialize": false,
+      "Color": "blue",
+      "ModuleType": "require",
+      "Framework": "default",
+      "Components": [],
+      "IsOnDisk": false
+    }
+  ]
+}

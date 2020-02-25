@@ -1,0 +1,27 @@
+<!-- DocViewer Template Container 0=First parameter, 1=Second parameter
+    NOTE: content must be a single div and must have a unique id!
+    -->
+<script id="templateDocViewer" type="text/template">
+
+    <div id="divDocViewerContent" 
+         draggable="true" 
+         ondragstart="Apps.Pages.DocViewer.Drag(event)" 
+         ondrop="Apps.Pages.DocViewer.Drop(event)"
+         ondragover="Apps.Pages.DocViewer.DragOver(event)"
+         class="DocViewerContentStyle">
+
+        <!--<div style="height:0px;width:100%;">
+            <div onclick="Apps.Pages.DocViewer.Hide();" style="float: right;    cursor: pointer;    position: relative;    top: -16px;    font-size: 22px;    left: 5px;">
+                X
+            </div>
+        </div>-->
+
+
+        <h3 style="margin-top: 0px;">
+            <span id="spanDocViewerTitle" style="position: relative;    top: -6px;">DocViewer Component</span>
+        </h3>
+
+        <div id="divDocViewerTable"></div>
+</div>
+
+</script>

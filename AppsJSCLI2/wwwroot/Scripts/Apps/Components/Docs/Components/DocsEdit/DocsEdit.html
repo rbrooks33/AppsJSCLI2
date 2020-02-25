@@ -1,0 +1,53 @@
+<!-- DocsEdit Template Container 0=First parameter, 1=Second parameter
+    NOTE: content must be a single div and must have a unique id!
+    -->
+<script id="templateDocsEdit" type="text/template">
+
+    <div id="divDocsEditContent" class="DocsEditContentStyle">
+
+        <div style="height:0px;width:100%;">
+            <div onclick="Apps.Pages.DocsEdit.Event('hide');" style="float: right;    cursor: pointer;    position: relative;    top: -16px;    font-size: 22px;    left: 5px;">
+                X
+            </div>
+        </div>
+
+
+        <h3 style="margin-top: 0px;">
+            <span id="spanDocsEdit_DocName" style="position: relative;    top: -6px;">E</span>
+        </h3>
+        <div id="DocsEdit_DocDates"></div>
+        <div id="DocsEdit_Tags">
+            <select id="DocsEdit_selectDocsEditTags" class="form-control"></select>
+            <div id="DocsEdit_docTags"></div>
+        </div>
+        <h4>Name</h4>
+        <input id="txtDocTitle" class="form-control" />
+        <h4>Notes</h4>
+        <input id="txtDocContent" class="form-control" />
+
+        <table>
+            <tr>
+                <td><h4>Files</h4></td>
+                <td>
+                    <div id="divNewFile" onclick="Apps.Pages.DocsEdit.Event('new_file');" class="btn btn-primary btn-sm">New</div>
+                </td>
+            </tr>
+        </table>
+
+        <iframe id="iframeUploadForm"
+                style="width: 100%; height: 200px;"
+                frameborder="0" scrolling="auto"></iframe>
+
+        <!--<div class="btn btn-primary" onclick="Apps.Pages.DocsEdit.removeDuplicates('AbraCadABraAlakAzam');">dupes</div>-->
+        <div id="divDocFilesContainer">
+
+        </div>
+
+        <div class="btn-group" style="margin-top:25px;">
+            <div id="btnSaveDoc" class="btn btn-primary">Save</div>
+            <div id="btnArchiveDoc" class="btn btn-primary">Archive</div>
+            <div class="btn btn-primary" onclick="Apps.UI.DocsEdit.Hide();">Cancel</div>
+        </div>
+    </div>
+
+</script>

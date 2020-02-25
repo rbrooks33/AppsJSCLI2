@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Docs Browser</title>
+    <script src="../../../../Apps.js"></script>
+
+    <script>
+        Apps.PagesReady = function () {
+
+            //Me.Doc = doc;
+            //Me.DocTypeID = docType.docTypeID;
+
+            Apps.RegisterPage({ name: 'DocsViewer', pageroot: Apps.Settings.AppsRoot + '/Components/Docs/Modules' }, function () {
+
+                Apps.Util.Get(Apps.Settings.WebRoot + '/api/Docs/GetDoc?docId=' + Apps.QueryString['docid'], function (error, result) {
+
+                    if (result.data.length === 1) {
+
+                        let doc = result.data[0];
+                        
+                        Apps.Util.Get(Apps.Settings.WebRoot + '/api/Docs/GetDocType?docTypeId=' + result.data[0].docTypeID, function (error, result) {
+
+                            let docType = result.data[0];
+                            Apps.Pages.DocsViewer.Show(doc, docType);
+
+                            Apps.Components.Docs.Doc = doc;
+                            Apps.Components.Docs.DocTypeID = doc.docTypeID;
+                            Apps.Components.Docs.RefreshMyDocs();
+                        });
+
+                    }
+                });
+                
+                //Me.RefreshMyDocs();
+
+            });
+
+
+        };
+    </script>
+</head>
+<body>
+
+
+
+</body>
+</html>
