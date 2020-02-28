@@ -21,7 +21,7 @@ namespace AppsJSCLI2
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.UseUrls("https://localhost:5010/");
+                    webBuilder.UseUrls("https://localhost:44326/");
                 });
     }
 }

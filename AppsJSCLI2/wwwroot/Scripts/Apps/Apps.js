@@ -1,9 +1,32 @@
 ﻿window.Apps = {
     Components: [],
     UI: [],
+    LocalComponentsReady: function () {
+        //if (Apps.QueryStrings()['testid']) {
+
+
+            //Apps.Notify('info', 'Testing MH');
+
+            require([Apps.Settings.WebRoot + '/' + Apps.Settings.AppsRoot + '/resources/funcunit.js'], function (funcunit) {
+
+                F.speed = 400;
+
+                //let mhLink = $('body > div:nth-child(3) > table > tbody > tr:nth-child(1) > td:nth-child(5)');
+
+                //F(mhLink).click();
+                //F('#newquote').click();
+                //F('#main2sub0prefix9').visible(function () {
+                Apps.Components.Testing.Test();
+
+                //});
+
+                
+            });
+        //}
+    },
     PreInit: function () {
 
-        Apps.Download('Scripts/Apps/AppsDeployments.json', function (response) {
+        Apps.Download('https://localhost:44326/Scripts/Apps/AppsDeployments.json', function (response) {
             let deployments = JSON.parse(response);
             Object.values(deployments).some(function (d, index) {
                 if (d.Active) {
@@ -408,8 +431,12 @@
         },
         calculate: function () {
 
-            if (Apps.ComponentsReady)
+            Apps.LocalComponentsReady();
+
+            if (Apps.ComponentsReady) {
+                
                 Apps.ComponentsReady();
+            }
         }
     },
     Block: function () {

@@ -4,7 +4,7 @@
     "Version": "1.0.1",
     "WebRoot": "https://localhost",
     "VirtualFolder": "",
-    "Port": "44371",
+    "Port": "44326",
     "AppsRoot": "Scripts/Apps",
     "Debug": false,
     "Required": "jquery, require, linq, bootstrap4, blockui, dialogs, grids, jqte, notify, binder",

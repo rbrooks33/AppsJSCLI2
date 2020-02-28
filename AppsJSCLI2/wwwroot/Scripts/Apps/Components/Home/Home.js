@@ -132,6 +132,11 @@ define([], function () {
             //});
 
         },
+        View: function() {
+
+            let webRootFolder = $('#Index_WebRootFolder').val();
+            Apps.Components.Overview.Event('view_project', webRootFolder);
+},
         Search: function () {
 
             let folderPath = $('#Index_WebRootFolder').val();
