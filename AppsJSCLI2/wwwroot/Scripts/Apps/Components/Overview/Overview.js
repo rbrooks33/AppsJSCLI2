@@ -90,11 +90,18 @@ define(['../../Resources/grid.js'], function (Grid) {
                                 //    }
                                 //},
                                 {
+                                    text: 'Refresh Components',
+                                    actionclick: function () {
+                                        Apps.Components.Overview.Event('refresh_components', arguments);
+                                    }
+                                },
+                                {
                                     text: 'Add Component',
                                     actionclick: function () {
                                         Apps.Dialogs.Open('Overview_AddComponentDialog');
                                     }
-                                }],
+                                }
+                                ],
                             rowactions: [{
                                 text: 'Delete', actionclick: function () {
                                     Apps.Components.Overview.Event('delete_component', arguments);
@@ -241,6 +248,15 @@ define(['../../Resources/grid.js'], function (Grid) {
                             //trToArchive.remove();
                         });
                     }
+
+                    break;
+
+                case 'refresh_components':
+
+                    Apps.Get2('api/CLI/RefreshAllComponents', function (result) {
+
+                        Apps.Notify('success', 'Components were refreshed!');
+                    });
 
                     break;
             }

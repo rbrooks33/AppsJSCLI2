@@ -16,7 +16,7 @@
                 //F(mhLink).click();
                 //F('#newquote').click();
                 //F('#main2sub0prefix9').visible(function () {
-                Apps.Components.Testing.Test();
+                Apps.Components.Testing.TestProperty();
 
                 //});
 

@@ -139,11 +139,11 @@ namespace AppsJSCLI2.Controllers.Overview
                 string componentsFilePath = componentsPath + "\\components.json";
                 string resourcesPath = appsPath + "\\Resources";
                 string resourcesFilePath = resourcesPath + "\\resources.json";
-                string templatesPath = appsPath + "\\Templates";
-                string templatesDefaultPath = templatesPath + "\\Default";
-                string cssTemplateFilePath = templatesDefaultPath + "\\empty.css";
-                string htmlTemplateFilePath = templatesDefaultPath + "\\empty.html";
-                string jsTemplateFilePath = templatesDefaultPath + "\\empty.js";
+                //string templatesPath = appsPath + "\\Templates";
+                //string templatesDefaultPath = templatesPath + "\\Default";
+                //string cssTemplateFilePath = templatesDefaultPath + "\\empty.css";
+                //string htmlTemplateFilePath = templatesDefaultPath + "\\empty.html";
+                //string jsTemplateFilePath = templatesDefaultPath + "\\empty.js";
 
                 result.Messages.Add("Starting folder validation.");
 
@@ -155,17 +155,17 @@ namespace AppsJSCLI2.Controllers.Overview
                 var componentFileExists = new ValidationStep { Step = "Components JSON file." };
                 var resourcesExists = new ValidationStep { Step = "Resources subfolder exists." };
                 var resourcesFileExists = new ValidationStep { Step = "Resources JSON file." };
-                var templatesExists = new ValidationStep { Step = "Main templates folder exists." };
-                var templateDefaultExists = new ValidationStep { Step = "Default folder with default template files." };
-                var templateDefaultFilesExist = new ValidationStep { Step = "Default template files." };
+                //var templatesExists = new ValidationStep { Step = "Main templates folder exists." };
+                //var templateDefaultExists = new ValidationStep { Step = "Default folder with default template files." };
+                //var templateDefaultFilesExist = new ValidationStep { Step = "Default template files." };
 
                 Config.CurrentConfig.ValidationSteps.Clear();
 
                 Config.CurrentConfig.ValidationSteps.AddRange(new ValidationStep[]
                 {
                     webRootExists, scriptsExists, appsExists, appsFileExists, 
-                    componentsExists, componentFileExists, templateDefaultExists, templateDefaultFilesExist,
-                    resourcesExists, resourcesFileExists, templatesExists
+                    componentsExists, componentFileExists,
+                    resourcesExists, resourcesFileExists
                 });
 
                 if (Directory.Exists(webRootFolder))
@@ -206,23 +206,23 @@ namespace AppsJSCLI2.Controllers.Overview
                                         SetValidationStepTrue(resourcesFileExists);
                                         Config.CurrentConfig.BaseResourcesFilePath = resourcesFilePath;
                                     }
-                                    if(Directory.Exists(templatesPath))
-                                    {
-                                        SetValidationStepTrue(templatesExists);
+                                    //if(Directory.Exists(templatesPath))
+                                    //{
+                                    //    SetValidationStepTrue(templatesExists);
 
-                                        if(Directory.Exists(templatesDefaultPath))
-                                        {
-                                            SetValidationStepTrue(templateDefaultExists);
-                                            Config.CurrentConfig.BaseTemplatesFolder = templatesDefaultPath;
+                                    //    if(Directory.Exists(templatesDefaultPath))
+                                    //    {
+                                    //        SetValidationStepTrue(templateDefaultExists);
+                                    //        Config.CurrentConfig.BaseTemplatesFolder = templatesDefaultPath;
                                             
-                                            if(System.IO.File.Exists(cssTemplateFilePath) 
-                                                && System.IO.File.Exists(htmlTemplateFilePath) 
-                                                && System.IO.File.Exists(jsTemplateFilePath))
-                                            {
-                                                SetValidationStepTrue(templateDefaultFilesExist);
-                                            }
-                                        }
-                                    }
+                                    //        if(System.IO.File.Exists(cssTemplateFilePath) 
+                                    //            && System.IO.File.Exists(htmlTemplateFilePath) 
+                                    //            && System.IO.File.Exists(jsTemplateFilePath))
+                                    //        {
+                                    //            SetValidationStepTrue(templateDefaultFilesExist);
+                                    //        }
+                                    //    }
+                                    //}
                                 }
                             }
                         }

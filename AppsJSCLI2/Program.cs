@@ -20,8 +20,9 @@ namespace AppsJSCLI2
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    string[] urls = { "https://localhost:44326/", "http://localhost" };
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.UseUrls("https://localhost:44326/");
+                    webBuilder.UseUrls(urls);
                 });
     }
 }
