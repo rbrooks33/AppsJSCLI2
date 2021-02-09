@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>AppsJS Desktop</title>
+    <meta name="viewport" content="width=device-width" />
+    <link rel='manifest' href='manifest.json'>
+    <script src="https://kit.fontawesome.com/27d5012c3e.js" crossorigin="anonymous"></script>
+    <script src="Scripts/Apps/Resources/signalr.js"></script>
+    <script src="Scripts/Apps/Apps.js"></script>
+    <script type="module" src="pwabuilder-sw-register.js"></script>
+    <script src="Scripts/Apps/Resources/signalr.js"></script>
+    <script src="Scripts/Apps/Resources/Ace/ace.js"></script>
+    <link href="../../../index.css" rel="stylesheet" />
+    <script>
+
+        Apps.ComponentsReady = function () {
+
+            Apps.Components.Plan.Apps.StartInterval();
+            //Apps.Components.CodeGen.Publish();
+            //Apps.Components.Home.Show();
+            //Apps.Components.Home.LoadSignalR();
+            //Apps.Components.Home.LoadDirectories();
+
+            //Apps.Components.CodeGen.SPA.Show();
+
+            //Apps.connection = new signalR.HubConnectionBuilder()
+            //    .withUrl("/appsHub")
+            //    .configureLogging(signalR.LogLevel.Information)
+            //    .build();
+
+            //Apps.connection.start().catch(err => console.error(err.toString()));
+            //Apps.connection.on("Ping", function (machineName, workingFolder) {
+
+            //    Apps.Components.Apps.Ping(machineName, workingFolder);
+
+            //});
+
+            //Apps.Components.Apps.Show();
+            //Apps.Components.Apps.Events.ShowHide(); //Shows
+        }
+
+        function TestOcelot() {
+            Apps.Get('/api/Overview/gettoken?client_id=asdf', function (error, result) {
+
+            });
+        }
+        function TestSolutions() {
+            Apps.Components.CodeMethods.Search('test');
+        }
+    </script>
+    <link href="index.css" rel="stylesheet" />
+    <link href="Scripts/Apps/Resources/jquery-te-1.4.0.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="Apps_HeaderContainer_DivStyle">
+        <img src="Images/logo144.png" style="height:37px;" />
+        <span class="Apps_Title_SpanStyle">Apps</span>
+        <span class="Apps_SubTitle_SpanStyle">Dev Ops</span>
+
+        <div class="btn btn-warning" onclick="Apps.Components.Plan.Test();" style="float:right;margin-left:5px;">Tester</div>
+        <div class="btn btn-warning" onclick="Apps.Components.Track.Events.ShowHide();" style="float:right;">Events</div>
+
+        <div class="dropdown">
+            <div class="btn btn-warning" style="margin-top: -2px;">New</div>
+            <div class="dropdown-content">
+                <a href="#" onclick="Apps.Components.Create.List('software');">Software</a>
+                <a href="#" onclick="Apps.Components.Plan.Apps.New('system');">New System</a>
+                <a href="#" onclick="Apps.Components.Plan.Apps.New('app');">New App</a>
+                <!--<a href="#" onclick="Apps.Components.Plan.Apps.Stories.New('story');">New Story</a>-->
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

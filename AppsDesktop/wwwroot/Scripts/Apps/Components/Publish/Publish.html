@@ -1,0 +1,67 @@
+﻿
+<script id="Apps_Publish_Edit_Template" type="text/template">
+
+    <!--
+        0 = Publish Profile ID
+    -->
+
+    <div id="tabstripPublish" data-type="tabstrip">
+        <div data-tabstrip-tabtitle="Repo" data-tabstrip-templateid="Publish_Repo_Template"></div>
+        <div data-tabstrip-tabtitle="Deploy" data-tabstrip-templateid="Publish_Deploy_Template"></div>
+    </div>
+
+</script>
+
+<script id="Publish_Repo_Template" type="text/template">
+
+    <h3>Clone</h3>
+    <input id="Apps_Publish_Repo_RemoteURL_Text" type="text" class="form-control" />
+
+    <h3>Exists</h3>
+    <input id="Apps_Publish_Repo_LocalFolderExists_Checkbox" type="checkbox" {1} data-toggle="toggle" style=" width: 25px; height: 25px;" />
+    <div class="btn btn-warning" onclick="Apps.Components.Publish.CloneRepo();">Get Repo</div>
+
+    <h3>Local Folder</h3>
+    <textarea id="Apps_Publish_Repo_LocalFolder" class="form-control"></textarea>
+
+</script>
+
+    <script id="Publish_Deploy_Template" type="text/template">
+
+        <h3>Name</h3>
+        <input id="Apps_Publish_Edit_Name_Text" type="text" class="form-control" />
+
+        <h3>Description</h3>
+        <textarea id="Apps_Publish_Edit_Description_Textarea" class="form-control"></textarea>
+
+        <h3>Project File Path</h3>
+        <textarea id="Apps_Publish_Edit_ProjectFilePath" class="form-control"></textarea>
+
+        <h3>Destination Folder</h3>
+        <textarea id="Apps_Publish_Edit_DestinationFolderPath" class="form-control"></textarea>
+
+        <h3 style="display:inline-block;margin-top:10px;">Pre-Publish Script</h3>
+        <h3>Enabled</h3>
+        <input id="Apps_Publish_PreBuildScriptEnabled_Checkbox" type="checkbox" {1} data-toggle="toggle" style=" width: 25px; height: 25px;" />
+
+        <div class="btn btn-warning btn-sm" style="margin-bottom:10px;" onclick="Apps.Components.Publish.CompilePre({0});">Compile</div>
+        <div id="Apps_Publish_PreBuildScript_Editor" style="height:200px;"></div>
+
+        <h3 style="display:inline-block;margin-top:10px;">Post-Publish Script</h3>
+        <h3>Enabled</h3>
+        <input id="Apps_Publish_PostBuildScriptEnabled_Checkbox" type="checkbox" {1} data-toggle="toggle" style=" width: 25px; height: 25px;" />
+
+        <div class="btn btn-warning btn-sm" style="margin-bottom:10px;" onclick="Apps.Components.Publish.CompilePost({0});">Compile</div>
+        <div id="Apps_Publish_PostBuildScript_Editor" style="height:200px;"></div>
+
+        <div class="btn btn-warning" style="margin-top:10px;" onclick="Apps.Components.Publish.Publish();">Publish</div>
+
+        <h4 style="margin-top:10px;">Results</h4>
+        <textarea id="Apps_Publish_Results" class="form-control"></textarea>
+    </script>
+
+    <script id="Apps_Publish_List_Template" type="text/template">
+
+        <div id="Apps_Publish_List_Container">dfsd</div>
+
+    </script>

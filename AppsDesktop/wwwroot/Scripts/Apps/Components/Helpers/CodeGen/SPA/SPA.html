@@ -1,0 +1,50 @@
+﻿<div style="height:0px;width:100%;">
+    <div onclick="Apps.Components.Home.Hide();" style="float: right;    cursor: pointer;    position: relative;    top: -16px;    font-size: 22px;    left: 5px;">
+        X
+    </div>
+</div>
+
+<h1>Generate SPA App</h1>
+<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+    <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off" checked>
+    <label class="btn btn-outline-primary" for="btncheck1">Folder-Based</label>
+
+    <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
+    <label class="btn btn-outline-primary" for="btncheck2">Core Self-Hosted</label>
+
+    <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off">
+    <label class="btn btn-outline-primary" for="btncheck3">ASP.NET Website</label>
+</div>
+
+
+<div style="margin-top:25px;">
+    <h2>AppsJS Component Tree</h2>
+    <div>
+        <!--<select>
+        <option>Level 1</option>
+        <option>Level 1</option>
+        <option>Level 3</option>
+    </select>-->
+        <input id="CodeGen_SPA_AddComponent_Name" type="text" />
+        <div id="CodGen_SPA_AddComponent_Button" onclick="Apps.Components.CodeGen.SPA.AddComponent(1);" class="btn btn-success">Add Component</div>
+
+        <ul id="CodGen_SPA_ComponentsMap_UL1">
+            <!--<li id="CodGen_SPA_ComponentsMap_UL1_LI1">Top Level
+            <ul id="CodGen_SPA_ComponentsMap_UL2">
+                <li id="CodGen_SPA_ComponentsMap_UL2_LI1">2nd Level
+
+                </li>
+            </ul>
+        </li>-->
+        </ul>
+    </div>
+</div>
+
+<div style="margin-top:25px;">
+    <div class="btn btn-primary" onclick="Apps.Components.CodeGen.SPA.Create();">Go</div>
+</div>
+
+<div style="margin-top:25px;">
+    <h3>Destination Folder</h3>
+    <textarea type="text" id="CodeGen_SPA_DestinationFolder_TextArea"></textarea>
+</div>

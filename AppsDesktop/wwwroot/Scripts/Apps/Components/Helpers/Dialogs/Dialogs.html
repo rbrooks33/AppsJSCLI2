@@ -1,0 +1,44 @@
+﻿<script id="templateMyDialog1" type="text/template">
+    <!--
+        0 = content
+        1 = title
+        2 = id
+        3 = size
+        4 = cancel function
+        5 = print function
+        6 = button html
+        7 = sub title
+        8 = sub title row visibility
+    -->
+    <div id="myDialog_{2}" class="dialog open">
+        <div class="dialog-container {3} dialog-scrollable">
+            <div class="dialog-content">
+                <div class="dialog-header">
+                    <table style="width:100%;">
+                        <tr>
+                            <td style="width:15%;"><h5 class="dialog-title">{1}</h5></td>
+                            <td><div id="myDialog_{2}_Header_AdditionalContent" class="myDialog_{2}_Header_AdditionalContent_Style"></div></td>
+                        </tr>
+                        <tr style="visibility:{8};">
+                            <td><p>{7}</p></td>
+                        </tr>
+                    </table>
+                    
+                   
+                    
+                    <button type="button" class="close-dialog" onclick="Apps.Components.Helpers.Dialogs.Close('{2}');">&times;</button>
+                </div>
+                <div class="dialog-body">
+                    {0}
+                </div>
+                <div class="dialog-footer">
+                    <div id="myDialog_{2}_Footer_AdditionalContent"></div>
+                    {6}
+                    <!--<button type="button" class="btn btn-primary" onclick="Apps.Components.Common.Dialogs.CancelCallback({5},'{2}');">Print</button>
+                    <button type="button" class="btn btn-primary" onclick="Apps.Notify('info', 'Email doesnt work yet.');">Email</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+

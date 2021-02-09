@@ -1,0 +1,44 @@
+﻿{
+  "dir": "ltr",
+  "lang": "en",
+  "name": "AppsJS Desktop",
+  "display": "standalone",
+  "start_url": "/index.html",
+  "short_name": "AppsJS Desktop",
+  "theme_color": "transparent",
+  "description": "Hands-free (AppsJS) cooking!",
+  "orientation": "any",
+  "background_color": "transparent",
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "128x128"
+    }
+  ],
+  "features": [
+    "fast",
+    "simple",
+    "clean"
+  ],
+  "categories": [
+    "javascript",
+    "components",
+    "oop"
+  ],
+  "shortcuts": [
+    {
+      "name": "Shortcut name to show in the menu",
+      "description": "A description of what the shortcut does",
+      "url": "Link to shortcut",
+      "icons": [
+        {
+          "src": "/favicon.ico",
+          "type": "image/icon",
+          "purpose": "any"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+.TestManagerTests_HistoryContentStyle {
+    position: absolute;
+    top: 10px;
+    width: 98%;
+    height: 98%;
+    border-radius: 5px;
+    border: 2px solid #337ab7;
+    left: 11px;
+    padding: 20px;
+    background: white;
+    z-index: 9999999;
+    overflow:auto;
+}

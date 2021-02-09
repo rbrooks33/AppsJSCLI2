@@ -7,3 +7,11 @@
 /AppsJSCLI2/.config
 /AppsJSCLI2/obj
 /AppsJSCLI2/Properties
+/AppsClassLibrary/bin/Debug
+/.vs/Apps
+/AppsClassLibrary/obj
+/AppsDesktop/.vs/Apps
+/AppsDesktop/AppFolders
+/AppsDesktop/bin/Debug/net5.0
+/AppsDesktop/obj
+/AppsDesktop/Templates

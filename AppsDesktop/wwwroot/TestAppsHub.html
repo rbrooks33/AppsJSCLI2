@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="Scripts/Apps/Apps.js"></script>
+    <script src="Scripts/Apps/Resources/turndown.js"></script>
+    <script src="Scripts/Apps/Resources/signalr.js"></script>
+    <script>
+
+        Apps.ComponentsReady = function () {
+
+            //Apps.Debug.BuildData(); //builds data button/dropdown html
+
+            // $('#divDebug').hide();
+            //Apps.Debug.Trace(this, 'Apps ready.');
+            //Apps.LoadScript2(Apps.Settings.WebRoot + '/Scripts/signalr.js', function () {
+
+            //Apps.LoadStyle(Apps.Settings.WebRoot + '/Scripts/Apps/Debug/debug.css');
+
+            Apps.connection = new signalR.HubConnectionBuilder()
+                .withUrl("/appsHub")
+                .configureLogging(signalR.LogLevel.Information)
+                .build();
+
+            Apps.connection.start().catch(err => console.error(err.toString()));
+            Apps.connection.on("SendMessage", function (user, message) {
+                Apps.Notify('info', 'user: ' + user + ', message: ' + message);
+            });
+            //Apps.connection.on("Assert", (app, testid, stepid, assertionName, assertionTrue) => {
+            //    //Apps.Notify('success', 'unit test result!');
+
+            //    let stepElement = $('[data-stepid="' + stepid + '"]');
+            //    if (stepElement) {
+
+            //        stepElement.removeClass('StepPassedIcon');
+            //        stepElement.removeClass('StepFailedIcon');
+            //        stepElement.removeClass('StepNotRunIcon');
+
+            //        if (assertionTrue)
+            //            stepElement.addClass('StepPassedIcon');
+            //        else
+            //            stepElement.addClass('StepFailedIcon');
+            //    }
+            //    else
+            //        Apps.Notify('warn', 'Passed element for step ' + stepid + ' not found.');
+
+            //    //Save
+
+            //    Apps.Util.Get(Apps.Settings.WebRoot + '/api/VitaTest/GetTestStepsByTest?db=' + Apps.ActiveDeployment.DB + '&testid=' + testid, function (error, result) {
+
+            //        if (!error && result.success) {
+
+            //            let steps = Enumerable.From(result.data).Where('$.testStepID === ' + stepid).ToArray();
+
+            //            if (steps.length === 1) {
+
+            //                steps[0].passed = assertionTrue ? 1 : 0;
+
+            //                let passedText = assertionTrue ? 'Passed.' : 'Failed.';
+            //                let assertionText = assertionName + ' ' + passedText;
+
+            //                Apps.Notify(assertionTrue ? 'success' : 'danger', 'Step ' + assertionText);
+
+            //                let newRun = {
+            //                    TestStepID: steps[0].testStepID,
+            //                    Passed: assertionTrue,
+            //                    Description: assertionText,
+            //                    TestRunInstanceID: Apps.Pages.TestManagerTests.CurrentTestRunInstance.testRunInstanceID
+            //                };
+
+            //                Apps.Util.PostWithData(Apps.Settings.WebRoot + '/api/VitaTest/UpsertRun?db=' + Apps.ActiveDeployment.DB, JSON.stringify(newRun), function (error, result) {
+            //                    if (error || !result.success)
+            //                        Apps.Notify('danger', 'Failed to record test step run.');
+            //                    else
+            //                        Apps.Pages.TestManagerTests_History.Event('show_run_refresh'); //Notify('success', 'Step note "' + note + '" recorded.'); //Apps.Notify('success', 'Step run "' + assertionText + '" recorded.');
+            //                });
+            //            }
+            //        }
+            //        else
+            //            Apps.Notify('warning', 'Error saving test history.');
+            //    });
+            //});
+
+            //Apps.connection.on("TestNote", (app, testid, stepid, note) => {
+
+            //    let newRun = {
+            //        TestStepID: stepid,
+            //        Passed: false,
+            //        IsNote: true,
+            //        Description: note,
+            //        TestRunInstanceID: Apps.Pages.TestManagerTests.CurrentTestRunInstance.testRunInstanceID
+            //    };
+
+            //    Apps.Util.PostWithData(Apps.Settings.WebRoot + '/api/VitaTest/UpsertRun?db=' + Apps.ActiveDeployment.DB, JSON.stringify(newRun), function (error, result) {
+            //        if (error || !result.success)
+            //            Apps.Notify('danger', 'Failed to record test note.');
+            //        else
+            //            Apps.Pages.TestManagerTests_History.Event('show_run_refresh'); //Notify('success', 'Step note "' + note + '" recorded.');
+            //    });
+
+            //});
+            //});
+        }
+        function SendMessage() {
+            Apps.connection.invoke("SendMessage", "roddy", "hiya").catch(function (err) {
+                return console.error(err.toString());
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="btn btn-info" onclick="SendMessage();" style="margin:50px;">Signal Me</div>
+    <!--<div id="divShowSoftware" class="btn btn-default" onclick="Apps.Components.Software.Event('view');" >Show Apps</div>-->
+    <div id="divDebugDataDropdown" style="position:fixed;bottom:20px;left:20px;z-index: 999999999;">
+        <ul class="top-level-menu">
+
+            <li class="debugButton">
+                <a id="linkAppsDataButton" style="border-radius:5px;" href="#">Data</a>
+
+                <ul class="data second-level-menu"></ul>
+
+            </li>
+
+        </ul>
+    </div>
+
+</body>
+</html>

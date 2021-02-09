@@ -1,0 +1,71 @@
+﻿using Microsoft.AspNetCore.SignalR.Client;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AppsClient
+{
+    public class AppsClientHub
+    {
+        public static HubConnection AppsHubConnection { get; set; }
+        public static void Load()
+        {
+            var result = new AppsResult();
+
+            try
+            {
+                HubConnection connection = new HubConnectionBuilder()
+                       .WithUrl("https://localhost:54321/appsHub")
+                       .Build();
+
+                //connection.On<string, string>("SendAppsClientConfig", (user, message) =>
+                //{
+
+                //});
+
+                connection.StartAsync().Wait();
+
+                connection.Closed += async (error) =>
+                {
+                    await Task.Delay(new Random().Next(0, 5) * 1000);
+                    connection.StartAsync().Wait();
+                };
+
+                //connection.InvokeAsync("SendMessage", this.MachineName, "AppsHub started.");
+
+                AppsClientHub.AppsHubConnection = connection;
+            }
+            catch(Exception ex)
+            {
+                //AppsLog.LogException(AppsLog.Flow.Misc, ex);
+            }
+        }
+
+        public static void SendMessage(string name, string message)
+        {
+            if (AppsClientHub.AppsHubConnection != null)
+                AppsClientHub.AppsHubConnection.SendAsync("SendMessage", name, message);
+        }
+        public static void SendConfig(AppsClientConfig config)
+        {
+            if(AppsClientHub.AppsHubConnection != null)
+                AppsClientHub.AppsHubConnection.SendAsync(AppsHubMethods.SendAppsClientConfig.ToString(), config);
+        }
+        public static void SendFileChange(System.IO.FileSystemEventArgs args)
+        {
+            if (AppsClientHub.AppsHubConnection != null)
+                AppsClientHub.AppsHubConnection.SendAsync(AppsHubMethods.SendFileChange.ToString(), args);
+        }
+        public static void Ping()
+        {
+            if (AppsClientHub.AppsHubConnection != null)
+                AppsClientHub.AppsHubConnection.SendAsync(AppsHubMethods.Ping.ToString(), Environment.MachineName, Environment.CurrentDirectory);
+        }
+        public static void Log(string step)
+        {
+            if (AppsClientHub.AppsHubConnection != null)
+                AppsClientHub.AppsHubConnection.SendAsync(AppsHubMethods.Log.ToString(), step);
+        }
+    }
+}
