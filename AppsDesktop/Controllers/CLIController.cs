@@ -116,6 +116,28 @@ namespace AppsDesktop.Controllers.CLI
             }
             return result;
         }
+        [HttpGet]
+        [Route("RefreshAllComponents")]
+        public Result RefreshAllComponents()
+        {
+            var result = new Result();
+            try
+            {
+                if (Config.IsValid)
+                {
+                    result = RefreshComponents();
+                    result.Success = true;
+                }
+                else
+                    result.Messages.Add("Config was not valid for Refresh All Components.");
+            }
+            catch (Exception ex)
+            {
+                result.Data = ex;
+            }
+            return result;
+        }
+
         /// <summary>
         /// Makes sure all config components are created on disk
         /// </summary>

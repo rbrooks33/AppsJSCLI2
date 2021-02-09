@@ -26,6 +26,9 @@ define([], function () {
         {
             Apps.UI.Testing.Hide();
         },
+        TestProperty: function () {
+
+        },
         Test: function (type) {
 
             var SetValue = Me.SetValue;
