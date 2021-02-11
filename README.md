@@ -1,5 +1,8 @@
 # Brooksoft.Apps.DevOps
 ## Plan / Create / Develop / Test / Publish / Document
+A Unified Development Tool
+
+![Apps.DevOps Dashboard](https://github.com/rbrooks33/Brooksoft.Apps.DevOps/blob/master/AppsDesktop/wwwroot/Images/appsdevopsgithublogo2.PNG)
 
 Apps DevOps is geared toward the product owner and dev team who not only want CI/CD but a complete set of software life cycle tools. 
 
