@@ -26,7 +26,7 @@
 
                     if (result.Success) {
                         Apps.Notify('info', 'created!');
-
+                        Apps.Components.Helpers.Dialogs.Close('Create_Software_List_Dialog');
                     }
                     else
                         Apps.Notify('warning', 'not create');

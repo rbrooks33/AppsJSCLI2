@@ -125,11 +125,11 @@ namespace AppsDesktop.Controllers.CLI
             {
                 if (Config.IsValid)
                 {
-                    result = RefreshComponents();
+                    //result = RefreshComponents();
                     result.Success = true;
                 }
-                else
-                    result.Messages.Add("Config was not valid for Refresh All Components.");
+                //else
+                //    result.FailMessages.Add("Config was not valid for Refresh All Components.");
             }
             catch (Exception ex)
             {

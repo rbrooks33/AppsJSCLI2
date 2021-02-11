@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.0.9.0</AssemblyVersion>
-    <FileVersion>1.0.9.0</FileVersion>
-    <Version>1.0.9</Version>
+    <AssemblyVersion>1.0.10.0</AssemblyVersion>
+    <FileVersion>1.0.10.0</FileVersion>
+    <Version>1.0.10</Version>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
     <Description>This standard class library allows an application to register itself with Brooksoft.Apps devops software.</Description>
     <Copyright>Brooksoft 2020</Copyright>

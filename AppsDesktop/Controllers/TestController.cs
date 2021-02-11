@@ -16,11 +16,13 @@ namespace AppsDesktop.Controllers
     {
         private IWebHostEnvironment _env;
         private LiteDatabase _db;
+        private AppsData _data;
 
         public TestController(IWebHostEnvironment env, AppsData data)
         {
             _env = env;
             _db = data.AppsDB;
+            _data = data;
         }
 
         [HttpGet]
@@ -213,5 +215,44 @@ namespace AppsDesktop.Controllers
 
             return result;
         }
+        [HttpGet]
+        [Route("Run")]
+        public AppsResult Run(int appId)
+        {
+            var result = new AppsResult();
+
+            try
+            {
+                var apps = new AppsController(_env, _data);
+                var appResult = apps.GetApp(appId);
+
+                if (appResult.Success)
+                {
+                    var appList = (List<App>)appResult.Data;
+                    var app = appList.Single();
+                    string cmdPath = System.IO.Path.Combine(Environment.SystemDirectory, "cmd.exe");
+
+                    Command.Exec("explorer", "https://localhost:5001/swagger/index.html", new Dictionary<string, string>() {
+                    }, app.WorkingFolder, ref result  );
+
+
+                    ////Run
+                    //Command.Exec("dotnet", "run", new Dictionary<string, string>
+                    //        {
+                    //            {"", app.AppName + ".csproj" },
+                    //            {"--urls", "https://localhost:50000" }
+
+                    //        }, app.WorkingFolder, ref result);
+
+                    result.Success = true;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                new AppFlows.Test.Exception(ex, ref result);
+            }
+            return result;
+        }
+
     }
 }

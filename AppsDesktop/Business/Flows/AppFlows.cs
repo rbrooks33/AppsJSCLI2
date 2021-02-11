@@ -185,8 +185,27 @@ namespace AppFlows
 
     }
 
-    public class Create
+    public class Create : AppFlow
     {
+        public Create(int appId, string message)
+        {
+            this.Color = "blue";
+            this.FlowProps.Add("Message", message);
+            this.FlowProps.Add("AppID", appId.ToString());
+            this.End();
+        }
+
+        public class Fail : AppFlow
+        {
+            public Fail(string message, ref AppsClient.AppsResult result)
+            {
+                result.FailMessages.Add(message);
+                this.FlowProps.Add("Message", message);
+                this.Color = "orange";
+                this.End();
+            }
+        }
+
         public class Exception : AppFlow
         {
             public Exception(System.Exception ex, ref AppsClient.AppsResult result)
@@ -208,6 +227,20 @@ namespace AppFlows
         }
 
     }
+
+    public class Develop
+    {
+        public class Exception : AppFlow
+        {
+            public Exception(System.Exception ex, ref AppsClient.AppsResult result)
+            {
+                this.Color = "red";
+                this.ExceptionAndResult(ex, ref result);
+            }
+        }
+
+    }
+
     //Apps DevOps Publish Component
     public class Publish
     {

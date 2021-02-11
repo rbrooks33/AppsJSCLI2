@@ -2,6 +2,7 @@
     var Me = {
         Tests: tests,
         CurrentApp: null,
+        CurrentTestPlans: null,
         CurrentTestPlan: null,
         Initialize() {
 
@@ -22,6 +23,7 @@
                         if (result.Success) {
                             
                             //Apps.Notify('info', 'tests');
+                            Me.CurrentTestPlans = result.Data;
 
                             let table = Apps.Grids.GetTable({
                                 id: "gridTestPlans",
@@ -29,13 +31,21 @@
                                 title: app.AppName + ' <span style="color:lightgrey;">Test Plans</span>',
                                 tableactions: [
                                     {
+                                        text: "Run",
+                                        actionclick: function () {
+                                            Apps.Components.Test.Run();
+                                        }
+
+                                    },
+                                    {
                                         text: "Add Test Plan",
                                         actionclick: function () {
                                             Apps.Components.Test.CurrentTestPlan.AppID = Apps.Components.Plan.Apps.App.CurrentApp.AppID;
                                             Apps.Components.Test.UpsertTestPlan();
                                         }
 
-                                    }],
+                                    }
+                                ],
                                 tablestyle: "",
                                 rowactions: [
                                     {
@@ -149,6 +159,16 @@
 
                 });
             }
+        },
+        Run: function () {
+            Apps.Get2('api/Test/Run?appId=' + Me.CurrentApp.AppID, function (result) {
+                if (result.Success) {
+                    Apps.Notify('success', 'Tests run successfully!');
+
+                }
+                else
+                    Apps.Notify('warning', 'Tests run not successful.');
+            });
         }
     };
     return Me;

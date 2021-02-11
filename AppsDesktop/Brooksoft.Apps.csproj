@@ -92,6 +92,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Business\Create\Source\AppsJS\" />
     <Folder Include="Business\Ops\PreBuildScripts\" />
     <Folder Include="Business\Ops\PostBuildScripts\" />
     <Folder Include="Models\Software\" />

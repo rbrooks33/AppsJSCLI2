@@ -6,6 +6,7 @@
         Components: [services, stories],
         CurrentApp: null,
         CurrentSystem: null,
+        CurrentApps: null, //TODO: refactor to use Apps.Data
         Initialize: function () {
             Apps.LoadTemplate('Apps', Apps.Settings.WebRoot + '/' + Apps.Settings.AppsRoot + '/Components/Plan/Apps/Apps.html', function () {
 
@@ -58,14 +59,22 @@
                     let apps = result.Data.Apps;
                     let systems = result.Data.Systems;
 
+                    Me.CurrentApps = apps;
+
                     $.each(apps, function (index, app) {
                         if (app.SystemID <= 0) {
                             let appHTML = Apps.Util.GetHTML('Apps_App_DivTemplate', [app.AppID, app.AppName, app.MachineName, escape(app.WorkingFolder), escape(JSON.stringify(app))]);
+                            let existingAppDiv = $('.Apps_App_DivStyle_ID' + app.AppID);
                             let existingPingDiv = $('#Apps_MachinePing_Div_ID' + app.AppID);
 
                             if (existingPingDiv.length >= 1) {
-                                //Update
-                                Me.UpdateAppHTML(app, existingPingDiv);
+                                if (app.Archived) {
+                                    existingAppDiv.detach();
+                                }
+                                else {
+                                    //Update
+                                    Me.UpdateAppHTML(app, existingPingDiv);
+                                }
                             }
                             else {
                                 $('#Apps_AppContainer_Div').append(appHTML);
@@ -104,11 +113,11 @@
         },
         UpdateAppHTML: function (app, pingDiv) {
 
-            let appNameElement = $('.Apps_AppName_Label_ID' + app.AppID);
+            //let appNameElement = $('.Apps_AppName_Label_ID' + app.AppID);
             let appDivStyle = $('.Apps_App_DivStyle_ID' + app.AppID);
 
             //IsEnabled
-            appNameElement.text(app.AppName);
+            //appNameElement.text(app.AppName);
             appDivStyle.css('border-color', 'lightgrey');
             if (app.IsEnabled) {
                 appDivStyle.css('border-color', 'green');
@@ -117,9 +126,16 @@
             //Working Folder exists
             pingDiv.css('border-color', 'lightgrey');
             if (app.WorkingFolderExists) {
-                pingDiv.css('border-color', 'green');
+                pingDiv.css('border-color', 'green'); 
             }
 
+            //AppsJS Exists
+            let appJsDiv = $('#Apps_AppsJSExists_Div_ID' + app.AppID);
+            if (app.IsAppsJSExists) {
+                appJsDiv.css('background-color', 'lightgreen');
+            }
+            else
+                appJsDiv.css('background-color', 'lightgrey');
         },
         Edit: function (appId) {
             Apps.Get2('/api/Apps/GetSystems', function (systemsResult) {
@@ -180,7 +196,7 @@
             var pingElements = $('[data-ping-machinename="' + machineName + '"][data-ping-workingfolder="' + escape(workingFolder) + '"]');
 
             $.each(pingElements, function (index, pingElement) {
-                $(pingElement).css('background-color', 'green');
+                $(pingElement).css('background-color', 'lightgreen');
                 setTimeout(function () {
                     $(pingElement).css('background-color', 'inherit');
                 }, 200);

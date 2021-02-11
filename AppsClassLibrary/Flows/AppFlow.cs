@@ -12,9 +12,11 @@ namespace Flows
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public AppsTest Tests { get; set; }
+        public Dictionary<string, string> FlowProps { get; set; }
         public AppFlow()
         {
             StartTime = DateTime.Now;
+            FlowProps = new Dictionary<string, string>();
         }
         public void Signal(string message)
         {
@@ -23,6 +25,7 @@ namespace Flows
         public virtual void End()
         {
             var f = new AppFlowEvent();
+            f.FlowProps = this.FlowProps; //Pass on any added before call to End
             FlowUtility.SaveFlow(f, this);
         }
         public List<AppFlowEvent> GetFlows()

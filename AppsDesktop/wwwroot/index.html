@@ -24,17 +24,17 @@
 
             //Apps.Components.CodeGen.SPA.Show();
 
-            //Apps.connection = new signalR.HubConnectionBuilder()
-            //    .withUrl("/appsHub")
-            //    .configureLogging(signalR.LogLevel.Information)
-            //    .build();
+            Apps.connection = new signalR.HubConnectionBuilder()
+                .withUrl("/appsHub")
+                .configureLogging(signalR.LogLevel.Information)
+                .build();
 
-            //Apps.connection.start().catch(err => console.error(err.toString()));
-            //Apps.connection.on("Ping", function (machineName, workingFolder) {
+            Apps.connection.start().catch(err => console.error(err.toString()));
+            Apps.connection.on("Ping", function (machineName, workingFolder) {
 
-            //    Apps.Components.Apps.Ping(machineName, workingFolder);
+                Apps.Components.Plan.Apps.Ping(machineName, workingFolder);
 
-            //});
+            });
 
             //Apps.Components.Apps.Show();
             //Apps.Components.Apps.Events.ShowHide(); //Shows

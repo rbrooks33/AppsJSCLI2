@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace AppsDesktop.Controllers
@@ -94,11 +95,12 @@ namespace AppsDesktop.Controllers
                 var publishProfiles = _db.GetCollection<PublishProfile>("PublishProfiles");
 
                 //All Apps
-                getAppsResult.Apps = apps.Query().ToList();
+                getAppsResult.Apps = apps.Query().Where(a => a.Archived == false).ToList();
 
                 foreach(var app in getAppsResult.Apps)
                 {
                     app.PublishProfiles = publishProfiles.Query().Where(pp => pp.AppID == app.AppID).ToList();
+                    apps.Upsert(app);
                 }
 
                 //Apps in a system
@@ -115,6 +117,7 @@ namespace AppsDesktop.Controllers
                     getAppsResult.Systems.Add(system.Single());
                 }
 
+                //Software files
                 foreach (var app in getAppsResult.Apps)
                 {
                     app.SoftwareFiles.Clear();
@@ -124,8 +127,20 @@ namespace AppsDesktop.Controllers
                         softwareFile.SoftwareFileCodes.Clear();
                         softwareFile.SoftwareFileCodes.AddRange(softwareFileCodes.Query().Where(sfc => sfc.SoftwareFileID == softwareFile.SoftwareFileID).ToList());
                     }
-                }
 
+                    //Check appsjs
+                    app.IsAppsJSExists = false;
+                    if (app.SoftwareType == SoftwareTypes.CoreWebService)
+                    {
+                        if (System.IO.File.Exists(app.WorkingFolder + "\\wwwroot\\Scripts\\Apps\\Apps.JS"))
+                        {
+                            app.IsAppsJSExists = true;
+                        }
+                    }
+
+                    apps.Upsert(app);
+                }
+                
                 new AppFlows.Plan.Apps.GetApps(getAppsResult.Apps.Count());
 
                 result.Data = getAppsResult;
@@ -332,7 +347,7 @@ namespace AppsDesktop.Controllers
 
                     Command.Exec("dotnet", "script", new Dictionary<string, string> {
                                 {" ", "\"" + preBuildScriptPath + "\"" }
-                            }, ref result);
+                            }, projectPath, ref result);
 
                     new AppFlows.Publish.Success("Successfully ran pre-build script for " + pp.Name + ".");
                 }
@@ -345,7 +360,7 @@ namespace AppsDesktop.Controllers
                         Command.Exec("dotnet", "publish", new Dictionary<string, string> {
                             {"-o", "\"" + destinationFolder + "\"" },
                             {"", "\"" + projectPath + "\""}
-                        }, ref result);
+                        }, projectPath, ref result);
 
                         if (!result.SuccessMessages.Any(sm => sm.Contains("error")))
                         {
@@ -363,7 +378,7 @@ namespace AppsDesktop.Controllers
 
                                     Command.Exec("dotnet", "script", new Dictionary<string, string> {
                                         {" ", "\"" + scriptPath + "\"" }
-                                    }, ref result);
+                                    }, projectPath, ref result);
 
                                     new AppFlows.Publish.Success("Successfully ran post-publish script for " + pp.Name + ".");
                                 }
@@ -433,5 +448,136 @@ namespace AppsDesktop.Controllers
 
             return result;
         }
+        [HttpGet]
+        [Route("Run")]
+        public AppsResult Run(int appId)
+        {
+            var result = new AppsResult();
+
+            try
+            {
+                var appResult = GetApp(appId);
+
+                if (appResult.Success)
+                {
+                    var apps = (List<App>)appResult.Data;
+                    var app = apps.Single();
+
+                    if (System.IO.File.Exists(app.ProjectFileFullName))
+                    {
+                        var fileInfo = new System.IO.FileInfo(app.ProjectFileFullName);
+
+                        //Run
+                        Command.Exec("dotnet", "run", new Dictionary<string, string>
+                        {
+                            {"", fileInfo.Name  }
+
+                        }, fileInfo.DirectoryName, ref result);
+
+                        result.Success = true;
+                    }
+                    else
+                        new AppFlows.Create.Fail("App #" + appId.ToString() + " projectfilefullname not found.", ref result);
+                }
+                else
+                    new AppFlows.Create.Fail("Failed getting the app for #" + appId.ToString(), ref result);
+            }
+            catch (System.Exception ex)
+            {
+                new AppFlows.Plan.Apps.Exception(ex, ref result);
+            }
+
+            return result;
+        }
+
+        [HttpGet]
+        [Route("AddAppsJS")]
+        public AppsResult AddAppsJS(int appId)
+        {
+            var result = new AppsResult();
+
+            try
+            {
+                var appResult = GetApp(appId);
+
+                if (appResult.Success)
+                {
+                    var apps = (List<App>)appResult.Data;
+                    var app = apps.Single();
+
+                    if (System.IO.Directory.Exists(app.WorkingFolder))
+                    {
+                        if (!System.IO.Directory.Exists(app.WorkingFolder + "\\wwwroot"))
+                            System.IO.Directory.CreateDirectory(app.WorkingFolder + "\\wwwroot");
+
+                        if (!System.IO.Directory.Exists(app.WorkingFolder + "\\wwwroot\\Scripts"))
+                            System.IO.Directory.CreateDirectory(app.WorkingFolder + "\\wwwroot\\Scripts");
+
+                        if (!System.IO.Directory.Exists(app.WorkingFolder + "\\wwwroot\\Scripts\\Apps"))
+                        {
+                            string copyFromFolder = System.Environment.CurrentDirectory + "\\Business\\Create\\Source\\AppsJS";
+                            string copyToFolder = app.WorkingFolder + "\\wwwroot\\Scripts";
+                            DirectoryCopy(copyFromFolder, copyToFolder, true, ref result);
+                        }
+                        else
+                        {
+                            new AppFlows.Create.Fail("Apps folder already there.", ref result);
+                        }
+
+
+                    result.Success = true;
+                    }
+                    else
+                        new AppFlows.Create.Fail("App #" + appId.ToString() + " working folder not found.", ref result);
+                }
+                else
+                    new AppFlows.Create.Fail("Failed getting the app for #" + appId.ToString(), ref result);
+            }
+            catch (System.Exception ex)
+            {
+                new AppFlows.Plan.Apps.Exception(ex, ref result);
+            }
+
+            return result;
+        }
+        private void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs, ref AppsResult result)
+        {
+            // Get the subdirectories for the specified directory.
+            DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+            //DirectoryInfo destDir = new DirectoryInfo(destDirName);
+
+            if (!dir.Exists)
+            {
+                throw new DirectoryNotFoundException(
+                    "Source directory does not exist or could not be found: "
+                    + sourceDirName);
+            }
+
+            DirectoryInfo[] dirs = dir.GetDirectories();
+            //DirectoryInfo[] destDirs = destDir.GetDirectories();
+
+            //recreate destination directory
+            Directory.CreateDirectory(destDirName);
+
+            // Get the files in the directory and copy them to the new location.
+            FileInfo[] files = dir.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                string tempPath = Path.Combine(destDirName, file.Name);
+                file.CopyTo(tempPath, false);
+
+            }
+
+            // If copying subdirectories, copy them and their contents to new location.
+            if (copySubDirs)
+            {
+                foreach (DirectoryInfo subdir in dirs)
+                {
+                    string tempPath = Path.Combine(destDirName, subdir.Name);
+                    DirectoryCopy(subdir.FullName, tempPath, copySubDirs, ref result);
+                }
+            }
+        }
+
     }
 }

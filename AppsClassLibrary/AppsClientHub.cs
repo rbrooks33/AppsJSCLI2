@@ -16,7 +16,7 @@ namespace AppsClient
             try
             {
                 HubConnection connection = new HubConnectionBuilder()
-                       .WithUrl("https://localhost:54321/appsHub")
+                       .WithUrl(AppsClientConfig.AppsURL + "/appsHub")
                        .Build();
 
                 //connection.On<string, string>("SendAppsClientConfig", (user, message) =>

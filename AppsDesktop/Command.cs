@@ -7,7 +7,7 @@ namespace AppsDesktop
 {
     public static class Command
     {
-        public static void Exec(string fileName, string command, Dictionary<string, string> args, ref AppsClient.AppsResult outResult)
+        public static void Exec(string fileName, string command, Dictionary<string, string> args, string workingDirectory, ref AppsClient.AppsResult outResult)
         {
             var result = new AppsClient.AppsResult();
 
@@ -23,6 +23,7 @@ namespace AppsDesktop
                 procStartInfo.CreateNoWindow = false;
                 procStartInfo.RedirectStandardOutput = true;
                 procStartInfo.RedirectStandardError = true;
+                procStartInfo.WorkingDirectory = workingDirectory;
 
                 var sb = new System.Text.StringBuilder();
                 var pr = new System.Diagnostics.Process();

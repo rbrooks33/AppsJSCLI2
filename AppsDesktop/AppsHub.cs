@@ -67,7 +67,8 @@ namespace AppsDesktop
                         MachineName = config.MachineName,
                         WorkingFolder = config.WorkingDirectory,
                         Updated = DateTime.Now,
-                        IsEnabled = true
+                        IsEnabled = true,
+                        LocalHostPort = config.LocalHostPort
                     };
                     
                     objs.Insert(newApp);
@@ -79,7 +80,7 @@ namespace AppsDesktop
                 {
                     var existingApp = apps.Single();
                     existingApp.Updated = DateTime.Now;
-
+                    existingApp.LocalHostPort = config.LocalHostPort;
                     objs.Upsert(existingApp);
 
                     UpdateAppSoftwareFilesAndCodes(existingApp, config, ref result);
@@ -170,6 +171,7 @@ namespace AppsDesktop
                 if(desc.GetType().Name == "MethodDeclarationSyntax")
                 {
                     var method = (MethodDeclarationSyntax)desc;
+                    
                     var existingCodeList = softwareFile.SoftwareFileCodes.Where(sc => sc.Name == method.Identifier.Text);
                     if(existingCodeList.Count() == 1)
                     {
