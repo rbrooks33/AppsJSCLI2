@@ -225,6 +225,16 @@ namespace AppFlows
                 this.ExceptionAndResult(ex, ref result);
             }
         }
+        public class Fail : AppFlow
+        {
+            public Fail(string message, ref AppsClient.AppsResult result)
+            {
+                result.FailMessages.Add(message);
+                this.FlowProps.Add("Message", message);
+                this.Color = "orange";
+                this.End();
+            }
+        }
 
     }
 
@@ -356,6 +366,18 @@ namespace AppFlows
                 }
 
             }
+            public class Fail : AppFlow
+            {
+                public string Message;
+                public Fail(string failMessage, ref AppsClient.AppsResult result)
+                {
+                    Message = failMessage;
+                    //base.Signal(failMessage);
+                    base.Color = "orange";
+                    base.End();
+                }
+            }
+
             public class Exception : AppFlow
             {
                 public Exception(System.Exception ex, ref AppsClient.AppsResult result)

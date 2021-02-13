@@ -15,8 +15,6 @@
                 Me.Resize();
                 $(window).resize(function () { Me.Resize(); });
 
-                Me.Develop.Initialize();
-
                 if (callback)
                     callback();
             });
@@ -60,7 +58,7 @@
 
                         Me.RefreshTestPlans();
                         Me.Resize();
-
+                        Me.Develop.Initialize(Me.CurrentApp);
                     }
                     else
                         Apps.Notify('warning', 'Problem loading app.');

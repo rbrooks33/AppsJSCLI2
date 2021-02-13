@@ -22,5 +22,6 @@ namespace AppsDesktop
         public string LocalRepoPath { get; set; }
         public bool LocalRepoPathExists { get; set; }
         public string RemoteRepoURL { get; set; }
+        public string TestProjectFilePath { get; set; }
     }
 }

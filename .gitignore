@@ -17,3 +17,5 @@
 /AppsDesktop/Templates
 /AppsClassLibrary/bin/Release/netstandard2.0
 /AppsDesktop/bin
+/Brooksoft.Apps.Test/bin/Debug/net5.0
+/Brooksoft.Apps.Test/obj

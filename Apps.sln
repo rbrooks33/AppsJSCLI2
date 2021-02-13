@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brooksoft.Apps", "AppsDeskt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brooksoft.Apps.Client", "AppsClassLibrary\Brooksoft.Apps.Client.csproj", "{17629C26-40A1-4CA7-80E9-B69444E72CA1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brooksoft.Apps.Test", "Brooksoft.Apps.Test\Brooksoft.Apps.Test.csproj", "{A83B187D-989F-4174-98DA-B853A4A633AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{17629C26-40A1-4CA7-80E9-B69444E72CA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17629C26-40A1-4CA7-80E9-B69444E72CA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17629C26-40A1-4CA7-80E9-B69444E72CA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A83B187D-989F-4174-98DA-B853A4A633AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A83B187D-989F-4174-98DA-B853A4A633AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A83B187D-989F-4174-98DA-B853A4A633AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A83B187D-989F-4174-98DA-B853A4A633AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

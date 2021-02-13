@@ -215,6 +215,16 @@ namespace AppsDesktop.Controllers
 
             return result;
         }
+        public class TestRunResult
+        {
+            public bool TestsPassed { get; set; }
+            public int Passed { get; set; }
+            public int Failed { get; set; }
+            public int Skipped { get; set; }
+            public int Total { get; set; }
+            public string DurationData { get; set; }
+            public string Info { get; set; }
+        }
         [HttpGet]
         [Route("Run")]
         public AppsResult Run(int appId)
@@ -230,10 +240,110 @@ namespace AppsDesktop.Controllers
                 {
                     var appList = (List<App>)appResult.Data;
                     var app = appList.Single();
-                    string cmdPath = System.IO.Path.Combine(Environment.SystemDirectory, "cmd.exe");
 
-                    Command.Exec("explorer", "https://localhost:5001/swagger/index.html", new Dictionary<string, string>() {
-                    }, app.WorkingFolder, ref result  );
+                    var objs = _db.GetCollection<PublishProfile>("PublishProfiles");
+                    var ppList = objs.Query().Where(pp => pp.AppID == app.AppID);
+                    if (ppList.Count() > 0)
+                    {
+                        var pp = ppList.First();
+                        var fiTestFile = new System.IO.FileInfo(pp.TestProjectFilePath);
+                        if (fiTestFile.Exists)
+                        {
+                            string testFolder = fiTestFile.DirectoryName;
+                            Command.Exec("dotnet", "test", new Dictionary<string, string>() { { "", pp.TestProjectFilePath } }, testFolder, ref result);
+
+                            int lineIndex = 0;
+                            foreach (string line in result.SuccessMessages)
+                            {
+                                if (line.Contains("test files matched the specified pattern"))
+                                {
+                                    //Next line has the test data
+                                    if (result.SuccessMessages.Count >= lineIndex + 2) //Make sure there is a next line for sanity
+                                    {
+                                        string testInfo = result.SuccessMessages[lineIndex + 1];
+                                        if (testInfo.Contains("Passed") && testInfo.Contains("Failed")) //Again, check if really is
+                                        {
+                                            var testRunResult = new TestRunResult();
+                                            string[] testResults = testInfo.Split('-');
+                                            if (testResults.Count() == 3)
+                                            {
+                                                testRunResult.TestsPassed = testResults[0].ToLower().Contains("passed");
+                                                testRunResult.Info = testResults[2];
+
+                                                string[] testData = testResults[1].Split(',');
+                                                int failedCount = 0;
+                                                int passedCount = 0;
+                                                int skippedCount = 0;
+                                                int totalCount = 0;
+
+                                                //[0]: "Passed!  - Failed:     0"
+                                                //[1]: " Passed:     1"
+                                                //[2]: " Skipped:     0"
+                                                //[3]: " Total:     1"
+                                                //[4]: " Duration: 9 ms - Brooksoft.Apps.Test.dll (net5.0)"
+
+                                                if (testData.Length == 5)
+                                                {
+                                                    testRunResult.DurationData = testData[4];
+
+                                                    bool testDataHasColons = true;
+
+                                                    foreach (string testDatum in testData)
+                                                    {
+                                                        if (!testDatum.Contains(":"))
+                                                        {
+                                                            testDataHasColons = false; break;
+                                                        }
+                                                    }
+
+                                                    if (testDataHasColons)
+                                                    {
+                                                        if (int.TryParse(testData[0].Split(':')[1], out failedCount)
+                                                            && int.TryParse(testData[1].Split(':')[1], out passedCount)
+                                                            && int.TryParse(testData[2].Split(':')[1], out skippedCount)
+                                                            && int.TryParse(testData[3].Split(':')[1], out totalCount))
+                                                        {
+                                                            testRunResult.Failed = failedCount;
+                                                            testRunResult.Passed = passedCount;
+                                                            testRunResult.Skipped = skippedCount;
+                                                            testRunResult.Total = totalCount;
+
+                                                            result.Data = testRunResult;
+                                                            result.Success = true;
+                                                        }
+                                                        else
+                                                            new AppFlows.Test.Fail("Inner test count data not formatted as expected.", ref result);
+                                                    }
+                                                    else
+                                                        new AppFlows.Test.Fail("Test counts not formatted as expected.", ref result);
+                                                }
+                                                else
+                                                    new AppFlows.Test.Fail("Inner test data does not have 5 items.", ref result);
+                                            }
+                                            else
+                                                new AppFlows.Test.Fail("Inner test data is not 3 lines.", ref result);
+                                        }
+                                        else
+                                            new AppFlows.Test.Fail("Do not see test data key words.", ref result);
+                                    }
+                                    else
+                                        new AppFlows.Test.Fail("No test data after identifying line.", ref result);
+                                }
+                                //else
+                                //    new AppFlows.Test.Fail("Success messages do not contain sentence identifying tests results exist.", ref result);
+
+                                lineIndex++;
+                            }
+                        }
+                        else
+                            new AppFlows.Test.Fail("Publish profile does not have a valid test project path.", ref result);
+                    }
+                    else
+                        new AppFlows.Test.Fail("No publish profiles for test.", ref result);
+                    //string cmdPath = System.IO.Path.Combine(Environment.SystemDirectory, "cmd.exe");
+
+                    //Command.Exec("explorer", "https://localhost:5001/swagger/index.html", new Dictionary<string, string>() {
+                    //}, app.WorkingFolder, ref result  );
 
 
                     ////Run
@@ -244,8 +354,9 @@ namespace AppsDesktop.Controllers
 
                     //        }, app.WorkingFolder, ref result);
 
-                    result.Success = true;
                 }
+                else
+                    new AppFlows.Test.Fail("Failed getting app.", ref result);
             }
             catch (System.Exception ex)
             {

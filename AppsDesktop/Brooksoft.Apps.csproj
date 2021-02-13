@@ -103,14 +103,5 @@
     <ProjectReference Include="..\AppsClassLibrary\Brooksoft.Apps.Client.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Microsoft.Build">
-      <HintPath>bin\Debug\net5.0\Microsoft.Build.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Build.Framework">
-      <HintPath>bin\Microsoft.Build.Framework.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 
 </Project>

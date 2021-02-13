@@ -164,7 +164,13 @@
             Apps.Get2('api/Test/Run?appId=' + Me.CurrentApp.AppID, function (result) {
                 if (result.Success) {
                     Apps.Notify('success', 'Tests run successfully!');
-
+                    let testResult = result.Data;
+                    if (testResult.TestsPassed) {
+                        Apps.Notify('success', 'All tests (' + testResult.Passed + ') passed!');
+                    }
+                    else {
+                        Apps.Notify('warning', 'Some tests (' + testResult.Failed + ') failed :(');
+                    }
                 }
                 else
                     Apps.Notify('warning', 'Tests run not successful.');

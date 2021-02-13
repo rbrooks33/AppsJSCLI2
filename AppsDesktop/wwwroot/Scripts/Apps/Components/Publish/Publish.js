@@ -124,6 +124,9 @@
                     $('#Apps_Publish_PostBuildScriptEnabled_Checkbox').prop('checked', Me.CurrentPublishProfile.RunPostBuildScript);
                     $('#Apps_Publish_PreBuildScriptEnabled_Checkbox').prop('checked', Me.CurrentPublishProfile.RunPreBuildScript);
 
+                    //Test
+                    $('#Apps_Publish_Edit_TestProjectFilePath').val(Me.CurrentPublishProfile.TestProjectFilePath);
+
                     //Repo
                     $('#Apps_Publish_Repo_RemoteURL_Text').val(Me.CurrentPublishProfile.RemoteRepoURL);
                     $('#Apps_Publish_Repo_LocalFolder').val(Me.CurrentPublishProfile.LocalRepoPath);
@@ -229,6 +232,9 @@
 
             Me.CurrentPublishProfile.PreBuildScript = Me.EditorPre.getValue();
             Me.CurrentPublishProfile.RunPreBuildScript = $('#Apps_Publish_PreBuildScriptEnabled_Checkbox').prop('checked');
+
+            //Test
+            Me.CurrentPublishProfile.TestProjectFilePath = $('#Apps_Publish_Edit_TestProjectFilePath').val();
 
             //Repo
             Me.CurrentPublishProfile.RemoteRepoURL = $('#Apps_Publish_Repo_RemoteURL_Text').val();
