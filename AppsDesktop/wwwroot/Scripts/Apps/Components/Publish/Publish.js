@@ -1,5 +1,6 @@
-﻿define([], function () {
+﻿define(['./Tools/Tools.js'], function (tools) {
     var Me = {
+        Tools: tools,
         EditorPre: null,
         EditorPost: null,
         CurrentApp: null,
@@ -12,6 +13,8 @@
 
                 Me.Resize();
                 $(window).resize(function () { Me.Resize(); });
+
+                Me.Tools.Initialize();
 
                 if(callback)
                     callback();

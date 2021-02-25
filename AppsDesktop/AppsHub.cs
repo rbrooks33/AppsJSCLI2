@@ -15,12 +15,15 @@ namespace AppsDesktop
 {
     public class AppsHub : Hub
     {
-        private static string dbPath = Environment.CurrentDirectory + "\\Apps.db";
+        private string dbPath = Environment.CurrentDirectory + "\\Apps.db";
 
         //private static IHubContext hubContext = GlobalHost.ConnectionManager.GetHubContext();
         //IHubContext context = Startup.ConnectionManager.GetHubContext<ChatHub>();
-        LiteDatabase AppsDB;
-        AppsData _data;
+        static LiteDatabase AppsDB;
+        static AppsData _data;
+        static HubConnection Connection;
+        //static IHubCallerClients Clients;
+
         public AppsHub(AppsData data)
         {
             //  _context = context;
@@ -28,22 +31,25 @@ namespace AppsDesktop
             _data = data;
         }
 
-        public static void Load()
+        public void Load()
         {
             //Open signal client
-            HubConnection connection = new HubConnectionBuilder().WithUrl("https://localhost:54321/appsHub").Build();
+            Connection = new HubConnectionBuilder().WithUrl("https://localhost:54321/appsHub").Build();
 
-            Task startTask = connection.StartAsync();
+            Task startTask = Connection.StartAsync();
 
-            connection.On<string, string>("ReceivePing", (machineName, workingFolder) => {
+            Connection.On<string, string>("ReceivePing", (machineName, workingFolder) => {
                 
             });
 
-            connection.Closed += async (error) =>
+            Connection.Closed += async (error) =>
             {
                 await Task.Delay(new Random().Next(0, 5) * 1000);
-                await connection.StartAsync();
+                await Connection.StartAsync();
             };
+
+            //AppsHub.Clients = Clients;
+            //return this.Clients;
         }
         public async Task Log(string logJson)
         {
@@ -81,7 +87,11 @@ namespace AppsDesktop
 
         public async Task Ping(string machineName, string workingFolder)
         {
-            await Clients.All.SendAsync("Ping", machineName, workingFolder);
+            await this.Clients.All.SendAsync("Ping", machineName, workingFolder);
+        }
+        public async Task TestProgress(string status, string message)
+        {
+            await this.Clients.All.SendAsync("TestProgress", status, message);
         }
     }
 

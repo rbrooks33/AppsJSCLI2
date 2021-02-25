@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.SignalR.Client;
+﻿using Brooksoft.Apps.Client.Flows;
+using Brooksoft.Apps.Client.Tests;
+using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -38,7 +40,7 @@ namespace AppsClient
             }
             catch(Exception ex)
             {
-                //AppsLog.LogException(AppsLog.Flow.Misc, ex);
+                new AppFlows.ClientSystem.Exception(ex, ref result);
             }
         }
 
@@ -66,6 +68,11 @@ namespace AppsClient
         {
             if (AppsClientHub.AppsHubConnection != null)
                 AppsClientHub.AppsHubConnection.SendAsync(AppsHubMethods.Log.ToString(), step);
+        }
+        public static void TestProgress(TestMessageStatus status, string message)
+        {
+            if (AppsClientHub.AppsHubConnection != null)
+                AppsClientHub.AppsHubConnection.SendAsync(AppsHubMethods.TestProgress.ToString(), status.ToString(), message);
         }
     }
 }

@@ -1,8 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
+
     <TargetFramework>net5.0</TargetFramework>
+    <!--
     <OutputType>WinExe</OutputType>
+    -->
     <UserSecretsId>0ce40823-1c30-490c-8faf-c01520e1c93f</UserSecretsId>
   </PropertyGroup>
 
@@ -12,7 +15,8 @@
     <Compile Remove="CreatedTemplates\**" />
     <Compile Remove="Templates\**" />
     <Compile Remove="wwwroot\Scripts\Apps\Components\Testing\**" />
-    <Compile Remove="wwwroot\Scripts\Apps\Components\Test\VitaTest\**" />
+    <Compile Remove="wwwroot\Scripts\Apps\Components\Test\TestPlans\VitaTest\**" />
+    <Compile Remove="wwwroot\Scripts\Apps\Components\Test\TestPlans\VitaTest\**" />
     <Compile Remove="wwwroot\Scripts\Apps\Templates\**" />
     <Compile Remove="wwwroot\Scripts\Apps\_AppsIgnore\**" />
     <Content Remove="AppFolders\**" />
@@ -20,7 +24,8 @@
     <Content Remove="CreatedTemplates\**" />
     <Content Remove="Templates\**" />
     <Content Remove="wwwroot\Scripts\Apps\Components\Testing\**" />
-    <Content Remove="wwwroot\Scripts\Apps\Components\Test\VitaTest\**" />
+    <Content Remove="wwwroot\Scripts\Apps\Components\Test\TestPlans\VitaTest\**" />
+    <Content Remove="wwwroot\Scripts\Apps\Components\Test\TestPlans\VitaTest\**" />
     <Content Remove="wwwroot\Scripts\Apps\Templates\**" />
     <Content Remove="wwwroot\Scripts\Apps\_AppsIgnore\**" />
     <EmbeddedResource Remove="AppFolders\**" />
@@ -28,7 +33,8 @@
     <EmbeddedResource Remove="CreatedTemplates\**" />
     <EmbeddedResource Remove="Templates\**" />
     <EmbeddedResource Remove="wwwroot\Scripts\Apps\Components\Testing\**" />
-    <EmbeddedResource Remove="wwwroot\Scripts\Apps\Components\Test\VitaTest\**" />
+    <EmbeddedResource Remove="wwwroot\Scripts\Apps\Components\Test\TestPlans\VitaTest\**" />
+    <EmbeddedResource Remove="wwwroot\Scripts\Apps\Components\Test\TestPlans\VitaTest\**" />
     <EmbeddedResource Remove="wwwroot\Scripts\Apps\Templates\**" />
     <EmbeddedResource Remove="wwwroot\Scripts\Apps\_AppsIgnore\**" />
     <None Remove="AppFolders\**" />
@@ -36,7 +42,8 @@
     <None Remove="CreatedTemplates\**" />
     <None Remove="Templates\**" />
     <None Remove="wwwroot\Scripts\Apps\Components\Testing\**" />
-    <None Remove="wwwroot\Scripts\Apps\Components\Test\VitaTest\**" />
+    <None Remove="wwwroot\Scripts\Apps\Components\Test\TestPlans\VitaTest\**" />
+    <None Remove="wwwroot\Scripts\Apps\Components\Test\TestPlans\VitaTest\**" />
     <None Remove="wwwroot\Scripts\Apps\Templates\**" />
     <None Remove="wwwroot\Scripts\Apps\_AppsIgnore\**" />
   </ItemGroup>
@@ -67,7 +74,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="AppsController.cs" />
+    <Content Include="Business\Controllers\AppsController.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -89,14 +96,17 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
     <PackageReference Include="Ocelot" Version="17.0.0" />
     <PackageReference Include="RabbitMQ.Client" Version="6.2.1" />
+    <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
+    <PackageReference Include="WebDriver.ChromeDriver" Version="26.14.313457.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Business\Create\Source\AppsJS\" />
     <Folder Include="Business\Ops\PreBuildScripts\" />
     <Folder Include="Business\Ops\PostBuildScripts\" />
+    <Folder Include="Business\Plan\Apps\Stories\" />
+    <Folder Include="Business\Publish\" />
     <Folder Include="Models\Software\" />
-    <Folder Include="wwwroot\Scripts\Apps\Components\Test\TestPlans\" />
   </ItemGroup>
 
   <ItemGroup>

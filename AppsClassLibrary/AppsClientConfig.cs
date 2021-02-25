@@ -35,6 +35,9 @@ namespace AppsClient
 
         public void Load(string projectName, string machineName, string workingDirectory, System.Version versionNumber, List<string> services, List<AppsCustomConfigItem> customConfigs, bool readFlows, bool logFlows, Flows.AppFlow flows)
         {
+            ////Load logging info
+            AppsLog.Load(machineName + " - " + projectName);
+
             MachineName = machineName;
             WorkingDirectory = workingDirectory;
             VersionNumber = versionNumber;
@@ -43,7 +46,6 @@ namespace AppsClient
             AppsLog.LogFlows = logFlows;
             Flows = flows;
             //Create sample flows
-
 
             string configPath = Environment.CurrentDirectory + "\\AppsClient.json";
             if (!File.Exists(configPath))
@@ -54,15 +56,11 @@ namespace AppsClient
             }
             else
             {
-                ReadConfig();
+                //ReadConfig();
             }
 
             ////Start SignalR and Set global connection obj
             AppsClientHub.Load();
-
-            ////Load logging info
-            AppsLog.Load(machineName);
-
 
             CSFileFullNames = new List<string>();
             SearchPattern = "*.cs";

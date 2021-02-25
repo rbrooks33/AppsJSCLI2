@@ -20,11 +20,12 @@ namespace AppsDesktop
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
+
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    //webBuilder.UseUrls("https://localhost:5002/");
+                    webBuilder.UseUrls("https://localhost:54321/");
                     webBuilder.UseKestrel();
                     //webBuilder.UseIIS();
                     webBuilder.UseContentRoot(Directory.GetCurrentDirectory());

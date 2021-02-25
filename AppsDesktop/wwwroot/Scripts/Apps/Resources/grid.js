@@ -456,6 +456,12 @@ define(['./util.js'], function (Util) {
                     }
 
                 }
+                else if (field.type === 'codeeditor') {
+                    var editorElement = $('#' + settings.prefix + '_' + field.name + '_GridsEdit' + uniqueId);
+                    if (editorElement.length === 1) {
+                        eval('objRowData.' + field.name + ' = "' + escape($(editorElement[0]).parent().prev().html()) + '"');
+                    }
+                }
 
             });
 
@@ -529,6 +535,9 @@ define(['./util.js'], function (Util) {
                     else if (field.type === 'editor') {
                         table += '<td style="padding:3px;"><input class="' + prefix + '_' + field.name + '_Editor" id="' + prefix + '_' + field.name + '_GridsEdit' + uniqueId + '" type="text" value="" /></td>';
                     }
+                    else if (field.type === 'codeeditor') {
+                        table += '<td style="padding:3px;"><input class="' + prefix + '_' + field.name + '_CodeEditor" id="' + prefix + '_' + field.name + '_GridsEdit' + uniqueId + '" type="text" value="" /></td>';
+                    }
                 }
                 else {
                     table += '<td>';
@@ -542,6 +551,9 @@ define(['./util.js'], function (Util) {
                     }
                     else if (field.type === 'editor') {
                         table += '<span style="padding:3px;"><input class="' + prefix + '_' + field.name + '_Editor" id="' + prefix + '_' + field.name + '_GridsEdit' + uniqueId + '" type="text" value="" /></span>';
+                    }
+                    else if (field.type === 'codeeditor') {
+                        table += '<span style="padding:3px;"><input class="' + prefix + '_' + field.name + '_CodeEditor" id="' + prefix + '_' + field.name + '_GridsEdit' + uniqueId + '" type="text" value="" /></span>';
                     }
                     table += '</td>';
                 }
@@ -586,6 +598,28 @@ define(['./util.js'], function (Util) {
                     var editorClassName = prefix + '_' + field.name + '_Editor';
                     $(div).find("." + editorClassName).jqte();
                     $(div).find("." + editorClassName).jqteVal(fieldValue);
+                }
+                else if (field.type === 'codeeditor') {
+
+                    if (ace) {
+                        var fieldValue = unescape(eval('objRowData.' + field.name));
+                        var editorClassName = prefix + '_' + field.name + '_CodeEditor';
+                        var aceEdit = ace.edit($(div).find("." + editorClassName));
+                        aceEdit.setTheme("ace/theme/monokai");
+                        aceEdit.setMode("ace/mode/csharp");
+                        aceEdit.renderer.onResize(true);
+                        aceEdit.setValue(fieldValue ? fieldValue : '');
+                    }
+                    else {
+                        Apps.Notify('info', 'Tried to show text with Ace code editor but Ace is not there.');
+                    }
+
+                    //Me.EditorPre = ace.edit("Apps_Publish_PreBuildScript_Editor");
+                    //Me.EditorPre.setTheme("ace/theme/monokai");
+                    //Me.EditorPre.session.setMode("ace/mode/csharp");
+                    //Me.EditorPre.renderer.onResize(true);
+                    //Me.EditorPre.setValue(Me.CurrentPublishProfile.PreBuildScript ? Me.CurrentPublishProfile.PreBuildScript : '');
+
                 }
             });
             $(div[0]).show();
@@ -705,6 +739,17 @@ define(['./util.js'], function (Util) {
                 Me.ShowHideCell(td[0], false);
 
                 var editcontrol = $(td).find(".editcontrol"); //Should only be one
+
+                //if (editcontrol.hasClass('codeeditor')) {
+                //    var aceEdit = ace.edit(editcontrol[0].id);
+                //    aceEdit.setTheme("ace/theme/monokai");
+                //    aceEdit.session.setMode("ace/mode/csharp");
+                //    aceEdit.renderer.onResize(true);
+
+                //    $(td).find('.ace_editor').css('height', '20px');
+                //    //aceEdit.setValue(fieldValue ? fieldValue : '');
+                //}
+
                 $(editcontrol).select();
                 var rowdata = unescape(td.parent().attr("rowdata"));
                 var rowdataobj = JSON.parse(rowdata);
@@ -1142,6 +1187,12 @@ define(['./util.js'], function (Util) {
 
 
                                         editSpan += '<textarea class="editcontrol editor">' + fieldValue + '</textarea>&nbsp;';
+
+                                        break;
+                                    case "codeeditor":
+
+
+                                        editSpan += '<textarea class="editcontrol codeeditor" id="Apps_Grid_' + field.name + '_Row' + index + '">' + fieldValue + '</textarea>&nbsp;';
 
                                         break;
                                     case "select":

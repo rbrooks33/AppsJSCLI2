@@ -1,9 +1,7 @@
-﻿define(['./App/App.js', './Services/Services.js', './Stories/Stories.js'], function (app, services, stories) {
+﻿define(['./AppComponents/AppComponents.js'], function (appcomponents) {
     var Me = {
-        App: app,
-        Services: services,
-        Stories: stories,
-        Components: [services, stories],
+        AppComponents: appcomponents,
+        Components: [appcomponents],
         CurrentApp: null,
         CurrentSystem: null,
         CurrentApps: null, //TODO: refactor to use Apps.Data
@@ -11,13 +9,20 @@
             Apps.LoadTemplate('Apps', Apps.Settings.WebRoot + '/' + Apps.Settings.AppsRoot + '/Components/Plan/Apps/Apps.html', function () {
 
                 Apps.LoadStyle(Apps.Settings.WebRoot + '/' + Apps.Settings.AppsRoot + '/Components/Plan/Apps/Apps.css');
-                Apps.UI.Apps.Show();
+                Apps.UI.Apps.Show(400);
+
+                Apps.LoadComponentTemplate(Me, 'AppsHome', 'Plan_Apps_AppsHome_Template');
+                Apps.LoadComponentTemplate(Me, 'AppView', 'Plan_Apps_AppView_Template');
+                Apps.LoadComponentTemplate(Me, 'AppDiv', 'Plan_Apps_AppDiv_Template');
+
+                Me.UI.AppsHome.Show(400);
+                Me.GetApps();
+                Me.StartInterval();
 
                 //Adjust dropdown menu for home page
                 $('.dropdown-content').css('top', '35px');
                 $('.dropdown-content').css('left', '-110px');
 
-                Me.App.Initialize();
             });
 
             $(window).resize(function () { Me.Resize(); });
@@ -36,9 +41,80 @@
             let windowWidth = $(window).width();
 
             $('#Apps_Events_Container_Div').height(windowHeight - 120);
+
+            $('.AppContentStyle').height(windowHeight - 59);
+            $('.tabstripApp-tabstrip-custom').height(windowHeight - 59 - 83);
+
         },
-        Show: function () {
-            //Me.GetApps();
+        ShowAppsHome: function (appId, callback) {
+
+            $('#Apps_AppContainer_Div').hide(400);
+
+            Apps.Get2('/api/Apps/GetApp?appId=' + appId, function (result) {
+
+                if (result.Success) {
+
+                    Me.CurrentApp = result.Data[0]; // JSON.parse(unescape(appString));
+
+                    Apps.UI.Apps.Show(400);
+                    Me.Hidden = false;
+
+                    if ($('.tabstripApp-tabstrip-custom').length == 0) {
+                        Apps.Tabstrips.Initialize('tabstripApp');
+                        Apps.Tabstrips.Select('tabstripApp', 2);
+                        Apps.Tabstrips.SelectCallback = Me.TabSelected;
+                    }
+
+                    $('.tabstripApp-tabstrip-custom').css('position', 'relative').css('top', '41px');
+                    $('#Test_List_TemplateContent').addClass('Test_List_TemplateContent_Style');
+
+                    Me.Resize();
+                    //Me.Create.Initialize(Me.CurrentApp);
+                    //Me.RefreshTestPlans();
+
+                    if (callback)
+                        callback();
+                }
+                else
+                    Apps.Notify('warning', 'Problem loading app.');
+            });
+        },
+        CloseAppsHome: function () {
+            //Apps.UI.Apps.Hide(400);
+            Me.UI.AppsHome.Hide(400);
+
+            Me.Hidden = true;
+            clearInterval(Me.IntervalID);
+            $('#Apps_AppContainer_Div').hide(400);
+        },
+        CloseAppView: function () {
+            Me.UI.AppView.Hide(400);
+            Me.UI.AppsHome.Show(400);
+
+            //Apps.UI.Apps.Show(400);
+        },
+
+        ShowPlan: function (appId) {
+
+            Apps.UI.Apps.Hide(400);
+            Me.UI.AppView.Show(400);
+            Me.Show(appId, function () {
+                Apps.Tabstrips.Select('tabstripApp', 0);
+            });
+            //let app = JSON.parse(unescape(appString));
+            //Me.AppComponents.Show(app);
+            //Apps.Get2('/api/Apps/GetApp?appId=' + appId, function (result) {
+
+            //    if (result.Success) {
+
+            //        switch (appWhat) {
+            //            case 'stories': Me.App.Stories.Show(); break;
+            //        }
+
+            //    }
+            //    else
+            //        Apps.Notify('warning', 'Problem loading app.');
+            //});
         },
         GetAppModel: function (callback) {
             Apps.Get2('/api/Apps/GetAppModel', function (result) {
@@ -63,17 +139,17 @@
 
                     $.each(apps, function (index, app) {
                         if (app.SystemID <= 0) {
-                            let appHTML = Apps.Util.GetHTML('Apps_App_DivTemplate', [app.AppID, app.AppName, app.MachineName, escape(app.WorkingFolder), escape(JSON.stringify(app))]);
+                            let appHTML = Apps.Util.GetHTML('Plan_Apps_App_Template', [app.AppID, app.AppName, app.MachineName, escape(app.WorkingFolder), escape(JSON.stringify(app))]);
                             let existingAppDiv = $('.Apps_App_DivStyle_ID' + app.AppID);
-                            let existingPingDiv = $('#Apps_MachinePing_Div_ID' + app.AppID);
+                            //let existingPingDiv = $('#Apps_Plan_Div_ID' + app.AppID);
 
-                            if (existingPingDiv.length >= 1) {
+                            if (existingAppDiv.length >= 1) {
                                 if (app.Archived) {
                                     existingAppDiv.detach();
                                 }
                                 else {
                                     //Update
-                                    Me.UpdateAppHTML(app, existingPingDiv);
+                                    Me.UpdateAppHTML(app);
                                 }
                             }
                             else {
@@ -87,7 +163,7 @@
                         let existingSystemDiv = $('#Apps_SystemContainer_Div_ID' + system.SystemID);
 
                         if (existingSystemDiv.length >= 1) {
-                            //Update
+                            //Update system div
                         }
                         else {
                             //Create system div
@@ -96,14 +172,15 @@
                         //Add system apps
                         $.each(system.Apps, function (index, systemApp) {
 
-                            let appHTML = Apps.Util.GetHTML('Apps_App_DivTemplate', [systemApp.AppID, systemApp.AppName, systemApp.MachineName, escape(systemApp.WorkingFolder), escape(JSON.stringify(systemApp))]);
-                            let existingPingDiv = $('#Apps_MachinePing_Div_ID' + systemApp.AppID);
+                            let appHTML = Apps.Util.GetHTML('Plan_Apps_App_Template', [systemApp.AppID, systemApp.AppName, systemApp.MachineName, escape(systemApp.WorkingFolder), escape(JSON.stringify(systemApp))]);
+                            let existingAppDiv = $('#Apps_SystemContainer_Div_ID1').find('.Apps_App_DivStyle_ID' + systemApp.AppID);
 
-                            if (existingPingDiv.length >= 1) {
+                            if (existingAppDiv.length >= 1) {
                                 //Update
-                                Me.UpdateAppHTML(systemApp, existingPingDiv);
+                                Me.UpdateAppHTML(systemApp);
                             }
                             else {
+                                //Add to system div
                                 existingSystemDiv.append(appHTML);
                             }
                         });
@@ -111,31 +188,38 @@
                 }
             });
         },
-        UpdateAppHTML: function (app, pingDiv) {
+        UpdateAppHTML: function (app) {
 
             //let appNameElement = $('.Apps_AppName_Label_ID' + app.AppID);
             let appDivStyle = $('.Apps_App_DivStyle_ID' + app.AppID);
 
-            //IsEnabled
-            //appNameElement.text(app.AppName);
+            let planDiv = $('.Apps_Plan_Div_ID' + app.AppID);
+            let createDiv = $('.Apps_Create_Div_ID' + app.AppID);
+            let testDiv = $('.Apps_Test_Div_ID' + app.AppID);
+            let publishDiv = $('.Apps_Publish_Div_ID' + app.AppID);
+            let trackDiv = $('.Apps_Track_Div_ID' + app.AppID);
+
+            //Main Div
             appDivStyle.css('border-color', 'lightgrey');
             if (app.IsEnabled) {
                 appDivStyle.css('border-color', 'green');
             }
 
-            //Working Folder exists
-            pingDiv.css('border-color', 'lightgrey');
-            if (app.WorkingFolderExists) {
-                pingDiv.css('border-color', 'green'); 
-            }
-
-            //AppsJS Exists
+            //AppsJS Div
             let appJsDiv = $('#Apps_AppsJSExists_Div_ID' + app.AppID);
             if (app.IsAppsJSExists) {
                 appJsDiv.css('background-color', 'lightgreen');
             }
             else
                 appJsDiv.css('background-color', 'lightgrey');
+
+            //Create Div
+            createDiv.css('border-color', 'lightgrey');
+            if (app.WorkingFolderExists) {
+                createDiv.css('border-color', 'green'); 
+            }
+
+
         },
         Edit: function (appId) {
             Apps.Get2('/api/Apps/GetSystems', function (systemsResult) {
@@ -246,7 +330,75 @@
         GetSystems: function () {
 
         },
-        Test: function () {
+        TabSelected: function (tabId, tabIndex) {
+            if (tabIndex == 1) {
+                Apps.Notify('info', 'create');
+                Me.Create.Show();
+            }
+        },
+        RefreshTestPlans: function () {
+
+
+            Me.TestPlans.GetTestPlans(Me.CurrentApp, function (html) {
+
+                $('#Test_List_TemplateContent').html(html);
+
+            });
+        },
+        Archive: function (appId) {
+            if (confirm('Are you sure?')) {
+
+                //Set client to archived (TODO: refactor)
+                let clientAppList = Enumerable.From(Apps.Components.Plan.Apps.CurrentApps).Where('$.AppID == ' + appId).ToArray();
+                if (clientAppList.length == 1) {
+                    clientAppList[0].Archived = true;
+                    let existingAppDiv = $('.Apps_App_DivStyle_ID' + appId);
+                    existingAppDiv.detach();
+                }
+                Apps.Get2('/api/Apps/GetApp?appId=' + appId, function (result) {
+
+                    if (result.Success) {
+
+                        let app = result.Data[0];
+                        app.Archived = true;
+
+                        Apps.Post2('/api/Apps/UpsertApp', JSON.stringify(app), function (result) {
+                            if (result.Success) {
+                                Apps.Notify('success', 'App deleted.');
+                            }
+                            else
+                                Apps.Notify('warning', 'Problem deleting app.');
+                        });
+                    }
+                    else
+                        Apps.Notify('warning', 'Problem getting app for delete.');
+                });
+            }
+        },
+        Run: function (appId) {
+            Apps.Get2('/api/Apps/Run?appId=' + appId, function (result) {
+                if (result.Success) {
+                    Apps.Notify('success', 'App #' + appId + ' started.');
+                }
+                else
+                    Apps.Notify('warning', 'Problem running app #' + appId + '.');
+
+            });
+        },
+        AddAppsJS: function (appId) {
+            Apps.Get2('/api/Apps/AddAppsJS?appId=' + appId, function (result) {
+                if (result.Success) {
+                    Apps.Notify('success', 'App #' + appId + ' appsjs added.');
+                }
+                else
+                    Apps.Notify('warning', 'Problem adding appsjs for app #' + appId + '.');
+
+            });
+        },
+        Tests: function () {
+            //refresh 
+        },
+       Test: function () {
 
             Apps.Notify('info', 'apps is testing!')
 

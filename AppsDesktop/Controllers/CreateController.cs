@@ -1,9 +1,12 @@
 ﻿using AppsClient;
 using AppsClient.Docs;
+using Brooksoft.Apps.Business;
+using Brooksoft.Apps.Business.Models;
 using Flows;
 using LiteDB;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -38,15 +41,15 @@ namespace AppsDesktop.Controllers
 
                 var newApp = new App();
                 var newSoftware = new Software();
-                var appsTable = _db.GetCollection<App>("Apps"); 
+                var appsTable = _db.GetCollection<App>("Apps");
                 var softwaresTable = _db.GetCollection<Software>("Softwares");
 
-                
+
                 appsTable.Upsert(newApp); //Creates primary id
                 softwaresTable.Upsert(newSoftware);
 
                 string appFoldersFolder = System.Environment.CurrentDirectory + "\\AppFolders";
-                
+
                 if (System.IO.Directory.Exists(appFoldersFolder))
                 {
                     System.IO.Directory.CreateDirectory(appFoldersFolder + "\\App" + newApp.AppID.ToString());
@@ -167,7 +170,7 @@ namespace AppsDesktop.Controllers
                             }, newApp.WorkingFolder, ref result);
 
                             new AppFlows.Create(newApp.AppID, "Started app.");
-            
+
                             result.Success = true;
                         }
                         else
@@ -186,6 +189,216 @@ namespace AppsDesktop.Controllers
 
             return result;
         }
+        [HttpGet]
+        [Route("GetSoftware")]
+        public AppsResult GetSoftware(int appId)
+        {
+            var result = new AppsResult();
 
+            try
+            {
+                //var client = new Client();
+                //var appsTable = _db.GetCollection<App>("Apps");
+                //var softwaresTable = client.DB.GetCollection<Software>("Softwares");
+                //var softwareFilesTable = client.DB.GetCollection<SoftwareFile>("SoftwareFiles");
+                //var softwareFileCodesTable = client.DB.GetCollection<SoftwareFileCode>("SoftwareFileCodes");
+
+                //var appList = appsTable.Query().Where(a => a.AppID == appId);
+                //if (appList.Count() == 1)
+                //{
+                //    var app = appList.Single();
+
+                //    //Apps have software (related to associated software)
+                //    //& 
+                //    var softwares = softwaresTable.Query().Where(s => s.AppID == appId).ToList();
+                //    if(softwares.Count() > 0)
+                //        app.Softwares.AddRange(softwares);
+
+                //    foreach(var softwareFile in softwares)
+                //    {
+                //        var softwareFiles = softwareFilesTable.Query().Where(sf => sf.AppID)
+                //    }
+                //}
+                //else
+                //    new AppFlows.Create.Fail("Getting software files did not find exactly one app: Found " + appList.Count().ToString() + ".", ref result);
+            }
+            catch (System.Exception ex)
+            {
+                new AppFlows.Create.Exception(ex, ref result);
+            }
+            return result;
+        }
+        [HttpGet]
+        [Route("GetFiles")]
+        public AppsResult GetFiles(int appId)
+        {
+            var result = new AppsResult();
+
+            try
+            {
+                using (var client = new Client(appId, _db, ref result))
+                {
+                    var files = client.DB.GetCollection<SoftwareFile>("SoftwareFiles");
+                    var codes = client.DB.GetCollection<SoftwareFileCode>("SoftwareFileCodes");
+
+                    var fileList = files.Query().Where(f => f.AppID == appId).ToList();
+
+                    foreach (var file in fileList)
+                    {
+                        var fileCodes = codes.Query().Where(c => c.SoftwareFileID == file.SoftwareFileID);
+                        if (fileCodes.Count() > 0)
+                            file.SoftwareFileCodes.AddRange(fileCodes.ToList());
+                    }
+                    result.Data = fileList;
+                    result.Success = true;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                new AppFlows.Develop.Exception(ex, ref result);
+            }
+            return result;
+        }
+        [HttpGet]
+        [Route("GetTemplates")]
+        public AppsResult GetTemplates()
+        {
+            var result = new AppsResult();
+
+            try
+            {
+                var templates = _db.GetCollection<ContentTemplate>("Templates");
+                var templateProperties = _db.GetCollection<ContentTemplateProperty>("TemplateProperties");
+                var templateList = templates.Query().Where(t => t.ID > 0).ToList();
+
+                foreach (var t in templateList)
+                {
+                    t.TemplateProperties.Clear();
+
+                    t.TemplateProperties = templateProperties.Query().Where(p => p.TemplateID == t.ID).ToList();
+                }
+
+                result.Data = templateList;
+                result.Success = true;
+            }
+            catch (System.Exception ex)
+            {
+                new AppFlows.Develop.Exception(ex, ref result);
+            }
+            return result;
+        }
+        [HttpGet]
+        [Route("GetTemplateModel")]
+        public AppsResult GetTemplateModel()
+        {
+            var result = new AppsResult();
+            var newTemplate = new ContentTemplate();
+            var newprop = new ContentTemplateProperty();
+            newTemplate.TemplateProperties.Add(newprop);
+            result.Data = newTemplate;
+            result.Success = true;
+            return result;
+        }
+        [HttpGet]
+        [Route("GetTemplate")]
+        public AppsResult GetTemplate(int templateId)
+        {
+            var result = new AppsResult();
+
+            try
+            {
+                var templatesResult = GetTemplates();
+                if(templatesResult.Success)
+                {
+                    var templatesList = (List<ContentTemplate>)templatesResult.Data;
+                    result.Data = templatesList.Where(t => t.ID == templateId);
+                    result.Success = true;
+                }
+
+            }
+            catch (System.Exception ex)
+            {
+                new AppFlows.Plan.Apps.Exception(ex, ref result);
+            }
+
+            return result;
+        }
+
+        [HttpPost]
+        [Route("UpsertTemplate")]
+        public AppsResult UpsertTemplate([FromBody] ContentTemplate template)
+        {
+            var result = new AppsResult();
+
+            try
+            {
+                var templates = _db.GetCollection<ContentTemplate>("Templates");
+                //var templateProperties = _db.GetCollection<ContentTemplateProperty>("TemplateProperties");
+
+                template.Updated = DateTime.Now;
+                templates.Upsert(template);
+
+                result.Data = template;
+                result.Success = true;
+            }
+            catch (System.Exception ex)
+            {
+                new AppFlows.Plan.Apps.Exception(ex, ref result);
+            }
+
+            return result;
+        }
+        [HttpPost]
+        [Route("UpsertTemplateProperty")]
+        public AppsResult UpsertTemplateProperty([FromBody] ContentTemplateProperty templateProperty)
+        {
+            var result = new AppsResult();
+
+            try
+            {
+                var templateProperties = _db.GetCollection<ContentTemplateProperty>("TemplateProperties");
+
+                templateProperty.Updated = DateTime.Now;
+                templateProperties.Upsert(templateProperty);
+
+                result.Data = templateProperty;
+                result.Success = true;
+            }
+            catch (System.Exception ex)
+            {
+                new AppFlows.Plan.Apps.Exception(ex, ref result);
+            }
+
+            return result;
+        }
+
+        [HttpGet]
+        [Route("ArchiveTemplateProperty")]
+        public AppsResult ArchiveTemplateProperty(int propertyId)
+        {
+            var result = new AppsResult();
+
+            try
+            {
+                var templateProperties = _db.GetCollection<ContentTemplateProperty>("TemplateProperties");
+
+                //var props = templateProperties.Query().Where(p => p.ID == propertyId).ToList();
+                //if(props.Count() == 1)
+               // {
+                    templateProperties.Delete(propertyId);
+                ///}
+                //templateProperty.Updated = DateTime.Now;
+                //templateProperties.Upsert(templateProperty);
+
+                //result.Data = templateProperty;
+                result.Success = true;
+            }
+            catch (System.Exception ex)
+            {
+                new AppFlows.Plan.Apps.Exception(ex, ref result);
+            }
+
+            return result;
+        }
     }
 }

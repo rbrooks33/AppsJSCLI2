@@ -13,7 +13,7 @@ namespace Flows
             Passed = -1;
         }
         [Key]
-        public int TestStepID { get; set; }
+        public int ID { get; set; }
         public int TestID { get; set; }
         public string PreConditions { get; set; }
         public string Instructions { get; set; }
@@ -22,5 +22,6 @@ namespace Flows
         public double Order { get; set; }
         public int Passed { get; set; }
         public bool Archived { get; set; }
+        public string Script { get; set; }
     }
 }

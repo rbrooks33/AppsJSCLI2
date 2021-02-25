@@ -10,7 +10,27 @@
           "Name": "Plan",
           "Load": true,
           "Initialize": true,
-          "ModuleType": "require"
+          "ModuleType": "require",
+          "Components": [
+              {
+                  "Name": "Apps",
+                  "Load": true,
+                  "Initialize": true,
+                  "ModuleType": "require",
+                  "Components": [
+                      {
+                          "Name": "AppComponents",
+                          "Load": true,
+                          "Initialize": true,
+                          "ModuleType": "require",
+                          "Components": [
+                          ]
+                      }
+
+                  ]
+              }
+
+          ]
       },
       {
           "Name": "Publish",
@@ -30,12 +50,7 @@
           "Initialize": true,
           "ModuleType": "require"
       },
-      {
-          "Name": "Test",
-          "Load": true,
-          "Initialize": true,
-          "ModuleType": "require"
-      },
+     
      {
           "Name": "CodeGen",
           "Load": false,

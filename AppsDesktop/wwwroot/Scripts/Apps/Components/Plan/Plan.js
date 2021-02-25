@@ -5,7 +5,7 @@
         Components: [apps],
         Initialize: function (callback) {
 
-            Me.Apps.Initialize();
+            //Me.Apps.Initialize();
 
             if(callback)
                 callback();

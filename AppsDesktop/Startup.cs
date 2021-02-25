@@ -121,8 +121,15 @@ namespace AppsDesktop
 
             //// Add the processing server as IHostedService
             //services.AddHangfireServer();
-            var flowsDb = new LiteDB.LiteDatabase(System.Environment.CurrentDirectory + "\\Business\\Flows\\Flows.db");
-            FlowsData.FlowTable = flowsDb.GetCollection<AppFlowEvent>("Flows");
+            //var flowsDb = new LiteDB.LiteDatabase(System.Environment.CurrentDirectory + "\\Flows.db");
+            //FlowsData.FlowTable = flowsDb.GetCollection<AppFlowEvent>("Flows");
+
+            //var clientConfig = new AppsClientConfig();
+            //clientConfig.Load("Brooksoft.Apps", Environment.MachineName, Environment.CurrentDirectory, new System.Version(0, 0, 1), new List<string>(), new List<AppsCustomConfigItem>(), true, true, new AppFlow());
+
+            AppsLog.LogInfo("Finished configure services.");
+            //var perms = new Brooksoft.Apps.Business.Publish.Permissions();
+            //perms.ReadEffectivePermissions();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -163,9 +170,12 @@ namespace AppsDesktop
             //app.UseIdentityServer();
             //app.UseOcelot().Wait(); //Must go after id server
 
-            AppsLog.Load("Apps");
-            AppsHub.Load();
+            AppsLog.Load("Apps"); //already done with config registration
+            var hub = new AppsHub(appsdb);
+            hub.Load();
+            FlowsData.Load();
 
+            //AppsHub.TestProgress("hiya");
             //var aTimer = new System.Timers.Timer(5000);
             //// Hook up the Elapsed event for the timer. 
             //aTimer.Elapsed += ATimer_Elapsed; ;
@@ -190,6 +200,7 @@ namespace AppsDesktop
             //Run();
 
             //hangfireJobs.Enqueue(() => Console.WriteLine("Hello world from Hangfire!"));
+            AppsLog.LogInfo("Finished configure.");
         }
         private void Run()
         {

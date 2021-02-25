@@ -1,4 +1,6 @@
-﻿using Flows;
+﻿using AppsClient.Docs;
+using Brooksoft.Apps.Client.Docs;
+using Flows;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,7 +13,8 @@ namespace AppsDesktop
     {
         public App()
         {
-            Stories = new List<SoftwareStory>();
+            Stories = new List<Story>();
+            Softwares = new List<Software>();
             SoftwareFiles = new List<SoftwareFile>();
             PublishProfiles = new List<PublishProfile>();
         }
@@ -41,7 +44,8 @@ namespace AppsDesktop
         public bool Archived { get; set; }
         public SoftwareTypes SoftwareType { get; set; }
         public string LocalHostPort { get; set; }
-        public List<SoftwareStory> Stories { get; set; }
+        public List<Story> Stories { get; set; }
+        public List<Software> Softwares { get; set; }
         public List<SoftwareFile> SoftwareFiles { get; set; }
         public List<PublishProfile> PublishProfiles { get; set; }
     }

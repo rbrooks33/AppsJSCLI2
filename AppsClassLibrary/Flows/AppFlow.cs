@@ -28,9 +28,11 @@ namespace Flows
             f.FlowProps = this.FlowProps; //Pass on any added before call to End
             FlowUtility.SaveFlow(f, this);
         }
-        public List<AppFlowEvent> GetFlows()
+        public List<AppFlowEvent> GetFlows(int secondsAgo)
         {
-            return FlowsData.FlowTable.Query().OrderByDescending(f => f.Created).ToList();
+            //var sflows = FlowsData.FlowTable.FindAll().OrderByDescending(f => f.Created).ToList();
+            var flows = FlowsData.FlowTable.FindAll().Where(f => f.Created > DateTime.Now.AddSeconds(-secondsAgo)); //.ToList(); //.OrderByDescending(f => f.Created).ToList();
+            return flows.ToList();
         }
     }
     public static class Exception

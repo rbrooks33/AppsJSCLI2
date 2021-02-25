@@ -7,9 +7,19 @@
 
                 Apps.UI.Events.Show();
 
-                if(callback)
+                Apps.Tabstrips.Initialize('tabstripEvents');
+                Apps.Tabstrips.Select('tabstripEvents', 1);
+                Apps.Tabstrips.SelectCallback = Me.TabSelected;
+
+                let monitorHtml = '<h4>Events</h4> <div id = "Apps_Events_List_Div"> <div></div>    </div>';
+                $('#Track_Events_Monitor_TemplateContent').html(monitorHtml);
+
+                if (callback)
                     callback();
             });
+        },
+        TabSelected: function (tabId, tabIndex) {
+
         },
         Show: function () {
             //Me.Initialize(function () {
@@ -21,7 +31,7 @@
 
             if (!Me.Pause) {
 
-                Apps.Get2('/api/Apps/LatestEvents', function (result) {
+                Apps.Get2('/api/Apps/LatestEvents?secondsAgo=1800', function (result) {
 
                     if (result.Success) {
                         //Apps.Notify('success', result.Data.length + ' events.');

@@ -152,6 +152,7 @@ namespace AppFlows
                 {
                     this.Color = "red";
                     this.ExceptionAndResult(ex, ref result);
+                    AppsClient.AppsLog.LogError(ex.ToString());
                 }
             }
 
@@ -168,16 +169,33 @@ namespace AppFlows
 
             public class Stories : AppFlow
             {
-                public Stories()
+                public string Message;
+
+                public Stories(string message)
                 {
+                    this.Message = message;
+                    this.Color = "green";
                     this.End();
                 }
+                public class Fail : AppFlow
+                {
+                    public Fail(string message, ref AppsClient.AppsResult result)
+                    {
+                        result.FailMessages.Add(message);
+                        this.FlowProps.Add("Message", message);
+                        this.Color = "orange";
+                        this.End();
+                        AppsClient.AppsLog.LogInfo(message);
+                    }
+                }
+
                 public class Exception : AppFlow
                 {
                     public Exception(System.Exception ex, ref AppsClient.AppsResult result)
                     {
                         this.Color = "red";
                         this.ExceptionAndResult(ex, ref result);
+                        AppsClient.AppsLog.LogError(ex.ToString());
                     }
                 }
             }
@@ -203,6 +221,7 @@ namespace AppFlows
                 this.FlowProps.Add("Message", message);
                 this.Color = "orange";
                 this.End();
+                AppsClient.AppsLog.LogInfo(message);
             }
         }
 
@@ -212,17 +231,35 @@ namespace AppFlows
             {
                 this.Color = "red";
                 this.ExceptionAndResult(ex, ref result);
+                AppsClient.AppsLog.LogError(ex.ToString());
             }
         }
     }
-    public class Test
+    public class Test : AppFlow
     {
+        public string Result;
+
+        public Test(AppsClient.AppsResult result)
+        {
+            string resultString = "Success: " + result.Success.ToString() + System.Environment.NewLine;
+            resultString += "Success Messages: " + System.Environment.NewLine;
+            foreach (string smessage in result.SuccessMessages)
+                resultString += smessage + System.Environment.NewLine;
+
+            foreach (string fmessage in result.FailMessages)
+                resultString += fmessage + System.Environment.NewLine;
+
+            this.Color = "green";
+            this.Result = resultString;
+            this.End();
+        }
         public class Exception : AppFlow
         {
             public Exception(System.Exception ex, ref AppsClient.AppsResult result)
             {
                 this.Color = "red";
                 this.ExceptionAndResult(ex, ref result);
+                AppsClient.AppsLog.LogError(ex.ToString());
             }
         }
         public class Fail : AppFlow
@@ -233,6 +270,7 @@ namespace AppFlows
                 this.FlowProps.Add("Message", message);
                 this.Color = "orange";
                 this.End();
+                AppsClient.AppsLog.LogInfo(message);
             }
         }
 
@@ -246,6 +284,7 @@ namespace AppFlows
             {
                 this.Color = "red";
                 this.ExceptionAndResult(ex, ref result);
+                AppsClient.AppsLog.LogError(ex.ToString());
             }
         }
 
@@ -284,6 +323,7 @@ namespace AppFlows
                     //base.Signal(failMessage);
                     base.Color = "orange";
                     base.End();
+                    AppsClient.AppsLog.LogInfo(failMessage);
                 }
             }
 
@@ -293,6 +333,7 @@ namespace AppFlows
                 {
                     this.Color = "red";
                     this.ExceptionAndResult(ex, ref result);
+                    AppsClient.AppsLog.LogError(ex.ToString());
                 }
             }
 
@@ -304,6 +345,7 @@ namespace AppFlows
             {
                 this.Color = "red";
                 this.ExceptionAndResult(ex, ref result);
+                AppsClient.AppsLog.LogError(ex.ToString());
             }
         }
 
@@ -329,6 +371,7 @@ namespace AppFlows
                 base.Signal(failMessage);
                 base.Color = "orange";
                 base.End();
+                AppsClient.AppsLog.LogInfo(failMessage);
             }
         }
     }
@@ -375,6 +418,7 @@ namespace AppFlows
                     //base.Signal(failMessage);
                     base.Color = "orange";
                     base.End();
+                    AppsClient.AppsLog.LogInfo(failMessage);
                 }
             }
 
@@ -384,6 +428,7 @@ namespace AppFlows
                 {
                     this.Color = "red";
                     this.ExceptionAndResult(ex, ref result);
+                    AppsClient.AppsLog.LogError(ex.ToString());
                 }
             }
 

@@ -156,7 +156,10 @@
         GetHTML: function (templateId, argsArray) {
             var content = $("#" + templateId).html();
             if (argsArray) {
-                content = content.SearchAndReplace.apply(content, argsArray);
+                if (content)
+                    content = content.SearchAndReplace.apply(content, argsArray);
+                else
+                    var dothis = "now";
             }
             return content; 
         },

@@ -44,32 +44,5 @@ namespace AppsDesktop.Controllers
             result.Success = true;
             return result;
         }
-        [HttpGet]
-        [Route("GetFiles")]
-        public AppsResult GetFiles(int appId)
-        {
-            var result = new AppsResult();
-
-            try
-            {
-                var files = _db.GetCollection<SoftwareFile>("SoftwareFiles");
-                var codes = _db.GetCollection<SoftwareFileCode>("SoftwareFileCodes");
-
-                var fileList = files.Query().Where(f => f.AppID == appId).ToList();
-             
-                foreach(var file in fileList)
-                {
-                    var fileCodes = codes.Query().Where(c => c.SoftwareFileID == file.SoftwareFileID);
-                    if (fileCodes.Count() > 0)
-                        file.SoftwareFileCodes.AddRange(fileCodes.ToList());
-                }
-                result.Success = true;
-            }
-            catch(System.Exception ex)
-            {
-                new AppFlows.Develop.Exception(ex, ref result);
-            }
-            return result;
-        }
     }
 }

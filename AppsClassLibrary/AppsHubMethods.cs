@@ -10,6 +10,7 @@ namespace AppsClient
         SendAppsClientConfig = 2,
         SendFileChange = 3,
         Ping = 4,
-        Log = 5
+        Log = 5,
+        TestProgress = 6
     }
 }

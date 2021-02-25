@@ -1,22 +1,92 @@
-﻿.Apps_App_DivStyle {
+﻿.AppsContentStyle {
+    width: 100%;
+    height:92vh;
+    position: absolute;
+    top: 51px;
+/*    z-index: 300;
+    background-color: white;
+    border: 3px solid lightgrey;
+*/}
+
+.Test_List_TemplateContent_Style {
+    margin-left: -66px;
+    width: 91vw;
+    height: 100%;
+}
+.Apps_App_DivStyle {
     margin: 20px;
-    width: 20vw;
+    width: 24vw;
     height: 20vh;
     border: 2px solid darkgrey;
     border-radius: 6px;
     position: relative;
     display:inline-block;
 }
-.Apps_MachinePing_Style {
+.Apps_Plan_Style {
     cursor: pointer;
     border: 2px solid darkgrey;
     border-radius: 3px;
     padding: 1px;
     position: absolute;
     bottom: 5px;
-    right: 5px;
-    height: 3.5vh;
-    width: 1.5vw;
+    left: .3vw;
+    height: 4.5vh;
+    width: 4vw;
+    padding-left: 2px;
+    min-width: 24.5px;
+    min-height: 26px;
+}
+.Apps_Create_Style {
+    cursor: pointer;
+    border: 2px solid darkgrey;
+    border-radius: 3px;
+    padding: 1px;
+    position: absolute;
+    bottom: 5px;
+    left: 4.5vw;
+    height: 4.5vh;
+    width: 4vw;
+    padding-left: 2px;
+    min-width: 24.5px;
+    min-height: 26px;
+}
+.Apps_Test_Style {
+    cursor: pointer;
+    border: 2px solid darkgrey;
+    border-radius: 3px;
+    padding: 1px;
+    position: absolute;
+    bottom: 5px;
+    left: 8.65vw;
+    height: 4.5vh;
+    width: 4vw;
+    padding-left: 2px;
+    min-width: 24.5px;
+    min-height: 26px;
+}
+.Apps_Publish_Style {
+    cursor: pointer;
+    position: absolute;
+    bottom: 5px;
+    left: 12.8vw;
+    border: 2px solid darkgray;
+    border-radius: 3px;
+    padding: 1px;
+    height: 4.5vh;
+    width: 4vw;
+    min-width: 24.5px;
+    min-height: 26px;
+}
+.Apps_Track_Style {
+    cursor: pointer;
+    border: 2px solid darkgrey;
+    border-radius: 3px;
+    padding: 1px;
+    position: absolute;
+    bottom: 5px;
+    left: 16.95vw;
+    height: 4.5vh;
+    width: 4vw;
     padding-left: 2px;
     min-width: 24.5px;
     min-height: 26px;
@@ -26,26 +96,13 @@
     bottom: 5px;
     left: 5px;
 }
-.Apps_TitleLabel_Style {
-    cursor: pointer;
-    position: absolute;
-    bottom: 5px;
-    right: 2.7vw;
-    border: 2px solid darkgray;
-    border-radius: 3px;
-    padding: 1px;
-    height: 3.5vh;
-    width: 1.5vw;
-    min-width: 24.5px;
-    min-height: 26px;
-}
-.iconcontainer {
+/*.iconcontainer {
     font-size: 2.5vh;
     position: relative;
     top: .01vh;
-    left: .14vw;
+    left: 28%;
 }
-.Apps_SystemContainer_DivStyle {
+*/.Apps_SystemContainer_DivStyle {
     margin:20px;
     padding-top:17px;
     border: 2px solid darkgrey;

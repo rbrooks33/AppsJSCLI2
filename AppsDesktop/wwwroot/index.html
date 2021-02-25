@@ -16,7 +16,7 @@
 
         Apps.ComponentsReady = function () {
 
-            Apps.Components.Plan.Apps.StartInterval();
+            //Apps.Components.Plan.Apps.StartInterval();
             //Apps.Components.CodeGen.Publish();
             //Apps.Components.Home.Show();
             //Apps.Components.Home.LoadSignalR();
@@ -33,6 +33,18 @@
             Apps.connection.on("Ping", function (machineName, workingFolder) {
 
                 Apps.Components.Plan.Apps.Ping(machineName, workingFolder);
+
+            });
+            Apps.connection.on("TestProgress", function (status, message) {
+
+                if (status.toLowerCase() == 'success')
+                    status = 'primary';
+                if (status.toLowerCase() == 'failed')
+                    status = 'danger';
+                if (status.toLowerCase() == 'passed')
+                    status = 'success';
+
+                Apps.Notify(status.toLowerCase(), message);
 
             });
 
@@ -59,8 +71,15 @@
         <span class="Apps_Title_SpanStyle">Apps</span>
         <span class="Apps_SubTitle_SpanStyle">Dev Ops</span>
 
-        <div class="btn btn-warning" onclick="Apps.Components.Plan.Test();" style="float:right;margin-left:5px;">Tester</div>
-        <div class="btn btn-warning" onclick="Apps.Components.Track.Events.ShowHide();" style="float:right;">Events</div>
+        <div class="dropdown">
+            <div class="btn btn-warning" style="margin-top: -2px;">Tools</div>
+            <div class="dropdown-content">
+                <a href="#" onclick="Apps.Components.Publish.Tools.Show();">Permissions</a>
+                <a href="#" onclick="Apps.Components.Create.Templates.Show();">Templates</a>
+            </div>
+        </div>
+
+        <div class="btn btn-warning" onclick="Apps.Components.Track.Events.ShowHide();" style="float:right;margin-right:5px;">Events</div>
 
         <div class="dropdown">
             <div class="btn btn-warning" style="margin-top: -2px;">New</div>

@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brooksoft.Apps", "AppsDeskt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brooksoft.Apps.Client", "AppsClassLibrary\Brooksoft.Apps.Client.csproj", "{17629C26-40A1-4CA7-80E9-B69444E72CA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brooksoft.Apps.Test", "Brooksoft.Apps.Test\Brooksoft.Apps.Test.csproj", "{A83B187D-989F-4174-98DA-B853A4A633AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brooksoft.Apps.Test", "Brooksoft.Apps.Test\Brooksoft.Apps.Test.csproj", "{A83B187D-989F-4174-98DA-B853A4A633AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brooksoft.Apps2", "Brooksoft.Apps2\Brooksoft.Apps2.csproj", "{C327F14C-4D71-4D66-BFE3-164A550724E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{A83B187D-989F-4174-98DA-B853A4A633AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A83B187D-989F-4174-98DA-B853A4A633AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A83B187D-989F-4174-98DA-B853A4A633AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C327F14C-4D71-4D66-BFE3-164A550724E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C327F14C-4D71-4D66-BFE3-164A550724E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C327F14C-4D71-4D66-BFE3-164A550724E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C327F14C-4D71-4D66-BFE3-164A550724E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

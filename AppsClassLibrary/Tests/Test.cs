@@ -12,6 +12,7 @@ namespace Flows
         public int TestID { get; set; }
         public int TestPlanID { get; set; }
         public int RequirementID { get; set; } //i think temp
+        public string TestName { get; set; }
         public string TestDescription { get; set; }
         public string TFSTestID { get; set; }
         public double Order { get; set; }

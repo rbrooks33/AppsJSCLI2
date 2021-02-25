@@ -527,6 +527,17 @@
                 callback();
         });
     },
+    LoadComponentTemplate: function (component, templateName, templateId, argsArray) {
+        //Assumptions: Template file is dropped
+
+        let html = Apps.Util.GetHTML(templateId, argsArray);
+
+        if (!component.UI)
+            component['UI'] = {};
+
+        component.UI[templateName] = new Apps.Template({ id: templateName, content: html });
+        component.UI[templateName].Load(html);
+    },
     //BindTemplate: function (templateId, argsArray) {
     //    var content = $("#" + templateId).html();
     //    if (argsArray) {

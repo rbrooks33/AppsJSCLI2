@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppsDesktop;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Flows
         {
             Tests = new List<Test>();
             TestScenarios = new List<TestScenario>();
-            TestRoles = new List<SoftwareRole>();
+            TestRoles = new List<Role>();
         }
         [Key]
         public int TestPlanID { get; set; }
@@ -23,6 +24,6 @@ namespace Flows
       
         public List<Test> Tests { get; set; }
         public List<TestScenario> TestScenarios {get;set;}
-        public List<SoftwareRole> TestRoles { get; set; }
+        public List<Role> TestRoles { get; set; }
     }
 }

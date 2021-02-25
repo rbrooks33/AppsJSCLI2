@@ -26,8 +26,17 @@ namespace AppsClient
 
             NLog.LogManager.Configuration = nConfig;
 
-            //LogInfo(Flow.Config, "Apps Logging initialized");
+            LogInfo("Apps Logging initialized for client " + domainOrAppName);
 
+        }
+        public static void LogError(string message)
+        {
+            logger.Error(message);
+        }
+
+        public static void LogInfo(string message)
+        {
+            logger.Info(message);
         }
         //public class StepLog
         //{
@@ -67,32 +76,32 @@ namespace AppsClient
         //    WriteTextToLogFile("Area: " + Enum.GetName(typeof(Flow), flow) + ". Exception: " + ex.ToString(), Sql);
         //}
 
-        public class ExceptionStep
-        {
-            public string ID { get; set; }
-            public string IDType { get; set; }
-            public string Sql { get; set; }
-            public Exception Ex { get; set; }
-        }
-        public class ErrorStep
-        {
-            public string ID { get; set; }
-            public string IDType { get; set; }
-            public string Description { get; set; }
-        }
-        public class WarningStep
-        {
-            public int ID { get; set; }
-            public string IDType { get; set; }
-            public string Description { get; set; }
-        }
-        public static void WriteTextToLogFile(string AdditionalInfo, string DumpQuery = "")
-        {
-            logger.Error(AdditionalInfo);
-        }
-        public static void WriteInfoToLogFile(string AdditionalInfo)
-        {
-            logger.Info(AdditionalInfo);
-        }
+        //public class ExceptionStep
+        //{
+        //    public string ID { get; set; }
+        //    public string IDType { get; set; }
+        //    public string Sql { get; set; }
+        //    public Exception Ex { get; set; }
+        //}
+        //public class ErrorStep
+        //{
+        //    public string ID { get; set; }
+        //    public string IDType { get; set; }
+        //    public string Description { get; set; }
+        //}
+        //public class WarningStep
+        //{
+        //    public int ID { get; set; }
+        //    public string IDType { get; set; }
+        //    public string Description { get; set; }
+        //}
+        //public static void WriteTextToLogFile(string AdditionalInfo, string DumpQuery = "")
+        //{
+        //    logger.Error(AdditionalInfo);
+        //}
+        //public static void WriteInfoToLogFile(string AdditionalInfo)
+        //{
+        //    logger.Info(AdditionalInfo);
+        //}
     }
 }
