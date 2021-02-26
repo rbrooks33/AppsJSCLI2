@@ -1,5 +1,5 @@
 # Brooksoft.Apps.DevOps
-## Plan / Create / Develop / Test / Publish / Document
+## Plan / Create / Test / Publish / Track
 A Unified Development Tool
 
 ![Apps.DevOps Dashboard](https://github.com/rbrooks33/Brooksoft.Apps.DevOps/blob/master/AppsDesktop/wwwroot/Images/appsdevopsgithublogo2.PNG)
