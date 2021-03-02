@@ -167,6 +167,39 @@ namespace AppFlows
                 }
             }
 
+            public class AppComponents : AppFlow
+            {
+                public string Message;
+
+                public AppComponents(string message)
+                {
+                    this.Message = message;
+                    this.Color = "green";
+                    this.End();
+                }
+                public class Fail : AppFlow
+                {
+                    public Fail(string message, ref AppsClient.AppsResult result)
+                    {
+                        result.FailMessages.Add(message);
+                        this.FlowProps.Add("Message", message);
+                        this.Color = "orange";
+                        this.End();
+                        AppsClient.AppsLog.LogInfo(message);
+                    }
+                }
+
+                public class Exception : AppFlow
+                {
+                    public Exception(System.Exception ex, ref AppsClient.AppsResult result)
+                    {
+                        this.Color = "red";
+                        this.ExceptionAndResult(ex, ref result);
+                        AppsClient.AppsLog.LogError(ex.ToString());
+                    }
+                }
+            }
+
             public class Stories : AppFlow
             {
                 public string Message;

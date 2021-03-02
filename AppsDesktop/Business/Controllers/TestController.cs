@@ -53,7 +53,7 @@ namespace AppsDesktop.Controllers
 
                 foreach (var appTestPlan in appTestPlans)
                 {
-                    var planTests = tests.Query().Where(t => t.TestPlanID == appTestPlan.TestPlanID).ToList();
+                    var planTests = tests.Query().Where(t => t.TestPlanID == appTestPlan.ID).ToList();
 
                     if (planTests.Count() > 0)
                     {

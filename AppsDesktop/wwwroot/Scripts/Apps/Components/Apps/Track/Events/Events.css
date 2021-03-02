@@ -1,0 +1,24 @@
+﻿.Apps_Events_Container_Style {
+    position: absolute;
+    right: 40px;
+    top: 72px;
+    border: 2px solid darkgray;
+    border-radius: 5px;
+    width: 450px;
+    overflow:auto;
+    padding:10px;
+    background-color:white;
+    z-index:200;
+}
+.Apps_Events_EventClass_Icon_Style {
+    width: 3.5vw;
+    height: 4vh;
+    border: 1px solid black;
+    border-radius: 3px;
+    /*    background-color: black;
+*/ display: inline-block;
+   text-align:center;
+   font-weight:bold;
+   color:white;
+   cursor:pointer;
+}

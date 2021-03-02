@@ -1,0 +1,11 @@
+.TestManagerContentStyle {
+    margin-left: 72px;
+    background-color: white;
+    padding: 20px;
+    width: 85%;
+    /*border-radius: 5px;
+    border: 2px solid #92c03c;*/
+    position: absolute;
+    top: 5px;
+    z-index:100;
+}

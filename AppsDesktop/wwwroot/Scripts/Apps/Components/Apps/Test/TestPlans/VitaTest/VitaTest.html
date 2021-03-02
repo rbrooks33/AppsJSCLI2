@@ -1,0 +1,56 @@
+
+    <div id="divVitaTestContent" class="VitaTestContentStyle">
+
+        <div style="height: 0px; width: 100%;    position: relative;    top: 19px;    right: 14px;">
+            <div onclick="Apps.Components.Test.VitaTest.Event('hide');" style="float: right;    cursor: pointer;    position: relative;    top: -16px;    font-size: 22px;    left: 5px;">
+                X
+            </div>
+            <div onclick="Apps.Components.Test.VitaTest.Event('fullscreen');" class="VitaWeaverFullScreenIcon">
+
+            </div>
+            <div onclick="Apps.Components.Test.VitaTest.Event('normalscreen');" class="VitaWeaverNormalScreenIcon">
+
+            </div>
+        </div>
+
+
+        <h3 style="margin-top: 0px;    width: 100%;    background: #337ab7; color:white;    height: 36px;    border-bottom: 1px solid #337ab7;">
+            <span id="spanVitaTestTitle" style="padding-left: 10px;position: relative; top: 5px;">VitaCost Testing</span>
+        </h3>
+
+        <div id="divVitaTestTable" style="margin:20px;">
+
+            <div class="btn btn-default" onclick="Apps.Components.Test.VitaTest.Event('show_hide_softwaremanagement');">Software Management</div>
+
+            <div id="divSoftwareManagement" style="opacity:0;display:none;width:20%;">
+
+                <h3>New Software</h3>
+                <input id="inputAddSoftware" type="text" class="form-control" />
+                <div class="btn btn-primary" onclick="AddSoftware();">Add Software</div>
+
+                <h3>New Requirement</h3>
+                <h4>Software</h4>
+                <!--<input id="inputAddRequirementSoftwareId" type="text" class="form-control" />-->
+                <select id="selectRequirementSoftware" class="form-control"></select>
+                <h4>Requirement</h4>
+                <input id="inputAddRequirementName" type="text" class="form-control" />
+                <div class="btn btn-default" onclick="Apps.Components.Test.VitaTest.AddRequirement();">Add Requirement</div>
+
+                <div class="btn btn-default" onclick="AddTestPlan();">Add Test Plan</div>
+
+                <h4>Software</h4>
+                <div id="divSoftwareList"></div>
+
+                <h4>Requirements</h4>
+                <div id="divRequirementsList"></div>
+
+                <h4>Test Plans</h4>
+                <div id="divTestPlansList"></div>
+
+            </div>
+
+            <h3>VA-538 Tests</h3>
+            <a class="btn btn-default" href="http://localhost.vitacost.com?testid=3" target="_blank">Social Annex not using MD5</a>
+        </div>
+    </div>
+

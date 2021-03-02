@@ -1,0 +1,33 @@
+﻿<div>
+    <div class="btn-group" style="float:left;margin:15px;">
+        <div class="btn btn-warning" onclick="Apps.Components.Apps.Create.Templates.New();">New</div>
+        <div class="btn btn-warning" onclick="Apps.Components.Apps.Create.Templates.Save();">Save</div>
+        <div class="btn btn-warning" onclick="Apps.Components.Apps.Create.Templates.Create();">Create</div>
+    </div>
+    <div class="btn btn-warning" style="float: right; margin: 20px;" onclick="Apps.Components.Apps.Create.Templates.Hide();">Close</div>
+</div>
+
+<div>
+    <table>
+        <tr>
+            <td valign="top">
+                <div id="Create_Templates_Menu_Container_Div">menu</div>
+            </td>
+            <td>
+                <h3>Template Name</h3>
+                <input id="Create_Templates_TemplateName_Div" type="text" class="form-control" />
+                <h3>Search/Replace</h3>
+                <div class="btn btn-sm btn-warning" onclick="Apps.Components.Apps.Create.Templates.AddProperty();">Add</div>
+                <div id="Create_Templates_Properties_Container_Div"></div>
+                <h3>Content</h3>
+                <div id="Create_Templates_Content_Container_Div" style="display:none;">
+                    <textarea id="Create_Templates_Content_Textarea"></textarea>
+                </div>
+                <h3>Result</h3>
+                <div id="Create_Templates_Result_Container_Div" style="display:none;">
+                    <textarea id="Create_Templates_Result_Textarea"></textarea>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

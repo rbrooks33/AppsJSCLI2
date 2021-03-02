@@ -50,10 +50,10 @@
     color: #404040;*/
    /* height:342px;*/
 }
-.css3-tabstrip li
-{
-    vertical-align: top;
-}
+    .css3-tabstrip li {
+        vertical-align: top;
+        height: 40px;
+    }
 .css3-tabstrip li:first-child
 {
     margin-left: 8px;
@@ -77,7 +77,7 @@
     padding: 0 18px;
     line-height: 32px;
     background: #E6E7E8;
-    border: 1px solid lightblue;
+    border: 3px solid cornflowerblue;
     border-bottom-color: white;
     text-align: center;
     border-radius: 5px 5px 0 0;
@@ -90,7 +90,7 @@
 {
     z-index: 1;
     background: #fff;
-    border: 1px solid lightblue;
+    border: 3px solid cornflowerblue;
     border-bottom-color: #fff;
     cursor: default;
 }

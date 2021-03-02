@@ -15,8 +15,8 @@
     <Compile Remove="CreatedTemplates\**" />
     <Compile Remove="Templates\**" />
     <Compile Remove="wwwroot\Scripts\Apps\Components\Testing\**" />
-    <Compile Remove="wwwroot\Scripts\Apps\Components\Test\TestPlans\VitaTest\**" />
-    <Compile Remove="wwwroot\Scripts\Apps\Components\Test\TestPlans\VitaTest\**" />
+    <Compile Remove="wwwroot\Scripts\Apps\Components\Apps\Test\TestPlans\VitaTest\**" />
+    <Compile Remove="wwwroot\Scripts\Apps\Components\Apps\Test\TestPlans\VitaTest\**" />
     <Compile Remove="wwwroot\Scripts\Apps\Templates\**" />
     <Compile Remove="wwwroot\Scripts\Apps\_AppsIgnore\**" />
     <Content Remove="AppFolders\**" />
@@ -24,8 +24,8 @@
     <Content Remove="CreatedTemplates\**" />
     <Content Remove="Templates\**" />
     <Content Remove="wwwroot\Scripts\Apps\Components\Testing\**" />
-    <Content Remove="wwwroot\Scripts\Apps\Components\Test\TestPlans\VitaTest\**" />
-    <Content Remove="wwwroot\Scripts\Apps\Components\Test\TestPlans\VitaTest\**" />
+    <Content Remove="wwwroot\Scripts\Apps\Components\Apps\Test\TestPlans\VitaTest\**" />
+    <Content Remove="wwwroot\Scripts\Apps\Components\Apps\Test\TestPlans\VitaTest\**" />
     <Content Remove="wwwroot\Scripts\Apps\Templates\**" />
     <Content Remove="wwwroot\Scripts\Apps\_AppsIgnore\**" />
     <EmbeddedResource Remove="AppFolders\**" />
@@ -33,8 +33,8 @@
     <EmbeddedResource Remove="CreatedTemplates\**" />
     <EmbeddedResource Remove="Templates\**" />
     <EmbeddedResource Remove="wwwroot\Scripts\Apps\Components\Testing\**" />
-    <EmbeddedResource Remove="wwwroot\Scripts\Apps\Components\Test\TestPlans\VitaTest\**" />
-    <EmbeddedResource Remove="wwwroot\Scripts\Apps\Components\Test\TestPlans\VitaTest\**" />
+    <EmbeddedResource Remove="wwwroot\Scripts\Apps\Components\Apps\Test\TestPlans\VitaTest\**" />
+    <EmbeddedResource Remove="wwwroot\Scripts\Apps\Components\Apps\Test\TestPlans\VitaTest\**" />
     <EmbeddedResource Remove="wwwroot\Scripts\Apps\Templates\**" />
     <EmbeddedResource Remove="wwwroot\Scripts\Apps\_AppsIgnore\**" />
     <None Remove="AppFolders\**" />
@@ -42,8 +42,8 @@
     <None Remove="CreatedTemplates\**" />
     <None Remove="Templates\**" />
     <None Remove="wwwroot\Scripts\Apps\Components\Testing\**" />
-    <None Remove="wwwroot\Scripts\Apps\Components\Test\TestPlans\VitaTest\**" />
-    <None Remove="wwwroot\Scripts\Apps\Components\Test\TestPlans\VitaTest\**" />
+    <None Remove="wwwroot\Scripts\Apps\Components\Apps\Test\TestPlans\VitaTest\**" />
+    <None Remove="wwwroot\Scripts\Apps\Components\Apps\Test\TestPlans\VitaTest\**" />
     <None Remove="wwwroot\Scripts\Apps\Templates\**" />
     <None Remove="wwwroot\Scripts\Apps\_AppsIgnore\**" />
   </ItemGroup>

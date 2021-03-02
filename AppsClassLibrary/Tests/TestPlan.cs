@@ -16,7 +16,7 @@ namespace Flows
             TestRoles = new List<Role>();
         }
         [Key]
-        public int TestPlanID { get; set; }
+        public int ID { get; set; }
         public string TestPlanName { get; set; }
         public string TestPlanDescription { get; set; }
         public int AppID { get; set; }

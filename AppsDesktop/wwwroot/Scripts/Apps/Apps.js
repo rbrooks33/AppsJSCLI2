@@ -460,6 +460,8 @@
 
                 //if (Apps.Components[config.Name])
                 //    Apps.Components[config.Name].Initialize();
+                console.log('running intitialize of ' + config.Name);
+
                 c.Initialize();
 
                 if (config.Framework === 'react' && config.AutoTranspile) {
@@ -938,6 +940,19 @@
                 callback(result);
         }
     },
+    ShowMessages: function (result) {
+        if (result && result.Messages) {
+            //$.each(result.SucMessages, function (index, message) {
+            //    Apps.Notify('warning', message);
+            //});
+            $.each(result.FailMessages, function (index, failMessage) {
+                vNotify.error({ text: failMessage, title: 'Fail Message', sticky: true, showClose: true });
+            });
+        }
+        else {
+            Apps.Notify('info', 'No messages available for failed call.');
+        }
+    },
     Auth: function (url, token, by, callback) {
         $.ajax({
             type: "PUT",
@@ -1027,7 +1042,107 @@
     }
 
 };
+Apps.Data = {
+/*
+ For every GET, creates an object with
+ 1. A Path property holding the path used
+ 2. A Data  property holding the resulting data
+ 3. A Refresh() method to call and refresh data when needed
 
+Instructions
+1. Create a new method for every data object, providing optional
+parameters and optional callback.
+
+2. In the method call "Me.Set([hard-coded url], function(data))"
+Note that "Set" handles errors and will not call back but
+instead show notifications.
+
+3. Optionally clean up the data returned and optionally call back
+ */
+
+    //Apps.Data.Register('App', '/api/Apps/GetApp?appId={0}')
+    //Apps.Data.Load('App', function () {
+    //Apps.Data.App.Refresh();
+    //Apps.Data.App.Selected = selectedApp; //For collections
+
+    Selected: null,
+
+    Gets: [],
+    Posts: [],
+    RegisterGET: function (dataName, url) {
+
+        this.Gets.push({ DataName: dataName, URL: url, Args: null });
+
+        Apps.Data[dataName] = {
+            Success: false,
+            Path: url,
+            Data: null,
+            Refresh: function (args, callback) {
+
+                Apps.Data[dataName].Path = this.Path.SearchAndReplace.apply(this.Path, args);
+
+                Apps.Get(this.Path, function (error, result) {
+                    if (!error) {
+                        Apps.Data[dataName].Success = !error && result.Success;
+                        Apps.Data[dataName].Data = result.Data;
+                    }
+                    else
+                        Apps.Data.HandleException(result);
+
+                    if (callback)
+                        callback();
+
+                });
+            }
+        };
+
+    },
+    RegisterPOST: function (dataName, url, args) {
+        this.Posts.push({ DataName: dataName, URL: url, Args: args });
+    },
+    Post: function (dataName, obj, callback) {
+
+        let mycallback = callback;
+        let dataSources = Enumerable.From(this.Posts).Where('$.DataName == "' + dataName + '"').ToArray();
+
+        if (dataSources.length == 1) {
+
+            Apps.Post(dataSources[0].URL, JSON.stringify(obj), function (error, result) {
+                if (!error) {
+                    if (result.Success) {
+                        if (mycallback)
+                            mycallback();
+                    }
+                    else {
+                        Apps.ShowMessages(result);
+                        if (mycallback)
+                            mycallback();
+                    }
+                }
+                else {
+                    Apps.Data.HandleException(result);
+                }
+            });
+        }
+        else
+            Apps.Notify('warning', 'Data source name not found or more than one found: ' + dataName);
+ 
+    },
+    HandleException: function (result) {
+        if (result) {
+            if (result.responseText && result.responseText.length > 50) {
+                Apps.Notify('error', 'From server: ' + result.responseText.substring(0, 50));
+                //vNotify.error({ text: 'text', title: 'title', sticky: true, showClose: true });
+            }
+            else if (result.responseText) {
+                Apps.Notify('error', 'From server: ' + result.responseText);
+            }
+        }
+        else {
+            Apps.Notify('error', 'Unable to contact web server.');
+        }
+    }
+};
 Apps.Template = function (settings) {
 
     this.TemplateID = settings.id; // templateId;
