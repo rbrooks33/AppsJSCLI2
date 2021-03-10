@@ -1,2 +1,16 @@
-﻿body {
+﻿.IntervalIndicatorStyle {
+    width: 15px;
+    height: 15px;
+    border-radius: 10px;
+    border: 3px solid cornflowerblue;
+    position: absolute;
+    right: 9px;
+}
+.ResultsIntervalIndicatorStyle {
+    width: 15px;
+    height: 15px;
+    border-radius: 10px;
+    border: 3px solid cornflowerblue;
+    position: absolute;
+    right: 33px;
 }

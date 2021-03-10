@@ -9,45 +9,151 @@
 
                 Apps.UI.Stories.Show();
 
-                //Me.GetStoryModel();
+                Apps.Data.RegisterPOST('UpsertStory', '/api/Story/UpsertStory');
+                Apps.Data.RegisterGET('Stories', '/api/Story/GetStories?appComponentId={0}');
+                Apps.Data.RegisterGET('StoryModel', '/api/Story/GetStoryModel');
+                Apps.Data.StoryModel.Refresh();
 
                 if(callback)
                     callback();
             });
         },
-        GetStoryModel: function () {
-            Apps.Get2('/api/Story/GetStoryModel', function (error, result) {
+        GetStories: function (appComponent, callback) {
 
-                if (result.Success) {
-                    Me.StoryModel = result.Data;
-                }
-                else {
-                    Apps.Notify('warning', 'Get model error');
-                }
+            Apps.Data.Stories.Refresh([appComponent.ID], function () {
+
+                let stories = Apps.Data.Stories.Data;
+
+                $.each(stories, function (index, story) {
+                    story['RoleIDs'] = [];
+                });
+
+                let table = Apps.Grids.GetTable({
+                    id: "gridStories",
+                    data: stories,
+                    title: appComponent.AppComponentName + ' <span style="color:lightgrey;">Stories</span>',
+                    tableactions: [
+                        {
+                            text: "Add Story",
+                            actionclick: function () {
+                                Apps.Components.Apps.Plan.AppComponents.Stories.Upsert();
+                            }
+
+                        }
+                    ],
+                    tablestyle: "",
+                    rowactions: [
+                        {
+                            text: "Delete",
+                            actionclick: function (td, story, tr) {
+                                if (confirm('Are you sure?')) {
+                                    story.Archived = true;
+                                    Apps.Data.Stories.Selected = story;
+                                    Apps.Components.Apps.Plan.AppComponents.Stories.Upsert();
+                                }
+                            }
+                        }
+                    ],
+                    rowbuttons: [
+                        {
+                            text: "Tests",
+                            buttonclick: function (td, story, tr) {
+                                Apps.Components.Apps.Plan.AppComponents.Stories.ShowTests(td, story, tr);
+                            }
+                        },
+                        {
+                            text: "Functional Specs",
+                            buttonclick: function (td, story, tr) {
+                                Apps.Components.Apps.Plan.AppComponents.Stories.ShowTests(td, story, tr);
+                            }
+                        },
+                        {
+                            text: "Methods",
+                            buttonclick: function (td, story, tr) {
+                                Apps.Components.Apps.Plan.AppComponents.Stories.ShowTests(td, story, tr);
+                            }
+                        },
+                        {
+                            text: "Requirements",
+                            buttonclick: function (td, story, tr) {
+                                Apps.Components.Apps.Plan.AppComponents.Stories.ShowTests(td, story, tr);
+                            }
+                        }
+
+                    ],
+                    fields: [
+                        { name: 'ID' },
+                        {
+                            name: 'StoryName',
+                            editclick: function (td, rowdata, editControl) {
+                            },
+                            saveclick: function (td, story, input) {
+                                story.AppComponentID = Apps.Data.AppComponents.Selected.ID;
+                                story.StoryName = $(input).val();
+                                Apps.Data.Stories.Selected = story;
+                                Apps.Components.Apps.Plan.AppComponents.Stories.Upsert();
+                            }
+                        },
+                        { name: 'RoleIDs'},
+                        {
+                            name: 'StoryDescription',
+                            editclick: function (td, rowdata, editControl) {
+                            },
+                            saveclick: function (td, story, input) {
+                                story.AppComponentID = Apps.Data.AppComponents.Selected.ID;
+                                story.StoryDescription = $(input).val();
+                                Apps.Data.Stories.Selected = story;
+                                Apps.Components.Apps.Plan.AppComponents.Stories.Upsert();
+                            } }
+                    ],
+                    columns: [
+                        {
+                            fieldname: 'ID',
+                            text: 'ID'
+                        },
+                        {
+                            fieldname: 'StoryName',
+                            text: 'Name',
+                            format: function (story) {
+                                let result = '&nbsp;&nbsp;&nbsp;&nbsp;';
+                                if (story.StoryName)
+                                    result = '<span style="font-size:15px;font-weight:bold;">' + story.StoryName + '</span>';
+
+                                return result;
+                            }
+                        },
+                        {
+                            fieldname: 'RoleIDs',
+                            text: 'Roles'
+                        },
+                        {
+                            fieldname: 'StoryDescription',
+                            text: 'Description',
+                            format: function (story) {
+                                let result = '&nbsp;&nbsp;&nbsp;&nbsp;';
+                                if (story.StoryDescription)
+                                    result = story.StoryDescription;
+
+                                return result;
+                            }
+                        }
+                    ]
+                });
+
+                if (callback)
+                    callback(table.outerHTML);
             });
         },
-        List: function () {
-            Apps.Get2('/api/Story/GetStories?appId=' + Me.Parent.CurrentApp.AppID, function (result) {
-                if (result.Success) {
-                    Apps.Notify('info', result.Data.length + ' stories.');
+        Upsert: function () {
+            let story = Apps.Data.StoryModel.Data;
+            if (Apps.Data.Stories.Selected)
+                story = Apps.Data.Stories.Selected;
 
-                    let html = ''; //Create list
-                    html += '<table>';
+            story.AppComponentID = Apps.Data.AppComponents.Selected.ID; //Should have this by now
 
-                    $.each(result.Data, function (index, story) {
-
-                        html += '  <tr>';
-                        html += '    <td>' + story.StoryName + '</td>';
-                        html += '  </tr>';
-
-                    });
-                    Apps.Components.Helpers.Dialogs.Content('Plan_Apps_Stories_List_Dialog', html);
-                    Apps.Components.Helpers.Dialogs.Open('Plan_Apps_Stories_List_Dialog');
-
-
-                }
-                else
-                    Apps.Notify('warning', 'Problem getting stories.');
+            Apps.Data.Post('UpsertStory', story, function () {
+                Apps.Notify('success', 'Upserted story.');
+                Apps.Components.Apps.Plan.AppComponents.RefreshStories(Apps.Data.AppComponents.Selected)
             });
         },
         New: function () {

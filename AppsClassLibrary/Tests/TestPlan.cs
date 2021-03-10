@@ -20,6 +20,7 @@ namespace Flows
         public string TestPlanName { get; set; }
         public string TestPlanDescription { get; set; }
         public int AppID { get; set; }
+        public string Results { get; set; }
         public bool Archived { get; set; }
       
         public List<Test> Tests { get; set; }

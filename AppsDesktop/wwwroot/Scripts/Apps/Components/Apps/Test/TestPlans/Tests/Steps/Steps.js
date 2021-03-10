@@ -19,9 +19,9 @@
                
                 Me.GetSteps(test, function (html) {
 
-                    $(tr).after('<tr><td id="Test_Tests_TestRow' + test.TestID + '" style="display:none;" colspan="7">' + html + '</td></tr>');
+                    $(tr).after('<tr><td id="Test_Tests_TestRow' + test.ID + '" style="display:none;" colspan="7">' + html + '</td></tr>');
 
-                    testRow = $('#Test_Tests_TestRow' + test.TestID);
+                    testRow = $('#Test_Tests_TestRow' + test.ID);
 
                     testRow.show(400);
 
@@ -33,7 +33,7 @@
         },
         GetSteps: function (test, callback) {
 
-            Apps.Data.Steps.Refresh([test.TestID], function (result) {
+            Apps.Data.Steps.Refresh([test.ID], function (result) {
 
                 let table = Apps.Grids.GetTable({
                     id: "gridSteps",
@@ -58,23 +58,25 @@
                                     Apps.Components.Apps.Test.TestPlans.Tests.Steps.UpsertStep();
                                 }
                             }
-                        },
-                        {
-                            text: "Edit Test Script",
-                            actionclick: function (td, step, tr) {
-                                Apps.Components.Apps.Test.TestPlans.Tests.Steps.EditTest.Show(step);
-                            }
                         }
 
                     ],
-                    //rowbuttons: [
-                    //    {
-                    //        text: "Steps",
-                    //        buttonclick: function (td, test, tr) {
-                    //            Apps.Components.Plan.Apps.App.TestPlans.Tests.Steps.ShowSteps(td, test, tr);
-                    //        }
-                    //    }
-                    //],
+                    rowbuttons: [
+                        {
+                            text: "Edit Script",
+                            buttonclick: function (td, step, tr) {
+                                Apps.Data.Steps.Selected = step;
+                                Apps.Components.Apps.Test.TestPlans.Tests.Steps.EditTest.Show(step);
+                            }
+                        },
+                        {
+                            text: "Run",
+                            buttonclick: function (td, step, tr) {
+                                Apps.Data.Steps.Selected = step;
+                                Apps.Components.Apps.Test.TestPlans.Tests.Steps.EditTest.Run();
+                            }
+                        }
+                    ],
                     fields: [
                         Me.StepField('ID'),
                         Me.StepField('TestID'),
@@ -83,8 +85,8 @@
                         Me.StepField('Instructions'),
                         Me.StepField('Expectations'),
                         Me.StepField('Variations'),
-                        // Me.StepField('Script'),
-                        Me.StepField('Passed')
+                        //Me.StepField('Script'),
+                        Me.StepField('Results')
                     ],
                     columns: [
                         Me.StepColumn('ID', 'ID'),
@@ -94,7 +96,7 @@
                         Me.StepColumn('Expectations', 'Expectations'),
                         Me.StepColumn('Variations', 'Variations'),
                         //Me.StepColumn('Script', 'Test Script'),
-                        Me.StepColumn('Passed', 'Result')
+                        Me.StepColumn('Results', 'Results')
                     ]
                 });
 
@@ -108,7 +110,7 @@
             if (Apps.Data.Steps.Selected)
                 step = Apps.Data.Steps.Selected;
 
-            step.TestID = Apps.Data.Tests.Selected.TestID;
+            step.TestID = Apps.Data.Tests.Selected.ID;
 
             Apps.Data.Post('UpsertStep', step, function () {
                 Apps.Components.Apps.Test.TestPlans.Tests.Steps.RefreshSteps();
@@ -116,7 +118,7 @@
         },
         RefreshSteps: function (test) {
 
-            let testRow = $('#Test_Tests_TestRow' + Apps.Data.Tests.Selected.TestID);
+            let testRow = $('#Test_Tests_TestRow' + Apps.Data.Tests.Selected.ID);
             if (testRow.length == 1) {
 
                 Me.GetSteps(Apps.Data.Tests.Selected, function (html) {
@@ -125,6 +127,31 @@
 
                 });
             }
+        },
+        FormatResults: function (step) {
+            //Get the last run instance for this test plan
+            var result = '';
+            let results = JSON.parse(step.Results);
+            if (results) {
+                result += Apps.Util.TimeElapsed(new Date(results.Instance.DateCreated));
+                result += '<div style="display:flex;">';
+                $.each(results.Runs, function (index, run) {
+
+                    let backgroundColor = 'red';
+                    if (run.IsNote) {
+                        if (run.Passed)
+                            backgroundColor = 'blue';
+                        else
+                            backgroundColor = 'orange';
+                    }
+                    if (run.Passed)
+                        backgroundColor = 'green';
+
+                    result += '<div title="' + run.Description + '" style="background-color:' + backgroundColor + '; width:15px;height:15px;border-radius:2px;margin:2px;"></div>';
+                });
+            }
+            result += '</div>';
+            return result;
         },
         StepField: function(fieldName) {
             {
@@ -159,11 +186,11 @@
                     if (step[fieldName])
                         result = step[fieldName];
 
-                    if (fieldName === 'Passed') {
-                        result = '<div style="width:15px;height:15px;border:1px solid lightgrey;"></div>';
+                    if (fieldName === 'Results') {
+                        result = Apps.Components.Apps.Test.TestPlans.Tests.Steps.FormatResults(step); 
                     }
                     else if (fieldName === 'Script') {
-                        //result = '<textarea id="App_TestPlans_Tests_Steps_StepScript' + step.TestStepID + '" style="width:200px;height:50px;"></textarea>';
+                        result = '<textarea id="App_TestPlans_Tests_Steps_StepScript' + step.TestStepID + '" style="width:200px;height:50px;"></textarea>';
                     }
 
                     return result;

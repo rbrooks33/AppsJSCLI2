@@ -1022,7 +1022,7 @@ define(['./util.js'], function (Util) {
 
                     $.each(settings.rowbuttons, function (index, button) {
 
-                        rowbuttons += '<input type="button" class="btn btn-sm btn-warning" style="margin-top:3px;" value="' + button.text + '" onclick="Apps.Grids.RowButtonCallback(' + button.buttonclick.toString() + ',this);" /> ';
+                        rowbuttons += '<input id="' + settings.id + '_Row' + index + '_RowButton' + '" type="button" class="btn btn-sm btn-warning" style="margin-top:3px;" value="' + button.text + '" onclick="Apps.Grids.RowButtonCallback(' + button.buttonclick.toString() + ',this);" /> ';
                     });
 
                     rowbuttons += '</div> ';
@@ -1052,7 +1052,7 @@ define(['./util.js'], function (Util) {
                 rows += '</tr>';
 
                 //ROWS
-                $.each(data, function (index, d) {
+                $.each(data, function (rowindex, d) {
 
                     Me.RowData = d; //To keep in scope
 
@@ -1068,7 +1068,7 @@ define(['./util.js'], function (Util) {
                     if (settings.rowclick)
                         rowclick = 'onclick="Apps.Grids.RowClickCallback(' + settings.rowclick.toString() + ', this, \'' + escape(JSON.stringify(Me.RowData)) + '\');"';
 
-                    rows += '<tr rowdata="' + escape(JSON.stringify(d)) + '" ' + rowmouseover + ' ' + rowmouseout + ' ' + rowclick + '>';
+                    rows += '<tr rowindex="' + rowindex + '" rowdata="' + escape(JSON.stringify(d)) + '" ' + rowmouseover + ' ' + rowmouseout + ' ' + rowclick + '>';
 
                     //ACTIONS
                     if (settings.rowactions) {
@@ -1107,9 +1107,25 @@ define(['./util.js'], function (Util) {
                         rows += '</td>';
                     }
 
+                    ////BUTTONS
+                    //if (rowbuttons && rowbuttonorientation === "left")
+                    //    rows += rowbuttons;
+
                     //BUTTONS
-                    if (rowbuttons && rowbuttonorientation === "left")
-                        rows += rowbuttons;
+                    if (rowbuttons && rowbuttonorientation === "left") {
+                        if (settings.rowbuttons) {
+
+                            rows += '<td valign="top">';
+                            rows += '<div class="btn-group"> ';
+
+                            $.each(settings.rowbuttons, function (rowbuttonindex, button) {
+                                rows += '<input id="' + settings.id + '_Row' + rowindex + '_RowButton' + rowbuttonindex + '" type="button" class="btn btn-sm btn-warning" style="margin-top:3px;" value="' + button.text + '" onclick="Apps.Grids.RowButtonCallback(' + button.buttonclick.toString() + ',this);" /> ';
+                            });
+
+                            rows += '</div> ';
+                            rows += '</td>';
+                        }
+                    }
 
                     //CELLS
                     $.each(fields, function (index, field) {
@@ -1160,7 +1176,7 @@ define(['./util.js'], function (Util) {
                                 //VIEW (FORMAT)
                                 if (col.format) {
 
-                                    viewSpan = '<span class="grid_view_span" title="' + tooltip(Me.RowData) + '" ' + editclick + '>' + col.format(Me.RowData) + '</span>';
+                                    viewSpan = '<span id="' + settings.id + '_ViewFormat_Row' + rowindex + '_Col' + col.fieldname + '" class="grid_view_span" title="' + tooltip(Me.RowData) + '" ' + editclick + '>' + col.format(Me.RowData) + '</span>';
                                 }
 
                                 //EDIT

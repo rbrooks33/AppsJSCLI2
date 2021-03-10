@@ -63,12 +63,12 @@
                     var flowNameID = flowName.replaceAll('.', '_');
 
                     html += '  <tr>';
-                    html += '    <td><div id="Apps_Events_EventClass_Icon" onclick="Apps.Components.Track.Events.ShowHideDetail(\'' + flowNameID + '\');" class="Apps_Events_EventClass_Icon_Style" style="background-color:' + group.source[0].FlowProps.Color + ';">' + groupCount + '</div></td>'
+                    html += '    <td><div id="Apps_Events_EventClass_Icon" onclick="Apps.Components.Apps.Track.Events.ShowHideDetail(\'' + flowNameID + '\');" class="Apps_Events_EventClass_Icon_Style" style="background-color:' + group.source[0].FlowProps.Color + ';">' + groupCount + '</div></td>'
                     html += '    <td style="padding-left:4px;vertical-align: baseline; font-size: 2.1vw;">' + flowName + '</td>';
                     html += '  </tr>';
                     html += '  <tr>';
                     html += '    <td></td>';
-                    html += '    <td style="padding-left:4px;">' + Apps.Util.TimeElapsed(new Date(groupsDesc[0].FlowProps.StartTime)) + '&nbsp;&nbsp;<i class="fas fa-trash" style="font-size:1vw;cursor:pointer;" onclick="Apps.Components.Track.Events.ArchiveEvent(\'' + groupsDesc[0].FlowProps.Name + '\');" /></td>';
+                    html += '    <td style="padding-left:4px;">' + Apps.Util.TimeElapsed(new Date(groupsDesc[0].FlowProps.StartTime)) + '&nbsp;&nbsp;<i class="fas fa-trash" style="font-size:1vw;cursor:pointer;" onclick="Apps.Components.Apps.Track.Events.ArchiveEvent(\'' + groupsDesc[0].FlowProps.Name + '\');" /></td>';
                     html += '  </tr>';
                     html += '  <tr>'
                     html += '    <td colspan="2">';

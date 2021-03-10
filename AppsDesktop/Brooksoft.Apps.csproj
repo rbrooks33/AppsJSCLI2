@@ -70,6 +70,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Apps-log.db" />
+    <None Remove="Apps.db" />
+    <None Remove="AppsJSDB.db" />
+    <None Remove="Flows-log.db" />
+    <None Remove="Flows-tmp.db" />
+    <None Remove="Flows.db" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="Business\Flows\AppFlows.cs" />
   </ItemGroup>
 
@@ -104,9 +113,8 @@
     <Folder Include="Business\Create\Source\AppsJS\" />
     <Folder Include="Business\Ops\PreBuildScripts\" />
     <Folder Include="Business\Ops\PostBuildScripts\" />
-    <Folder Include="Business\Plan\Apps\Stories\" />
-    <Folder Include="Business\Publish\" />
     <Folder Include="Models\Software\" />
+    <Folder Include="wwwroot\Scripts\Apps\Components\Helpers\Intervals\" />
   </ItemGroup>
 
   <ItemGroup>

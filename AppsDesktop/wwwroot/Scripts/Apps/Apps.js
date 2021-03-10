@@ -1079,15 +1079,18 @@ instead show notifications.
             Data: null,
             Refresh: function (args, callback) {
 
-                Apps.Data[dataName].Path = this.Path.SearchAndReplace.apply(this.Path, args);
+                let newPath = this.Path.SearchAndReplace.apply(Apps.Data[dataName].Path, args);
 
-                Apps.Get(this.Path, function (error, result) {
+                Apps.Get(newPath, function (error, result) {
+
                     if (!error) {
                         Apps.Data[dataName].Success = !error && result.Success;
                         Apps.Data[dataName].Data = result.Data;
                     }
                     else
                         Apps.Data.HandleException(result);
+
+                    Apps.Data[dataName].Result = result;
 
                     if (callback)
                         callback();

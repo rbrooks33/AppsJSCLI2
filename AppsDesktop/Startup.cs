@@ -35,11 +35,16 @@ namespace AppsDesktop
         {
             //services.AddDbContext<AppsContext>(options =>
             //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //Selenium Driver
+            //Action<OpenQA.Selenium.Chrome.ChromeDriver> chromeDriver = (cd => { 
+
+            //});
+            services.AddSingleton<OpenQA.Selenium.Chrome.ChromeDriver>(new OpenQA.Selenium.Chrome.ChromeDriver(Environment.CurrentDirectory + "\\Libraries"));
 
             //Main db
             Action<AppsData> liteDBOptions = (opt =>
             {
-                opt.AppsDBPath = System.Environment.CurrentDirectory + "\\Apps.db";
+                opt.AppsDBPath = System.Environment.CurrentDirectory + "\\Business\\Data\\Apps.db";
                 opt.AppsDB = new LiteDB.LiteDatabase(opt.AppsDBPath);
             });
 

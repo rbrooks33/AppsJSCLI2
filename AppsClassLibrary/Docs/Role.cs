@@ -10,6 +10,7 @@ namespace AppsDesktop
     {
         [Key]
         public int RoleID { get; set; }
+        public int AppID { get; set; }
         public string RoleName { get; set; }
         public string RoleDescription { get; set; }
     }

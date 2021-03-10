@@ -16,6 +16,8 @@ namespace Flows
         [Key]
         public int TestRunID { get; set; }
         public int TestStepID { get; set; }
+        public int TestID { get; set; }
+        public int TestPlanID { get; set; }
         public int TestRunInstanceID { get; set; }
         public bool Passed { get; set; }
         public bool IsNote { get; set; }

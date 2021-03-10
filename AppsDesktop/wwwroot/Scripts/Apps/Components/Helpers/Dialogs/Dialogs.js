@@ -179,6 +179,25 @@
                     ]
                 });
 
+                ////Register Edit Test Script dialog
+                //Me.Register('Apps_Test_TestPlans_Tests_Steps_EditScript_Dialog', {
+                //    title: 'Edit Test Script',
+                //    size: 'default',
+                //    templateid: 'templateMyDialog1',
+                //    buttons: [
+                //        {
+                //            id: 'Apps_Test_TestPlans_Tests_Steps_EditScript_Dialog_Save',
+                //            text: 'Save',
+                //            action: 'Apps.Components.Apps.Test.TestPlans.Tests.Steps.EditTest.Save()'
+                //        },
+                //        {
+                //            id: 'Apps_Test_TestPlans_Tests_Steps_EditScript_Dialog_Cancel',
+                //            text: 'Cancel',
+                //            action: 'Apps.Components.Helpers.Dialogs.Close(\'Apps_Test_TestPlans_Tests_Steps_EditScript_Dialog\')'
+                //        }
+                //    ]
+                //});
+
                 if (callback)
                     callback();
 

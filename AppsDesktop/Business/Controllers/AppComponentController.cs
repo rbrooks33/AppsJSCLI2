@@ -39,7 +39,7 @@ namespace AppsDesktop
             {
                 var objs = _db.GetCollection<AppComponent>("AppComponents"); // db.Softwares.Add(software);
 
-                result.Data = objs.Query().Where(ss => ss.AppID == appId).ToList();
+                result.Data = objs.Query().Where(ss => ss.AppID == appId && ss.Archived == false).ToList();
                 result.Success = true;
             }
             catch (System.Exception ex)

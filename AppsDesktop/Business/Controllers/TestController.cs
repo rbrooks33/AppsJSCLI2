@@ -19,12 +19,14 @@ namespace AppsDesktop.Controllers
         private IWebHostEnvironment _env;
         private LiteDatabase _db;
         private AppsData _data;
+        private OpenQA.Selenium.Chrome.ChromeDriver _driver; // = new OpenQA.Selenium.Chrome.ChromeDriver(Environment.CurrentDirectory + "\\Libraries");
 
-        public TestController(IWebHostEnvironment env, AppsData data)
+        public TestController(IWebHostEnvironment env, AppsData data, OpenQA.Selenium.Chrome.ChromeDriver driver)
         {
             _env = env;
             _db = data.AppsDB;
             _data = data;
+            _driver = driver;
         }
 
         [HttpGet]
@@ -45,6 +47,7 @@ namespace AppsDesktop.Controllers
 
             try
             {
+                var testRunController = new TestRunController(_env, _data, _driver);
                 var testplans = _db.GetCollection<TestPlan>("TestPlans");
                 var tests = _db.GetCollection<Test>("Tests");
                 var teststeps = _db.GetCollection<TestStep>("TestSteps");
@@ -53,27 +56,58 @@ namespace AppsDesktop.Controllers
 
                 foreach (var appTestPlan in appTestPlans)
                 {
-                    var planTests = tests.Query().Where(t => t.TestPlanID == appTestPlan.ID).ToList();
+                    var testResults = testRunController.GetLatestResults(TestRunInstanceType.TestPlan, appTestPlan.ID).Data;
+                    appTestPlan.Results = Newtonsoft.Json.JsonConvert.SerializeObject(testResults);
+                    //var planTests = tests.Query().Where(t => t.TestPlanID == appTestPlan.ID).ToList();
 
-                    if (planTests.Count() > 0)
-                    {
-                        appTestPlan.Tests.AddRange(planTests);
+                    //if (planTests.Count() > 0)
+                    //{
+                    //    appTestPlan.Tests.AddRange(planTests);
 
-                        foreach (var planTest in planTests)
-                        {
-                            var testSteps = teststeps.Query().Where(ts => ts.TestID == planTest.TestID).ToList();
-                            if (testSteps.Count() > 0)
-                            {
-                                planTest.Steps.AddRange(testSteps);
-                            }
-                        }
-                    }
+                    //    foreach (var planTest in planTests)
+                    //    {
+                    //        var testSteps = teststeps.Query().Where(ts => ts.TestID == planTest.TestID).ToList();
+                    //        if (testSteps.Count() > 0)
+                    //        {
+                    //            planTest.Steps.AddRange(testSteps);
+                    //        }
+                    //    }
+                    //}
                 }
 
                 result.Data = appTestPlans;
                 result.Success = true;
             }
             catch(System.Exception ex)
+            {
+                new AppFlows.Test.Exception(ex, ref result);
+            }
+            return result;
+        }
+        [HttpGet]
+        [Route("GetTestPlan")]
+        public AppsResult GetTestPlan(int testPlanId)
+        {
+            var result = new AppsResult();
+            var testRunController = new TestRunController(_env, _data, _driver);
+
+            try
+            {
+                var testplans = _db.GetCollection<TestPlan>("TestPlans").Query().Where(tp => tp.ID == testPlanId);
+                if (testplans.Count() == 1)
+                {
+                    var testPlan = testplans.Single();
+                    var testResults = testRunController.GetLatestResults(TestRunInstanceType.TestPlan, testPlan.ID).Data;
+                    testPlan.Results = Newtonsoft.Json.JsonConvert.SerializeObject(testResults);
+
+                    result.Data = testPlan;
+                    result.Success = true;
+                }
+                else
+                    new AppFlows.Test.Fail("Returned either zero or more than one test plans.", ref result);
+
+            }
+            catch (System.Exception ex)
             {
                 new AppFlows.Test.Exception(ex, ref result);
             }
@@ -117,15 +151,27 @@ namespace AppsDesktop.Controllers
         public AppsResult GetTests(int testPlanId)
         {
             var result = new AppsResult();
+            var testRunController = new TestRunController(_env, _data, _driver);
 
             try
             {
                 if (testPlanId > 0)
                 {
                     var tests = _db.GetCollection<Test>("Tests");
+                    var steps = _db.GetCollection<TestStep>("Steps");
 
                     var appTests = tests.Query().Where(tp => tp.TestPlanID == testPlanId && tp.Archived == false).ToList();
+                    foreach(var test in appTests)
+                    {
+                        //var testSteps = steps.Query().Where(ts => ts.TestID == test.ID && ts.Archived == false).ToList();
+                        //if (testSteps.Count() > 0)
+                        //    test.Steps.AddRange(testSteps);
 
+                        //TODO: Refactor to somehow handle getting results produced by clicking "Test" as well as "TestPlan" test runs
+                        var testResults = testRunController.GetLatestResults(TestRunInstanceType.TestPlan, testPlanId).Data;
+                        test.Results = Newtonsoft.Json.JsonConvert.SerializeObject(testResults);
+
+                    }
                     result.Data = appTests;
                     result.Success = true;
                 }
@@ -136,6 +182,26 @@ namespace AppsDesktop.Controllers
             {
                 new AppFlows.Test.Exception(ex, ref result);
             }
+            return result;
+        }
+        [HttpGet]
+        [Route("GetTest")]
+        public AppsResult GetTest(int testId)
+        {
+            var result = new AppsResult();
+
+            try
+            {
+                var objs = _db.GetCollection<Test>("Tests");
+
+                result.Data = objs.Query().Where(ss => ss.ID == testId).ToList();
+                result.Success = true;
+            }
+            catch (System.Exception ex)
+            {
+                new AppFlows.Test.Exception(ex, ref result);
+            }
+
             return result;
         }
         [HttpPost]
@@ -181,9 +247,18 @@ namespace AppsDesktop.Controllers
             {
                 if (testId > 0)
                 {
+                    var testRunController = new TestRunController(_env, _data, _driver);
                     var steps = _db.GetCollection<TestStep>("Steps");
 
                     var appSteps = steps.Query().Where(s => s.TestID == testId && s.Archived == false).ToList();
+                    var test = (List<Test>)GetTest(testId).Data; //TODO: Refactor safer
+
+                    foreach (var step in appSteps)
+                    {
+                        //TODO: Decide how to choose between result from test plan or individual step test runs
+                        var testResults = testRunController.GetLatestResults(TestRunInstanceType.TestPlan, test.Single().TestPlanID).Data;
+                        step.Results = Newtonsoft.Json.JsonConvert.SerializeObject(testResults);
+                    }
 
                     result.Data = appSteps;
                     result.Success = true;
@@ -195,6 +270,26 @@ namespace AppsDesktop.Controllers
             {
                 new AppFlows.Test.Exception(ex, ref result);
             }
+            return result;
+        }
+        [HttpGet]
+        [Route("GetStep")]
+        public AppsResult GetStep(int testStepId)
+        {
+            var result = new AppsResult();
+
+            try
+            {
+                var objs = _db.GetCollection<TestStep>("Steps");
+
+                result.Data = objs.Query().Where(ss => ss.ID == testStepId).ToList();
+                result.Success = true;
+            }
+            catch (System.Exception ex)
+            {
+                new AppFlows.Test.Exception(ex, ref result);
+            }
+
             return result;
         }
         [HttpPost]
@@ -228,8 +323,8 @@ namespace AppsDesktop.Controllers
             public string Info { get; set; }
         }
         [HttpGet]
-        [Route("Run")]
-        public AppsResult Run(int appId)
+        [Route("RunUnits")]
+        public AppsResult RunUnits(int appId)
         {
             var result = new AppsResult();
 
@@ -368,9 +463,11 @@ namespace AppsDesktop.Controllers
         }
         [HttpGet]
         [Route("RunStepScript")]
-        public AppsResult RunStepScript(string script)
+        public AppsResult RunStepScript(int testRunInstanceId, int testPlanId, int testId, int stepId, string script)
         {
             var result = new AppsResult();
+            var trList = (LiteCollection<TestRun>)_db.GetCollection<TestRun>("TestRuns");
+            var trl = new TestResult(trList, testRunInstanceId, testPlanId, testId, stepId);
             
             try
             {
@@ -379,47 +476,62 @@ namespace AppsDesktop.Controllers
                 AppsClientConfig.AppsURL = "https://localhost:54321";
                 AppsClientHub.Load();
 
-                var driver = new OpenQA.Selenium.Chrome.ChromeDriver(Environment.CurrentDirectory + "\\Libraries");
                 
                 var doc = new System.Xml.XmlDocument();
                 doc.LoadXml("<temproot>" + script + "</temproot>");
-                
-                
+
+                result.Success = true; //"one false move" mode
+
+
                 foreach(System.Xml.XmlNode node in doc.DocumentElement.ChildNodes)
                 {
                     if(node.Name == "OpenSite")
                     {
                         string url = node.Attributes["Link"].Value;
-                        driver.Navigate().GoToUrl(url);
+                        _driver.Navigate().GoToUrl(url);
 
-                        var wait = new OpenQA.Selenium.Support.UI.WebDriverWait(driver, TimeSpan.FromSeconds(5));
+                        var wait = new OpenQA.Selenium.Support.UI.WebDriverWait(_driver, TimeSpan.FromSeconds(5));
                         wait.Until(p => p.FindElement(OpenQA.Selenium.By.XPath("/html/body/div[1]/img")).Displayed);
 
                         AppsClientHub.TestProgress(TestMessageStatus.Info, "Navigated to " + url);
+
+                        trl.Note("Navigated to " + url);
                     }
                     else if(node.Name == "FindButton")
                     {
                         if (node.Attributes["ByXPath"] != null)
                         {
                             string nodeValue = node.Attributes["ByXPath"].Value;
-                            var element = driver.FindElementByXPath(nodeValue);
+                            var element = _driver.FindElementByXPath(nodeValue);
                             element.Click();
 
                             AppsClientHub.TestProgress(TestMessageStatus.Info, "Found button by xpath " + nodeValue + "  and clicked.");
+                            trl.Note("Found button by xpath " + nodeValue + "  and clicked.");
 
                             if (node.Attributes["Mouse"] != null)
                             {
                                 if (node.Attributes["Mouse"].Value == "move")
                                 {
-                                    var action = new Actions(driver);
+                                    var action = new Actions(_driver);
                                     action.MoveToElement(element);
                                     AppsClientHub.TestProgress(TestMessageStatus.Info, "Moved mouse to element.");
+                                    trl.Note("Moved mouse to element.");
                                 }
                             }
+                        }
+                        else if(node.Attributes["ByID"] != null)
+                        {
+                            string nodeValue = node.Attributes["ByID"].Value;
+                            var element = _driver.FindElementById(nodeValue);
+                            element.Click();
+                            trl.Note("Found element by id: " + nodeValue.ToString());
                         }
                         else
                         {
                             AppsClientHub.TestProgress(TestMessageStatus.Warning, "No attrib. match found for FindButton.");
+                            trl.Note("No attrib. match found for FindButton.", false);
+                            result.Success = false;
+                            break;
                         }
                             
                     }
@@ -428,25 +540,81 @@ namespace AppsDesktop.Controllers
 
                         int milliseconds = 5000;
                         if (node.Attributes["Milliseconds"] != null)
-                            int.TryParse(node.Attributes["Milliseconds"].ToString(), out milliseconds);
+                            int.TryParse(node.Attributes["Milliseconds"].Value.ToString(), out milliseconds);
 
                         AppsClientHub.TestProgress(TestMessageStatus.Info, "Delaying " + (milliseconds / 1000).ToString() + " seconds.");
+                        trl.Note("Delaying " + (milliseconds / 1000).ToString() + " seconds.");
 
                         System.Threading.Thread.Sleep(milliseconds);
                     }
                 }
 
-                result.Success = true;
-                new AppFlows.Test(result);
 
             }
             catch (System.Exception ex)
             {
                 new AppFlows.Test.Exception(ex, ref result);
                 result.FailMessages.Add("Exception: " + ex.Message);
+
+                result.Success = false;
+                trl.Note("Exception: " + System.Web.HttpUtility.HtmlEncode(ex.Message), false);
             }
+
+            trl.Result(result.Success);
+
+            result.Data = trl;
+
             return result;
         }
-
+        public class TestResult
+        {
+            private LiteCollection<TestRun> TestRunTable;
+            private int TestPlanID;
+            private int TestID;
+            private int StepID;
+            private int TestRunInstanceID;
+            public TestResult(LiteCollection<TestRun> testRunTable, int testRunInstanceId, int testPlanId, int testId, int stepId)
+            {
+                this.TestRunTable = testRunTable;
+                this.TestRunInstanceID = testRunInstanceId;
+                this.TestPlanID = testPlanId;
+                this.TestID = testId;
+                this.StepID = stepId;
+            }
+            public void Note(string description, bool passed = true)
+            {
+                var run = new TestRun();
+                run.TestRunInstanceID = this.TestRunInstanceID;
+                run.TestStepID = this.StepID;
+                run.TestID = this.TestID;
+                run.TestPlanID = this.TestPlanID;
+                run.IsNote = true;
+                run.Description = description;
+                run.Passed = passed;
+                this.TestRunTable.Insert(run);
+            }
+            public void Result(bool passed, string description = "")
+            {
+                var run = new TestRun();
+                run.TestRunInstanceID = this.TestRunInstanceID;
+                run.TestStepID = this.StepID;
+                run.TestID = this.TestID;
+                run.TestPlanID = this.TestPlanID;
+                run.IsNote = false;
+                if(passed)
+                {
+                    run.DatePassed = DateTime.Now;
+                    run.Description = "Test #" + this.TestID.ToString() + " Step #" + this.StepID.ToString() + " passed." + description;
+                    run.Passed = true;
+                }
+                else
+                {
+                    run.DateFailed = DateTime.Now;
+                    run.Description = "Test #" + this.TestID.ToString() + " Step #" + this.StepID.ToString() + " failed." + description;
+                    run.Passed = false;
+                }
+                this.TestRunTable.Insert(run);
+            }
+        }
     }
 }

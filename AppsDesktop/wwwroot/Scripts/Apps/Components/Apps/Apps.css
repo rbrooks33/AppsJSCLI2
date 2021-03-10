@@ -8,6 +8,17 @@
     border: 3px solid lightgrey;
 */}
 
+/*Plan Tab Container*/
+#App_Plan_TemplateContent {
+    border: 3px solid cornflowerblue;
+    margin-left: 0px;
+    margin-top: -2px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    height: 84vh;
+    width: 97vw;
+}
+
 /*Create Tab Container*/
 #App_Create_TemplateContent {
     border: 3px solid cornflowerblue;

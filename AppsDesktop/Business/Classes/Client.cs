@@ -55,7 +55,7 @@ namespace Brooksoft.Apps.Business
         private void PopulateClient(App app)
         {
             this.App = app;
-            this.DB = new LiteDB.LiteDatabase(this.App.WorkingFolder + "\\AppsClient.db");
+            this.DB = new LiteDB.LiteDatabase(this.App.WorkingFolder + "\\Business\\Data\\AppsClient.db");
         }
 
         // Protected implementation of Dispose pattern.

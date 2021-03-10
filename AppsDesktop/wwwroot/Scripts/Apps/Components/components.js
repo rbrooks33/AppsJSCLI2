@@ -70,7 +70,7 @@
                 {
                     "Name": "Test",
                     "Load": true,
-                    "Initialize": true,
+                    "Initialize": false,
                     "ModuleType": "require",
                     "Components": [
                         {
@@ -82,7 +82,7 @@
                                 {
                                     "Name": "Tests",
                                     "Load": true,
-                                    "Initialize": true,
+                                    "Initialize": false,
                                     "ModuleType": "require",
                                     "Components": [
                                         {

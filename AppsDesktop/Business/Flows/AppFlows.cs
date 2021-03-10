@@ -306,7 +306,39 @@ namespace AppFlows
                 AppsClient.AppsLog.LogInfo(message);
             }
         }
+        public class TestRun: AppFlow
+        {
+            public TestRun(string message, int testPlanId)
+            {
+                this.Color = "blue";
+                this.FlowProps.Add("Message", message);
+                this.FlowProps.Add("Test Plan ID", testPlanId.ToString());
+                this.End();
 
+            }
+            public class Fail : AppFlow
+            {
+                public Fail(string message, ref AppsClient.AppsResult result)
+                {
+                    result.FailMessages.Add(message);
+                    this.FlowProps.Add("Message", message);
+                    this.Color = "orange";
+                    this.End();
+                    AppsClient.AppsLog.LogInfo(message);
+                }
+            }
+
+            public class Exception : AppFlow
+            {
+                public Exception(System.Exception ex, ref AppsClient.AppsResult result)
+                {
+                    this.Color = "red";
+                    this.ExceptionAndResult(ex, ref result);
+                    AppsClient.AppsLog.LogError(ex.ToString());
+                }
+            }
+
+        }
     }
 
     public class Develop

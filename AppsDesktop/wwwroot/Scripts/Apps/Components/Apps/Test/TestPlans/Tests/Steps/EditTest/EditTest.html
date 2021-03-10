@@ -1,11 +1,15 @@
-﻿
-<div class="btn-group" style="float:right;">
-    <div class="btn btn-secondary" onclick="Apps.Components.Plan.Apps.App.TestPlans.Tests.Steps.EditTest.Hide();">Close</div>
-    <div class="btn btn-warning" onclick="Apps.Components.Plan.Apps.App.TestPlans.Tests.Steps.EditTest.Save();">Save</div>
-    <div class="btn btn-warning" onclick="Apps.Components.Plan.Apps.App.TestPlans.Tests.Steps.EditTest.Run();">Run</div>
+﻿<!--<script id="Apps_Test_TestPlans_Tests_Steps_EditScript_Template" type="text/template">-->
+<div class="btn-group" style="float:left;">
+    <div class="btn btn-warning" onclick="Apps.Components.Apps.Test.TestPlans.Tests.Steps.EditTest.Save(false);">Save</div>
+    <div class="btn btn-warning" onclick="Apps.Components.Apps.Test.TestPlans.Tests.Steps.EditTest.Save(false);Apps.Components.Apps.Test.TestPlans.Tests.Steps.EditTest.Run();">Run</div>
 </div>
+
+<div class="btn btn-warning" 
+     onclick="Apps.Components.Apps.Test.TestPlans.Tests.Steps.EditTest.Hide();"
+     style="float:right;">Close</div>
 
 <div id="EditTest_Content_Container">
     <textarea id="App_Tests_Steps_EditTest_Textarea"></textarea>
 </div>
 
+<!--</script>-->

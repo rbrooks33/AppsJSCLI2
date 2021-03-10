@@ -3,8 +3,6 @@
         IntervalID: 0,
         Initialize: function (callback) {
 
-            //Me.Apps.Initialize();
-
             if(callback)
                 callback();
         },
@@ -12,7 +10,7 @@
 
         },
         Show: function () {
-            Apps.UI.AppComponents.Show();
+            Me.AppComponents.Show();
         },
         Test: function () {
             Apps.Notify('info', 'plan is testing!');
