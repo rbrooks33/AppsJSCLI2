@@ -82,7 +82,7 @@
                                 {
                                     "Name": "Tests",
                                     "Load": true,
-                                    "Initialize": false,
+                                    "Initialize": true,
                                     "ModuleType": "require",
                                     "Components": [
                                         {
@@ -99,6 +99,13 @@
 
                                                 }
 ]
+                                        },
+                                        {
+                                            "Name": "TestGrid",
+                                            "Load": true,
+                                            "Initialize": true,
+                                            "ModuleType": "require"
+
                                         }
 
                                     ]

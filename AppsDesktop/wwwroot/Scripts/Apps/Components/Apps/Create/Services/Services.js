@@ -1,6 +1,6 @@
 ﻿define([], function () {
     var Me = {
-        Initialize: function () {
+        Initialize: function (parent) {
             
         },
         Show: function () {

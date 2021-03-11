@@ -65,7 +65,7 @@
                         {
                             id: 'Apps_EditApp_Dialog_Save',
                             text: 'Save',
-                            action: 'Apps.Components.Plan.Apps.Save()'
+                            action: 'Apps.Components.Apps.Save()'
                         },
                         {
                             id: 'Apps_EditApp_Dialog_Cancel',

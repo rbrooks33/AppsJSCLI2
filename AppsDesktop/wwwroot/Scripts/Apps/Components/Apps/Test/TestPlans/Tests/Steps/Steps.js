@@ -43,6 +43,7 @@
                         {
                             text: "Add Step",
                             actionclick: function () {
+                                Apps.Data.Steps.Selected = null;
                                 Apps.Components.Apps.Test.TestPlans.Tests.Steps.UpsertStep();
                             }
 
@@ -106,11 +107,13 @@
         },
         UpsertStep: function () {
 
+            //New
             let step = Apps.Data.StepModel.Data;
+            step.TestID = Apps.Data.Tests.Selected.ID;
+
+            //Update
             if (Apps.Data.Steps.Selected)
                 step = Apps.Data.Steps.Selected;
-
-            step.TestID = Apps.Data.Tests.Selected.ID;
 
             Apps.Data.Post('UpsertStep', step, function () {
                 Apps.Components.Apps.Test.TestPlans.Tests.Steps.RefreshSteps();

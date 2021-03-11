@@ -4,7 +4,7 @@
         EditorPost: null,
         CurrentApp: null,
         CurrentPublishProfile: null,
-        Initialize: function (callback) {
+        Initialize: function (parent, callback) {
             Apps.LoadTemplate('Publish', '/Scripts/Apps/Components/Apps/Publish/Publish.html', function () {
                 Apps.LoadStyle('/Scripts/Apps/Components/Apps/Publish/Publish.css');
 

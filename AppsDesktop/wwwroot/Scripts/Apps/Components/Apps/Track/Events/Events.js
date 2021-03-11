@@ -1,7 +1,7 @@
 ﻿define([], function () {
     var Me = {
         Pause: false,
-        Initialize: function (callback) {
+        Initialize: function (parent, callback) {
             Apps.LoadTemplate('Events', '/Scripts/Apps/Components/Apps/Track/Events/Events.html', function () {
                 Apps.LoadStyle('/Scripts/Apps/Components/Apps/Track/Events/Events.css');
 

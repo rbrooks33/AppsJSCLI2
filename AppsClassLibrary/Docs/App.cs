@@ -20,6 +20,7 @@ namespace AppsDesktop
         }
         [Key]
         public int AppID { get; set; }
+        public string Description { get; set; }
         public string AppName { get; set; }
         public string MachineName { get; set; }
         public string WorkingFolder { get; set; }

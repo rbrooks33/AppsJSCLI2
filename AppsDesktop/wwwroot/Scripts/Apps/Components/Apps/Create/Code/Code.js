@@ -1,6 +1,6 @@
 ﻿define([], function () {
     var Me = {
-        Initialize: function (callback) {
+        Initialize: function (parent, callback) {
             Apps.LoadTemplate('Code', '/Scripts/Apps/Components/Apps/Create/Code/Code.html', function () {
 
                 Apps.LoadStyle('/Scripts/Apps/Components/Apps/Create/Code/Code.css');

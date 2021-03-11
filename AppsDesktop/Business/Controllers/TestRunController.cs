@@ -193,15 +193,19 @@ namespace AppsDesktop
 
                 var tri = triList.Query()
                     .Where(tri => tri.Type == type && tri.UniqueID == uniqueId)
-                    .OrderByDescending(tri => tri.DateCreated)
-                    .First();
+                    .OrderByDescending(tri => tri.DateCreated);
 
-                var runResult = new TestResult();
-                runResult.Instance = tri;
-                runResult.Runs = trList.Query().Where(tr => tr.TestRunInstanceID == tri.ID).ToList();
+                if (tri.Count() > 0)
+                {
+                    var triSingle = tri.First();
 
-                result.Data = runResult;
-                result.Success = true;
+                    var runResult = new TestResult();
+                    runResult.Instance = triSingle;
+                    runResult.Runs = trList.Query().Where(tr => tr.TestRunInstanceID == triSingle.ID).ToList();
+
+                    result.Data = runResult;
+                    result.Success = true;
+                }
             }
             catch (System.Exception ex)
             {

@@ -2,7 +2,7 @@
     var Me = {
         Parent: null,
         StoryModel: null,
-        Initialize: function (callback) {
+        Initialize: function (parent, callback) {
 
             Apps.LoadTemplate('Stories', '/Scripts/Apps/Components/Apps/Plan/AppComponents/Stories/Stories.html', function () {
                 Apps.LoadStyle('/Scripts/Apps/Components/Apps/Plan/AppComponents/Stories/Stories.css');

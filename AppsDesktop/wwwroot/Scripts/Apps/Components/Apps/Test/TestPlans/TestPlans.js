@@ -1,9 +1,7 @@
 ﻿define(['./ResultsInterval/ResultsInterval.js'], function (resultsinterval) {
     var Me = {
         ResultsInterval: resultsinterval,
-        CurrentApp: null,
-        CurrentTestPlans: null,
-        CurrentTestPlan: null,
+        CurrentTableRow: null,
         Initialize() {
 
             Apps.LoadTemplate('TestPlan', '/Scripts/Apps/Components/Apps/Test/TestPlans/TestPlans.html', function () {
@@ -208,9 +206,11 @@
             });
         },
         ShowTests: function (testPlan, tr) {
-            Me.Tests.Initialize(testPlan.TestPlanName, testPlan.ID, tr, function () {
-                Me.Tests.Show();
-            });
+            Apps.Data.TestPlans.Selected = testPlan;
+            //Me.Tests.Initialize(testPlan.TestPlanName, testPlan.ID, tr, function () {
+            Me.CurrentTableRow = tr;
+            Me.Tests.Show();
+            //});
         },
         FormatResults: function (testPlan) {
             //Get the last run instance for this test plan

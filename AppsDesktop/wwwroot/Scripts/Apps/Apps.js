@@ -462,7 +462,7 @@
                 //    Apps.Components[config.Name].Initialize();
                 console.log('running intitialize of ' + config.Name);
 
-                c.Initialize();
+                c.Initialize(parentComponent);
 
                 if (config.Framework === 'react' && config.AutoTranspile) {
 

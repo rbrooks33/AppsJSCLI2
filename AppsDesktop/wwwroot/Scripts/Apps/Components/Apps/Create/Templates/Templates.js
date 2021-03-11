@@ -4,7 +4,7 @@
         EditorResult: null,
         TemplateModel: null,
         CurrentTemplate: null,
-        Initialize: function (callback) {
+        Initialize: function (parent, callback) {
             Apps.LoadTemplate('Templates', '/Scripts/Apps/Components/Apps/Create/Templates/Templates.html', function () {
 
                 Apps.LoadStyle('/Scripts/Apps/Components/Apps/Create/Templates/Templates.css');

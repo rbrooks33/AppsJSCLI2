@@ -1,7 +1,7 @@
 ﻿define([], function () {
     var Me = {
         AppsData: Apps.Components.Apps.Data,
-        Initialize: function () {
+        Initialize: function (parent) {
             Apps.LoadTemplate('Create', '/Scripts/Apps/Components/Apps/Create/Create.html', function () {
                 Apps.UI.Create.Drop();
             });
