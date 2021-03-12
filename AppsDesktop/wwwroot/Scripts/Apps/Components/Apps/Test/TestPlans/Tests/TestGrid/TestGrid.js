@@ -1,8 +1,6 @@
 ﻿define([], function () {
     var Me = {
-        Parent: null,
-        Initialize: function (parent) {
-            Me.Parent = parent;
+        Initialize: function () {
         },
         Show: function () {
             Me.Refresh(function () {

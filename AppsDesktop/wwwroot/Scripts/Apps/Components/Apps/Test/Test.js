@@ -6,8 +6,7 @@
             Me.TestPlans.Show();
         },
         Hide: function () {
-            Apps.UI.Test.Hide();
-        }
+            Me.UI.Hide();        }
     };
     return Me;
 });

@@ -4,11 +4,7 @@
         CurrentTableRow: null,
         Initialize() {
 
-            Apps.LoadTemplate('TestPlan', '/Scripts/Apps/Components/Apps/Test/TestPlans/TestPlans.html', function () {
-                Apps.LoadStyle('/Scripts/Apps/Components/Apps/Test/TestPlans/TestPlans.css');
-
-                Apps.UI.TestPlan.Drop(); //Use Drop to put hidden on dom
-
+            Me.UI.Drop();
                 //Data sources
                 Apps.Data.RegisterGET('TestPlan','/api/Test/GetTestPlan?testPlanId={0}')
                 Apps.Data.RegisterGET('TestPlans', '/api/Test/GetTestPlans?appId={0}');
@@ -20,7 +16,6 @@
 
                 Apps.Data.TestPlanModel.Refresh();
 
-            });            
         },
         IntervalID: null,
         IntervalOn: false,

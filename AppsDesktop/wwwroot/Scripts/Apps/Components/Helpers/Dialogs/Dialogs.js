@@ -15,9 +15,7 @@
         MouseOutCallback: null,
         ClickCallback: null,
         Initialize: function (callback) {
-            Apps.LoadTemplate('Dialogs', '/Scripts/Apps/Components/Helpers/Dialogs/Dialogs.html', function () {
-                Apps.LoadStyle('/Scripts/Apps/Components/Helpers/Dialogs/Dialogs.css');
-                Apps.UI.Dialogs.Drop();
+            Me.UI.Drop();
 
                 //Register New Publish dialog
                 Me.Register('Apps_Publish_Edit_Dialog', {
@@ -223,7 +221,6 @@
 
                 // Dialog Notifications Setup
                 // Dialog Notifications Behavior Handling
-            });
         },
         Register: function (id, settings) {
             var exists = Me.Exists(id);
