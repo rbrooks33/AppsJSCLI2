@@ -4,9 +4,12 @@
         EditorPost: null,
         CurrentApp: null,
         CurrentPublishProfile: null,
-        Initialize: function (callback) {
+        Initialize: function (parent, callback) {
+            Apps.LoadTemplate('Publish', '/Scripts/Apps/Components/Apps/Publish/Publish.html', function () {
+                Apps.LoadStyle('/Scripts/Apps/Components/Apps/Publish/Publish.css');
 
-            Me.UI.Show();
+                Apps.UI.Publish.Show();
+
                 Me.Resize();
                 $(window).resize(function () { Me.Resize(); });
 
@@ -14,6 +17,7 @@
 
                 if(callback)
                     callback();
+            });
         },
         Resize: function () {
             let windowWidth = $(window).width();
@@ -47,32 +51,38 @@
                 Apps.Notify('warning', 'The local repo at "' + Me.CurrentPublishProfile.LocalRepoPath + '" appears to already exist.');
         },
         //Entry point from App UI
-        Show: function (appId) {
+        ShowList: function (appId) {
 
-            var app = Apps.Data.App.Data[0];
+            Apps.Get2('/api/Apps/GetApp?appId=' + appId, function (result) {
+                if (result.Success) {
 
-            Me.CurrentApp = app;
-            Me.Initialize(function () {
-                //Apps_Publish_List_Dialog
-                let html = Apps.Util.GetHTML('Apps_Publish_List_Template')
-                Apps.Components.Helpers.Dialogs.Content('Apps_Publish_List_Dialog', html);
-                Apps.Components.Helpers.Dialogs.Open('Apps_Publish_List_Dialog');
+                    Me.CurrentApp = result.Data[0]; // JSON.parse(unescape(appString));
+                    Me.Initialize(function () {
+                        //Apps_Publish_List_Dialog
+                        let html = Apps.Util.GetHTML('Apps_Publish_List_Template')
+                        Apps.Components.Helpers.Dialogs.Content('Apps_Publish_List_Dialog', html);
+                        Apps.Components.Helpers.Dialogs.Open('Apps_Publish_List_Dialog');
 
-                let tableHtml = '';
-                tableHtml += '<table>';
+                        let tableHtml = '';
+                        tableHtml += '<table>';
 
-                $.each(Me.CurrentApp.PublishProfiles, function (index, pp) {
+                        $.each(Me.CurrentApp.PublishProfiles, function (index, pp) {
 
-                    tableHtml += '  <tr>';
-                    tableHtml += '    <td><div id="Publish_List_Edit_Button_ID' + pp.AppID + '" class="btn btn-warning" onclick="Apps.Components.Publish.Edit(' + pp.PublishProfileID + ');">Edit</div></td>';
-                    tableHtml += '    <td>' + pp.Name + '</td>';
-                    html += '  </tr>';
-                });
+                            tableHtml += '  <tr>';
+                            tableHtml += '    <td><div id="Publish_List_Edit_Button_ID' + pp.AppID + '" class="btn btn-warning" onclick="Apps.Components.Publish.Edit(' + pp.PublishProfileID + ');">Edit</div></td>';
+                            tableHtml += '    <td>' + pp.Name + '</td>';
+                            html += '  </tr>';
+                        });
 
-                tableHtml += '</table>';
+                        tableHtml += '</table>';
 
-                $('#Apps_Publish_List_Container').html(tableHtml);
+                        $('#Apps_Publish_List_Container').html(tableHtml);
 
+
+                    });
+                }
+                else
+                    Apps.Notify('warning', 'Problem getting current app.');
             });
         },
         Edit: function (publishProfileId) {

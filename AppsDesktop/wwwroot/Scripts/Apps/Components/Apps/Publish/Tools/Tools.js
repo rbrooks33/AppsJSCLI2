@@ -1,8 +1,12 @@
 ﻿define([], function () {
     var Me = {
         Initialize: function () {
+            Apps.LoadTemplate('Tools', '/Scripts/Apps/Components/Apps/Publish/Tools/Tools.html', function () {
+                Apps.LoadStyle('/Scripts/Apps/Components/Apps/Publish/Tools/Tools.css');
 
-            Me.UI.Drop();        },
+                Apps.UI.Tools.Drop();
+            });
+        },
         Show: function () {
             Apps.UI.Tools.Show(400);
         },

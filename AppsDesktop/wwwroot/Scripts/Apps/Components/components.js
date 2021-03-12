@@ -4,31 +4,31 @@
         "Name": "Apps",
         "Load": true,
         "Initialize": true,
-        "UI": true,
+        "ModuleType": "require",
             "Components": [
                 {
                     "Name": "Plan",
                     "Load": true,
                     "Initialize": true,
-                    "UI": false,
+                    "ModuleType": "require",
                     "Components": [
                         {
                             "Name": "AppComponents",
                             "Load": true,
                             "Initialize": true,
-                            "UI": true,
+                            "ModuleType": "require",
                             "Components": [
                                 {
                                     "Name": "Stories",
                                     "Load": true,
                                     "Initialize": true,
-                                    "UI": true,
+                                    "ModuleType": "require",
                                     "Components": [
                                         {
                                             "Name": "Controls",
                                             "Load": true,
                                             "Initialize": false,
-                                            "UI": false,
+                                            "ModuleType": "require",
                                             "Components": []
                                         }
                                     ]
@@ -41,27 +41,27 @@
                     "Name": "Create",
                     "Load": true,
                     "Initialize": true,
-                    "UI": true,
+                    "ModuleType": "require",
                     "Components": [
                         {
                             "Name": "Code",
                             "Load": true,
                             "Initialize": true,
-                            "UI": true
+                            "ModuleType": "require"
 
                         },
                         {
                             "Name": "Services",
                             "Load": true,
                             "Initialize": true,
-                            "UI": true
+                            "ModuleType": "require"
 
                         },
                         {
                             "Name": "Templates",
                             "Load": true,
                             "Initialize": true,
-                            "UI": true
+                            "ModuleType": "require"
 
                         }
 
@@ -71,31 +71,31 @@
                     "Name": "Test",
                     "Load": true,
                     "Initialize": false,
-                    "UI": true,
+                    "ModuleType": "require",
                     "Components": [
                         {
                             "Name": "TestPlans",
                             "Load": true,
                             "Initialize": true,
-                            "UI": true,
+                            "ModuleType": "require",
                             "Components": [
                                 {
                                     "Name": "Tests",
                                     "Load": true,
                                     "Initialize": true,
-                                    "UI": false,
+                                    "ModuleType": "require",
                                     "Components": [
                                         {
                                             "Name": "Steps",
                                             "Load": true,
                                             "Initialize": true,
-                                            "UI": false,
+                                            "ModuleType": "require",
                                             "Components": [
                                                 {
                                                     "Name": "EditTest",
                                                     "Load": true,
                                                     "Initialize": true,
-                                                    "UI": true
+                                                    "ModuleType": "require"
 
                                                 }
 ]
@@ -104,7 +104,7 @@
                                             "Name": "TestGrid",
                                             "Load": true,
                                             "Initialize": true,
-                                            "UI": false
+                                            "ModuleType": "require"
 
                                         }
 
@@ -120,20 +120,20 @@
                     "Name": "Publish",
                     "Load": true,
                     "Initialize": true,
-                    "UI": true,
+                    "ModuleType": "require",
                     "Components": [
                         {
                             "Name": "Repo",
                             "Load": true,
                             "Initialize": true,
-                            "UI": false
+                            "ModuleType": "require"
 
                         },
                         {
                             "Name": "Tools",
                             "Load": true,
                             "Initialize": true,
-                            "UI": true
+                            "ModuleType": "require"
 
                         }
 
@@ -143,20 +143,20 @@
                     "Name": "Track",
                     "Load": true,
                     "Initialize": true,
-                    "UI": false,
+                    "ModuleType": "require",
                     "Components": [
                         {
                             "Name": "Events",
                             "Load": true,
                             "Initialize": true,
-                            "UI": true
+                            "ModuleType": "require"
 
                         },
                         {
                             "Name": "Versions",
                             "Load": true,
                             "Initialize": true,
-                            "UI": false
+                            "ModuleType": "require"
 
                         }
 
@@ -169,16 +169,7 @@
           "Name": "Helpers",
           "Load": true,
           "Initialize": true,
-          "UI": false,
-          "Components": [
-              {
-                  "Name": "Dialogs",
-                  "Load": true,
-                  "Initialize": true,
-                  "UI": true
-
-              }
-          ]
+          "ModuleType": "require"
       },
     
    {
@@ -190,7 +181,7 @@
       "Load": false,
       "Initialize": true,
       "Color": "blue",
-       "UI": true,
+      "ModuleType": "require",
       "Framework": "default",
       "Components": [],
       "IsOnDisk": true
@@ -204,7 +195,7 @@
       "Load": false,
       "Initialize": true,
       "Color": "blue",
-        "UI": true,
+      "ModuleType": "require",
       "Framework": "default",
       "Components": [],
       "IsOnDisk": true

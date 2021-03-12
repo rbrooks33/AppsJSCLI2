@@ -424,9 +424,7 @@
                 //        Apps.CountDownComponents.check();
                 //    });
                 //}
-
-                //Make require moduletype default (rb 3/12/2021)
-                if (c.Load && (c.ModuleType === 'require' || c.ModuleType == null)) {
+                if (c.Load && c.ModuleType === 'require') {
 
                     if (Apps.Settings.Debug)
                         console.log('loading component: ' + c.Name + ' (via ' + c.ModuleType + ')');
@@ -447,47 +445,36 @@
 
         if (Object.keys(c).length > 0) {
 
-            if (parentComponent) {
-                //Not top (e.g. "Apps.Components.TopComponent.*")
+            if (parentComponent)
                 parentComponent[config.Name] = c;
-                c['Parent'] = parentComponent;
-                c['Path'] = c.Parent.Path + '/' + config.Name;
-            }
-            else {
-                //Top level (e.g. "Apps.Components.*")
+            else
                 Apps.Components[config.Name] = c;
-                c['Path'] = Apps.Settings.WebRoot + '/' + Apps.Settings.AppsRoot + '/Components/' + config.Name;
-            }
 
             if (typeof c === 'function')
                 c = new c();
 
             if (config.Initialize) {
 
+                if (Apps.Settings.Debug)
+                    console.log('Initializing component ' + config.Name);
+
+                //if (Apps.Components[config.Name])
+                //    Apps.Components[config.Name].Initialize();
                 console.log('running intitialize of ' + config.Name);
 
-                //Added "UI" config (rb 3/12/2021)
-                if (config.UI && config.UI === true) {
+                c.Initialize(parentComponent);
 
-                    Apps.LoadUI(config.Name, c, function () {
+                if (config.Framework === 'react' && config.AutoTranspile) {
 
-                        c.Initialize();
-
-                        //if (config.Framework === 'react' && config.AutoTranspile) {
-
-                        //    var input = JSON.stringify(c); // 'const getMessage = () => "Hello World";';
-                        //    var output = Babel.transform(input, { presets: ['es2015'] }).code;
-                        //    //console.log(output);
-                        //    c = JSON.parse(output); //Put back on coll as js
-                        //}
-
-                        //We might not initialize by default any more??
-                        //Apps.AutoComponents[componentName].Initialize();
-                    });
+                    var input = JSON.stringify(c); // 'const getMessage = () => "Hello World";';
+                    var output = Babel.transform(input, { presets: ['es2015'] }).code;
+                    //console.log(output);
+                    c = JSON.parse(output); //Put back on coll as js
                 }
-                else {
-                    c.Initialize();
-                }
+
+                //We might not initialize by default any more??
+                //Apps.AutoComponents[componentName].Initialize();
+
             }
         }
         else
@@ -495,15 +482,23 @@
                 console.log('Component ' + c.Name + ' not anything.');
 
     },
-    LoadUI: function (configName, component, callback) {
-        if (!component['UI']) {
+    LoadStyle: function (filename, callback) {
+        var fileref = document.createElement("link");
+        fileref.setAttribute("rel", "stylesheet");
+        fileref.setAttribute("type", "text/css");
+        fileref.setAttribute("href", filename + '?version=' + Apps.Settings.Version);
+        document.getElementsByTagName("head")[0].appendChild(fileref);
 
-            Apps.Download(component.Path + '/' + configName + '.html?version=' + Apps.ActiveDeployment.Version, function (data) {
+        if (callback) //Note: sync so no callback needed. Just thought you should know :)
+            callback();
+    },
+    LoadTemplate: function (name, path, callback) {
 
-                component['UI'] = new Apps.Template({ id: configName, content: data });
-                component['UI'].Load(data);
+        if (!Apps.UI[name]) {
+            Apps.Download(path + '?version=' + Apps.ActiveDeployment.Version, function (data) {
 
-                Apps.LoadStyle(component.Path + '/' + configName + '.css?version=' + Apps.ActiveDeployment.Version)
+                Apps.UI[name] = new Apps.Template({ id: name, content: data });
+                Apps.UI[name].Load(data);
 
                 if (callback)
                     callback();
@@ -513,51 +508,27 @@
             if (callback)
                 callback();
         }
+        //$.ajax({
+        //    url: path + '?' + Apps.Settings.Version, type: 'get', datatype: 'html', async: true,
+        //    success: function (data) {
+
+        //        Apps.UI[name] = new Apps.Template({ id: name, content: data });
+        //        Apps.UI[name].Load(data);
+
+        //        if (callback)
+        //            callback(Apps.UI[name]);
+        //    }
+        //});
     },
-    LoadStyle: function (filename) {
-        var fileref = document.createElement("link");
-        fileref.setAttribute("rel", "stylesheet");
-        fileref.setAttribute("type", "text/css");
-        fileref.setAttribute("href", filename + '?version=' + Apps.ActiveDeployment.Version);
-        document.getElementsByTagName("head")[0].appendChild(fileref);
+    LoadTemplateAndStyle: function (componentName, callback) {
+        let componentRoot = Apps.Settings.WebRoot + '/Scripts/Apps/Components/' + componentName + '/' + componentName;
+        Apps.LoadTemplate(componentName, componentRoot + '.html?ver=' + Apps.Settings.Version, function () {
+            Apps.LoadStyle(componentRoot + '.css?ver=' + Apps.Settings.Version);
+
+            if (callback)
+                callback();
+        });
     },
-    //LoadTemplate: function (name, path, callback) {
-
-    //    if (!Apps.UI[name]) {
-    //        Apps.Download(path + '?version=' + Apps.ActiveDeployment.Version, function (data) {
-
-    //            Apps.UI[name] = new Apps.Template({ id: name, content: data });
-    //            Apps.UI[name].Load(data);
-
-    //            if (callback)
-    //                callback();
-    //        });
-    //    }
-    //    else {
-    //        if (callback)
-    //            callback();
-    //    }
-    //    //$.ajax({
-    //    //    url: path + '?' + Apps.Settings.Version, type: 'get', datatype: 'html', async: true,
-    //    //    success: function (data) {
-
-    //    //        Apps.UI[name] = new Apps.Template({ id: name, content: data });
-    //    //        Apps.UI[name].Load(data);
-
-    //    //        if (callback)
-    //    //            callback(Apps.UI[name]);
-    //    //    }
-    //    //});
-    //},
-    //LoadTemplateAndStyle: function (componentName, callback) {
-    //    let componentRoot = Apps.Settings.WebRoot + '/Scripts/Apps/Components/' + componentName + '/' + componentName;
-    //    Apps.LoadTemplate(componentName, componentRoot + '.html?ver=' + Apps.Settings.Version, function () {
-    //        Apps.LoadStyle(componentRoot + '.css?ver=' + Apps.Settings.Version);
-
-    //        if (callback)
-    //            callback();
-    //    });
-    //},
     LoadComponentTemplate: function (component, templateName, templateId, argsArray) {
         //Assumptions: Template file is dropped
 
@@ -650,20 +621,15 @@
             callback();
     },
     Download: function (path, callback) {
-        try {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (this.readyState === 4 && this.status === 200) {
-                    if (callback)
-                        callback(this.response);
-                }
-            };
-            xhttp.open('GET', path, true);
-            xhttp.send();
-        }
-        catch (err) {
-            console.log('Unable to download ' + path + '. Component files are optional.');
-        }
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                if (callback)
+                    callback(this.response);
+            }
+        };
+        xhttp.open('GET', path, true);
+        xhttp.send();
     },
     CountDownScriptResources: {
         count: 0,
@@ -1213,21 +1179,19 @@ Apps.Template = function (settings) {
 
             this.Selector = document.getElementById(this.TemplateID);
 
-            if (this.Template) {
-                //Gets html from template and puts inside container div (exposing it)
-                var content = this.Template.innerHTML; // this.Selector.find('div').html();
+            //Gets html from template and puts inside container div (exposing it)
+            var content = this.Template.innerHTML; // this.Selector.find('div').html();
 
-                if (argsArray)
-                    content = content.SearchAndReplace.apply(content, argsArray);
+            if (argsArray)
+                content = content.SearchAndReplace.apply(content, argsArray);
 
 
-                let contentDiv = document.createElement('div');
-                contentDiv.id = 'content' + this.TemplateID;
-                contentDiv.classList = this.TemplateID + 'ContentStyle';
-                contentDiv.innerHTML = content;
+            let contentDiv = document.createElement('div');
+            contentDiv.id = 'content' + this.TemplateID;
+            contentDiv.classList = this.TemplateID + 'ContentStyle';
+            contentDiv.innerHTML = content;
 
-                this.Selector.appendChild(contentDiv);
-            }
+            this.Selector.appendChild(contentDiv);
         }
 
 

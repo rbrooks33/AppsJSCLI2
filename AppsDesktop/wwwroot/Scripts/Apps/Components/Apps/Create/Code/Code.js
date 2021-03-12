@@ -1,11 +1,15 @@
 ﻿define([], function () {
     var Me = {
-        Initialize: function (callback) {
+        Initialize: function (parent, callback) {
+            Apps.LoadTemplate('Code', '/Scripts/Apps/Components/Apps/Create/Code/Code.html', function () {
 
-            Me.UI.Drop();
-            
+                Apps.LoadStyle('/Scripts/Apps/Components/Apps/Create/Code/Code.css');
+
+                Apps.UI.Code.Drop();
+
                 if (callback)
                     callback();
+            });
         },
         Show: function (appId) {
             Me.Initialize(function () {

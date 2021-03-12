@@ -4,8 +4,10 @@
 //where Initialize is the ctor (auto-initialized is turned off)
 define([], function () {
     var Me = {
-        Initialize: function () {
+        Parent: null,
+        Initialize: function (parent) {
 
+            Me.Parent = parent;
 
             Apps.Data.RegisterGET('TestModel', '/api/Test/GetTestModel');
             Apps.Data.RegisterGET('Tests', '/api/Test/GetTests?testPlanId={0}');

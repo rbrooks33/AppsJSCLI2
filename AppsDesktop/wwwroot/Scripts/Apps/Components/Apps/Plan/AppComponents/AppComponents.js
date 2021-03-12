@@ -1,8 +1,10 @@
 ﻿define([], function () {
     var Me = {
-        Initialize: function (callback) {
+        Initialize: function (parent, callback) {
+            Apps.LoadTemplate('AppComponents', '/Scripts/Apps/Components/Apps/Plan/AppComponents/AppComponents.html', function () {
+                Apps.LoadStyle('/Scripts/Apps/Components/Apps/Plan/AppComponents/AppComponents.css');
 
-                Me.UI.Drop(); //Use Drop to put hidden on dom
+                Apps.UI.AppComponents.Drop(); //Use Drop to put hidden on dom
 
                 Apps.Data.RegisterGET('AppComponents', '/api/AppComponent/GetAppComponents?appId={0}');
                 Apps.Data.RegisterGET('AppComponentModel', '/api/AppComponent/GetAppComponentModel');
@@ -13,6 +15,7 @@
 
                 if (callback)
                     callback();
+            });
         },
         Show: function () {
 

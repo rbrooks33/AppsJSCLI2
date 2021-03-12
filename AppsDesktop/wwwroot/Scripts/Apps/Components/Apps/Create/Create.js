@@ -2,7 +2,9 @@
     var Me = {
         AppsData: Apps.Components.Apps.Data,
         Initialize: function (parent) {
-                Me.UI.Drop();
+            Apps.LoadTemplate('Create', '/Scripts/Apps/Components/Apps/Create/Create.html', function () {
+                Apps.UI.Create.Drop();
+            });
         },
         Show: function () {
 
