@@ -1,14 +1,11 @@
 ﻿define([], function () {
     var Me = {
         Initialize: function (callback) {
-            Apps.LoadTemplate('SPA', '/Scripts/Apps/Components/CodeGen/SPA/SPA.html', function () {
-                Apps.LoadStyle('/Scripts/Apps/Components/CodeGen/SPA/SPA.css');
                 callback();
-            });
         },
         Show: function () {
             Me.Initialize(function () {
-                Apps.UI.SPA.Show();
+                Me.UI.Show();
                 Me.GetSearchParams(function (searchParams) {
 
                 });

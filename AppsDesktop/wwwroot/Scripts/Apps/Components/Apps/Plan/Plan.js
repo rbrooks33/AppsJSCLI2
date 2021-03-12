@@ -1,7 +1,7 @@
 ﻿define([], function () {
     var Me = {
         IntervalID: 0,
-        Initialize: function (parent, callback) {
+        Initialize: function (callback) {
 
             if(callback)
                 callback();

@@ -1,17 +1,15 @@
 ﻿define([], function () {
     var Me = {
         Initialize: function () {
-            Apps.LoadTemplate('Apps', Apps.Settings.WebRoot + '/' + Apps.Settings.AppsRoot + '/Components/Apps/Apps.html', function () {
-
-                Apps.LoadStyle(Apps.Settings.WebRoot + '/' + Apps.Settings.AppsRoot + '/Components/Apps/Apps.css');
-                Apps.UI.Apps.Drop();
+                
 
                 Apps.LoadComponentTemplate(Me, 'AppsHome', 'Plan_Apps_AppsHome_Template');
                 Apps.LoadComponentTemplate(Me, 'AppView', 'Plan_Apps_AppView_Template');
                 Apps.LoadComponentTemplate(Me, 'AppDiv', 'Plan_Apps_AppDiv_Template');
 
-                Me.UI.AppsHome.Show(400);
-                Me.GetApps();
+            Me.UI.Show(400);
+
+            Me.GetApps();
                 Me.StartInterval();
 
                 //Data sources
@@ -21,7 +19,6 @@
                 $('.dropdown-content').css('top', '35px');
                 $('.dropdown-content').css('left', '-110px');
 
-            });
 
             $(window).resize(function () { Me.Resize(); });
         },
@@ -50,11 +47,13 @@
             });
 
             if (tabIndex == 0) {
+
                 Me.Plan.Show();
+
                 //"Create" tab when selected
                 $('#contentAppView > div.css3-tabstrip.tabstripApp-tabstrip-custom > ul > li:nth-child(1) > label')
                     .css('position', 'relative').css('top', '1px');
-           }
+            }
             else if (tabIndex == 1) {
 
                 Me.Create.Show();
@@ -65,11 +64,21 @@
             }
             else if (tabIndex == 2) {
 
+                Me.Test.Show();
+
                 //"Test" tab when selected
                 $('#contentAppView > div.css3-tabstrip.tabstripApp-tabstrip-custom > ul > li:nth-child(3) > label')
                     .css('position', 'relative').css('top', '1px');
 
-                Me.Test.Show();
+            }
+            else if (tabIndex == 3) {
+
+                Me.Publish.Show();
+
+                //"Publish" tab
+                $('#contentAppView > div.css3-tabstrip.tabstripApp-tabstrip-custom > ul > li:nth-child(4) > label')
+                    .css('position', 'relative').css('top', '1px');
+
             }
         },
         LoadAppAndShowAppView: function (appId, callback) {

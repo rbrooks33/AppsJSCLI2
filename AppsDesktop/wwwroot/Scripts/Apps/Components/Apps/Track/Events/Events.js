@@ -1,12 +1,9 @@
 ﻿define([], function () {
     var Me = {
         Pause: false,
-        Initialize: function (parent, callback) {
-            Apps.LoadTemplate('Events', '/Scripts/Apps/Components/Apps/Track/Events/Events.html', function () {
-                Apps.LoadStyle('/Scripts/Apps/Components/Apps/Track/Events/Events.css');
+        Initialize: function (callback) {
 
-                Apps.UI.Events.Show();
-
+            Me.UI.Show();
                 Apps.Tabstrips.Initialize('tabstripEvents');
                 Apps.Tabstrips.Select('tabstripEvents', 1);
                 Apps.Tabstrips.SelectCallback = Me.TabSelected;
@@ -16,7 +13,6 @@
 
                 if (callback)
                     callback();
-            });
         },
         TabSelected: function (tabId, tabIndex) {
 

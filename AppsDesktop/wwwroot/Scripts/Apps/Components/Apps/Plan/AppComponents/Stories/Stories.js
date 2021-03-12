@@ -2,12 +2,10 @@
     var Me = {
         Parent: null,
         StoryModel: null,
-        Initialize: function (parent, callback) {
+        Initialize: function (callback) {
 
-            Apps.LoadTemplate('Stories', '/Scripts/Apps/Components/Apps/Plan/AppComponents/Stories/Stories.html', function () {
-                Apps.LoadStyle('/Scripts/Apps/Components/Apps/Plan/AppComponents/Stories/Stories.css');
 
-                Apps.UI.Stories.Show();
+                Me.UI.Show();
 
                 Apps.Data.RegisterPOST('UpsertStory', '/api/Story/UpsertStory');
                 Apps.Data.RegisterGET('Stories', '/api/Story/GetStories?appComponentId={0}');
@@ -16,7 +14,6 @@
 
                 if(callback)
                     callback();
-            });
         },
         GetStories: function (appComponent, callback) {
 

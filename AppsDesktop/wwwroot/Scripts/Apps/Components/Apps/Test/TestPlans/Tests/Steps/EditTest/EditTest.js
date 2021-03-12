@@ -3,13 +3,10 @@ define([], function () {
     var Me = {
         Editor: null,
         Initialize: function () {
-            Apps.LoadTemplate('EditTest', '/Scripts/Apps/Components/Apps/Test/TestPlans/Tests/Steps/EditTest/EditTest.html', function () {
-                Apps.LoadStyle('/Scripts/Apps/Components/Apps/Test/TestPlans/Tests/Steps/EditTest/EditTest.css');
 
-                Apps.UI.EditTest.Drop(); //Use Drop to put hidden on dom
+                Me.UI.Drop(); //Use Drop to put hidden on dom
 
                 Apps.Data.RegisterGET('RunFunctional', '/api/TestRun/RunFunctional?appId={0}&type={1}&uniqueId={2}');
-            });
         },
         Show: function (step) {
 
