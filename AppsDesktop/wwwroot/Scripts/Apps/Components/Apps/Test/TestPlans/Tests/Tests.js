@@ -5,27 +5,22 @@
 define([], function () {
     var Me = {
         Initialize: function () {
-
-
             Apps.Data.RegisterGET('TestModel', '/api/Test/GetTestModel');
             Apps.Data.RegisterGET('Tests', '/api/Test/GetTests?testPlanId={0}');
             Apps.Data.RegisterGET('RunFunctional', '/api/TestRun/RunFunctional?appId={0}&type={1}&uniqueId={2}');
-
             Apps.Data.RegisterPOST('UpsertTest', '/api/Test/UpsertTest');
-
             Apps.Data.TestModel.Refresh();
         },
         //Entry point.
         Show: function () {
 
-
             //Change text on "Show Tests" button
-            let showTests = $(testPlanRow).find('[id*="gridTestPlans_Row"][value="Show Tests"]'); //.val('Hide Tests');
-            let hideTests = $(testPlanRow).find('[id*="gridTestPlans_Row"][value="Hide Tests"]'); 
+            //let showTests = $(testPlanRow).find('[id*="gridTestPlans_Row"][value="Show Tests"]'); //.val('Hide Tests');
+            //let hideTests = $(testPlanRow).find('[id*="gridTestPlans_Row"][value="Hide Tests"]'); 
 
             //Child row
-            let testsRowId = 'Test_Tests_TestPlanRow' + testPlanId;
-            let testsRow = $('#' + testsRowId);
+            //let testsRowId = 'Test_Tests_TestPlanRow' + testPlanId;
+            //let testsRow = $('#' + testsRowId);
 
             //if (showTests.length == 1) {
 

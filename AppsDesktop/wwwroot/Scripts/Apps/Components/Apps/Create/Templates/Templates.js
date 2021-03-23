@@ -14,15 +14,15 @@
 
                         Me.TemplateModel = result.Data;
 
-                        //Me.Editor = ace.edit("Create_Templates_Content_Textarea");
-                        //Me.Editor.setTheme("ace/theme/monokai");
-                        //Me.Editor.session.setMode("ace/mode/csharp");
-                        //Me.Editor.renderer.onResize(true);
+                        Me.Editor = ace.edit("Create_Templates_Content_Textarea");
+                        Me.Editor.setTheme("ace/theme/monokai");
+                        Me.Editor.session.setMode("ace/mode/csharp");
+                        Me.Editor.renderer.onResize(true);
 
-                        //Me.EditorResult = ace.edit("Create_Templates_Result_Textarea");
-                        //Me.EditorResult.setTheme("ace/theme/monokai");
-                        //Me.EditorResult.session.setMode("ace/mode/csharp");
-                        //Me.EditorResult.renderer.onResize(true);
+                        Me.EditorResult = ace.edit("Create_Templates_Result_Textarea");
+                        Me.EditorResult.setTheme("ace/theme/monokai");
+                        Me.EditorResult.session.setMode("ace/mode/csharp");
+                        Me.EditorResult.renderer.onResize(true);
 
                         //Apps.Notify('success', 'Got template model!');
 
@@ -36,7 +36,7 @@
         },
         Show: function () {
 
-            Apps.UI.Templates.Show(400);
+            Me.UI.Show(400);
 
             Apps.Get2('/api/Create/GetTemplates', function (result) {
                 if (result.Success) {

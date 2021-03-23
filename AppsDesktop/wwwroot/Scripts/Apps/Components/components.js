@@ -1,11 +1,23 @@
 {
     "Components": [
         {
+            "Name": "Learn",
+            "Load": true,
+            "Initialize": true,
+            "UI": true
+        },
+        {
         "Name": "Apps",
         "Load": true,
         "Initialize": true,
         "UI": true,
             "Components": [
+                {
+                    "Name": "AppList",
+                    "Load": true,
+                    "Initialize": true,
+                    "UI": true
+                },
                 {
                     "Name": "Plan",
                     "Load": true,

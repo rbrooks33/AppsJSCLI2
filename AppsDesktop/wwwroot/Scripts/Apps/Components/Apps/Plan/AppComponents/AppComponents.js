@@ -1,122 +1,115 @@
 ﻿define([], function () {
     var Me = {
-        Initialize: function (callback) {
+        Initialize: function () {
 
-                Me.UI.Drop(); //Use Drop to put hidden on dom
+            Apps.Data.RegisterGET('AppComponents', '/api/AppComponent/GetAppComponents?appId={0}');
+            Apps.Data.RegisterGET('AppComponentModel', '/api/AppComponent/GetAppComponentModel');
+            Apps.Data.RegisterPOST('UpsertAppComponent', '/api/AppComponent/UpsertAppComponent');
+            Apps.Data.AppComponentModel.Refresh();
 
-                Apps.Data.RegisterGET('AppComponents', '/api/AppComponent/GetAppComponents?appId={0}');
-                Apps.Data.RegisterGET('AppComponentModel', '/api/AppComponent/GetAppComponentModel');
-
-                Apps.Data.AppComponentModel.Refresh();
-
-                Apps.Data.RegisterPOST('UpsertAppComponent', '/api/AppComponent/UpsertAppComponent');
-
-                if (callback)
-                    callback();
         },
         Show: function () {
 
-            //Apps.Data.App.Refresh([], function () { //Blank out model since is used for "new" etc.
+            var app = Apps.Data.App.Data[0];
 
-                var app = Apps.Data.App.Data[0];
+            Apps.Data.AppComponents.Refresh([app.AppID], function () {
 
-                Apps.Data.AppComponents.Refresh([app.AppID], function () {
-
-
-                    let table = Apps.Grids.GetTable({
-                        id: "gridAppComponents",
-                        data: Apps.Data.AppComponents.Data,
-                        title: app.AppName + ' <span style="color:lightgrey;">App Components</span>',
-                        tableactions: [
-                            {
-                                text: "Add Component",
-                                actionclick: function () {
-                                    Apps.Data.AppComponents.Selected = null;
-                                    Apps.Components.Apps.Plan.AppComponents.Upsert();
-                                }
-
+                let table = Apps.Grids.GetTable({
+                    id: "gridAppComponents",
+                    data: Apps.Data.AppComponents.Data,
+                    title: app.AppName + ' <span style="color:lightgrey;">App Components</span>',
+                    tableactions: [
+                        {
+                            text: "Add Component",
+                            actionclick: function () {
+                                Apps.Data.AppComponents.Selected = null;
+                                Apps.Components.Apps.Plan.AppComponents.Upsert();
                             }
-                        ],
-                        tablestyle: "",
-                        rowactions: [
-                            {
-                                text: "Delete",
-                                actionclick: function (td, appComponent, tr) {
-                                    if (confirm('Are you sure?')) {
-                                        appComponent.Archived = true;
-                                        Apps.Data.AppComponents.Selected = appComponent;
-                                        Apps.Components.Apps.Plan.AppComponents.Upsert();
-                                    }
-                                }
-                            }
-                        ],
-                        rowbuttons: [
-                            {
-                                text: "Stories",
-                                buttonclick: function (td, appComponent, tr) {
-                                    Apps.Components.Apps.Plan.AppComponents.ShowStories(td, appComponent, tr);
-                                }
-                            }
-                        ],
-                        fields: [
-                            { name: 'ID' },
-                            {
-                                name: 'AppComponentName',
-                                editclick: function (td, rowdata, editControl) {
-                                },
-                                saveclick: function (td, appComponent, input) {
-                                    appComponent.AppID = Apps.Data.App.Data[0].AppID;
-                                    appComponent.AppComponentName = $(input).val();
-                                    Apps.Data.AppComponents.Selected = appComponent;
-                                    Apps.Components.Apps.Plan.AppComponents.Upsert();
-                                }
-                            },
-                            {
-                                name: 'AppComponentDescription',
-                                editclick: function (td, rowdata, editControl) {
-                                },
-                                saveclick: function (td, appComponent, input) {
-                                    appComponent.AppID = Apps.Data.App.Data[0].AppID;
-                                    appComponent.AppComponentDescription = $(input).val();
+
+                        }
+                    ],
+                    tablestyle: "",
+                    rowactions: [
+                        {
+                            text: "Delete",
+                            actionclick: function (td, appComponent, tr) {
+                                if (confirm('Are you sure?')) {
+                                    appComponent.Archived = true;
                                     Apps.Data.AppComponents.Selected = appComponent;
                                     Apps.Components.Apps.Plan.AppComponents.Upsert();
                                 }
                             }
-                        ],
-                        columns: [
-                            {
-                                fieldname: 'ID',
-                                text: 'ID'
-                            },
-                            {
-                                fieldname: 'AppComponentName',
-                                text: 'Name',
-                                format: function (appComponent) {
-                                    let result = '&nbsp;&nbsp;&nbsp;&nbsp;';
-                                    if (appComponent.AppComponentName)
-                                        result = '<span style="font-size:22px;">' + appComponent.AppComponentName + '</span>';
-
-                                    return result;
-                                }
-                            },
-                            {
-                                fieldname: 'AppComponentDescription',
-                                text: 'Description',
-                                format: function (appComponent) {
-                                    let result = '&nbsp;&nbsp;&nbsp;&nbsp;';
-                                    if (appComponent.AppComponentDescription)
-                                        result = appComponent.AppComponentDescription;
-
-                                    return result;
-                                }
+                        }
+                    ],
+                    rowbuttons: [
+                        {
+                            text: "Stories",
+                            buttonclick: function (td, appComponent, tr) {
+                                Apps.Components.Apps.Plan.AppComponents.ShowStories(td, appComponent, tr);
                             }
-                        ]
-                    });
+                        }
+                    ],
+                    fields: [
+                        { name: 'ID' },
+                        {
+                            name: 'AppComponentName',
+                            editclick: function (td, rowdata, editControl) {
+                            },
+                            saveclick: function (td, appComponent, input) {
+                                appComponent.AppID = Apps.Data.App.Data[0].AppID;
+                                appComponent.AppComponentName = $(input).val();
+                                Apps.Data.AppComponents.Selected = appComponent;
+                                Apps.Components.Apps.Plan.AppComponents.Upsert();
+                            }
+                        },
+                        {
+                            name: 'AppComponentDescription',
+                            editclick: function (td, rowdata, editControl) {
+                            },
+                            saveclick: function (td, appComponent, input) {
+                                appComponent.AppID = Apps.Data.App.Data[0].AppID;
+                                appComponent.AppComponentDescription = $(input).val();
+                                Apps.Data.AppComponents.Selected = appComponent;
+                                Apps.Components.Apps.Plan.AppComponents.Upsert();
+                            }
+                        }
+                    ],
+                    columns: [
+                        {
+                            fieldname: 'ID',
+                            text: 'ID'
+                        },
+                        {
+                            fieldname: 'AppComponentName',
+                            text: 'Name',
+                            format: function (appComponent) {
+                                let result = '&nbsp;&nbsp;&nbsp;&nbsp;';
+                                if (appComponent.AppComponentName)
+                                    result = '<span style="font-size:22px;">' + appComponent.AppComponentName + '</span>';
 
-                    $('#App_Plan_TemplateContent').html(table.outerHTML);
+                                return result;
+                            }
+                        },
+                        {
+                            fieldname: 'AppComponentDescription',
+                            text: 'Description',
+                            format: function (appComponent) {
+                                let result = '&nbsp;&nbsp;&nbsp;&nbsp;';
+                                if (appComponent.AppComponentDescription)
+                                    result = appComponent.AppComponentDescription;
+
+                                return result;
+                            }
+                        }
+                    ]
                 });
 
-            //});
+                $('#App_Plan_TemplateContent').html(table.outerHTML);
+                //Me.Parent.Parent.UI.//Apps.Components.Apps.UI.PlanTab.Selector.html(table.outerHTML); //Put in tab content div
+                //Apps.Components.Apps.UI.PlanTab.Show();
+                //Apps.Tabstrips
+            });
+
         },
         Upsert: function () {
 

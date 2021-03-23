@@ -1,12 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
 
     <TargetFramework>net5.0</TargetFramework>
     <!--
     <OutputType>WinExe</OutputType>
     -->
+    <IsPackable>true</IsPackable>
     <UserSecretsId>0ce40823-1c30-490c-8faf-c01520e1c93f</UserSecretsId>
+    <Version>1.0.0</Version>
+    <Company>Brooks Software Company</Company>
+    <Authors>Rodney Brooks</Authors>
+    <Description>Plan/Create/Test/Publish/Monitor your software. Meant to be an all-around developer toolbox.</Description>
+    <Copyright>2021</Copyright>
+    <PackageLicenseFile>license.txt</PackageLicenseFile>
+    <PackageId>Brooksoft.Apps.DevOps</PackageId>
+    <Product>Brooksoft.Apps.DevOps</Product>
+    <PackageProjectUrl>https://appsjs.net/</PackageProjectUrl>
+    <PackageIcon>logo144.png</PackageIcon>
+    <RepositoryUrl>https://github.com/rbrooks33/Brooksoft.Apps.DevOps</RepositoryUrl>
+    <PackageTags>development helper</PackageTags>
+    <PackageReleaseNotes>Initial alpha release.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -46,6 +59,14 @@
     <None Remove="wwwroot\Scripts\Apps\Components\Apps\Test\TestPlans\VitaTest\**" />
     <None Remove="wwwroot\Scripts\Apps\Templates\**" />
     <None Remove="wwwroot\Scripts\Apps\_AppsIgnore\**" />
+    <None Include="..\..\AppsJSDev\AppsJSDev\AppsJSDev\Nuget\license.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="wwwroot\Images\logo144.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -115,6 +136,7 @@
     <Folder Include="Business\Ops\PostBuildScripts\" />
     <Folder Include="Models\Software\" />
     <Folder Include="wwwroot\Scripts\Apps\Components\Helpers\Intervals\" />
+    <Folder Include="wwwroot\Scripts\Apps\Components\Helpers\Docs\" />
   </ItemGroup>
 
   <ItemGroup>

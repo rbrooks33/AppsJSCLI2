@@ -25,3 +25,5 @@
 /cl ad.txt
 /.vs
 /AppsDesktop/Business/Data
+/AppsJSClassLib/bin/Debug/net5.0
+/AppsJSClassLib/obj

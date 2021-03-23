@@ -502,8 +502,16 @@
 
                 component['UI'] = new Apps.Template({ id: configName, content: data });
                 component['UI'].Load(data);
+                component['UI']['Parent'] = component;
+                component.UI['Templates'] = {};
 
-                Apps.LoadStyle(component.Path + '/' + configName + '.css?version=' + Apps.ActiveDeployment.Version)
+                let templates = $('<div>' + data + '</div>').find('script[type="text/template"]');
+
+                $.each(templates, function (index, template) {
+                    component.UI.Templates[template.id] = new Apps.ComponentTemplate({ id: template.id, content: template.innerHTML });
+                });
+
+                Apps.LoadStyle(component.Path + '/' + configName + '.css?version=' + Apps.ActiveDeployment.Version);
 
                 if (callback)
                     callback();
@@ -558,17 +566,17 @@
     //            callback();
     //    });
     //},
-    LoadComponentTemplate: function (component, templateName, templateId, argsArray) {
-        //Assumptions: Template file is dropped
+    //LoadComponentTemplate: function (component, templateName, templateId, argsArray) {
+    //    //Assumptions: Template file is dropped
 
-        let html = Apps.Util.GetHTML(templateId, argsArray);
+    //    let html = Apps.Util.GetHTML(templateId, argsArray);
 
-        if (!component.UI)
-            component['UI'] = {};
+    //    if (!component.UI)
+    //        component['UI'] = {};
 
-        component.UI[templateName] = new Apps.Template({ id: templateName, content: html });
-        component.UI[templateName].Load(html);
-    },
+    //    component.UI[templateName] = new Apps.Template({ id: templateName, content: html });
+    //    component.UI[templateName].Load(html);
+    //},
     //BindTemplate: function (templateId, argsArray) {
     //    var content = $("#" + templateId).html();
     //    if (argsArray) {
@@ -1358,8 +1366,97 @@ Apps.Template = function (settings) {
 
 
     //};
+    this.Register = function (name, templateId) {
+
+        let html = Apps.Util.GetHTML(templateId);
+
+        this[name] = {};
+        this[name] = new Apps.ComponentTemplate({ id: name, content: html });
+        //this[name].Drop(html);
+
+        return this[name];
+    };
     return this;
 
 };
+//This handles UI chunks. 
+//Scenario #1: Grabbing a *template* chunk of HTML to be placed when and where needed (w/args)
+//Scenario #2: Grabbing a *template* chunk of HTML to be iterated over and placed when and where needed (w/args)
+//In either case the chunk must be put somewhere (e.g. "let html = Me.UI.Chunk1.HTML();")
+//Usage:
+/*
+ 
+//Initialize
+-----Apps.UI.Register('MyChunk1', 'My_Chunk1_Template_Id');----
+UPDATE: All "text/template" scripts for a components file are registered automatically
 
+//Put somewhere
+$('#SomeHtmlContainer').html(Me.UI.Templates.MyChunk1.HTML([arg1, arg2]));
+
+//Put directly on DOM
+Me.UI.Templates.MyChunk1.Drop([arg1]);
+
+ */
+Apps.ComponentTemplate = function (settings) {
+    this.Content = settings.content;
+    this.ID = settings.id; 
+    this.Selector = null;
+    this.Drop = function (argsArray) {
+
+        //if (!document.getElementById(this.ID)) {
+
+        let templateNode = document.createElement('div');
+        templateNode.id = this.ID + 'Div';
+        templateNode.style.display = "none";
+        document.body.appendChild(templateNode);
+
+        this['Selector'] = $('#' + this.ID + 'Div');
+        //    this.Selector.html(this.Content);
+        var currentHtml = this.Content;
+
+        if (argsArray) {
+            currentHtml = currentHtml.SearchAndReplace.apply(currentHtml, argsArray);
+        }
+
+        $(templateNode).append(currentHtml);
+        // };
+        return this;
+    };
+    this.Show = function (speed) {
+
+        //this.Drop();
+
+        if (this.Selector)
+            this.Selector.show(speed);
+
+        return this;
+    };
+    this.Hide = function (speed) {
+
+        if (this.Selector)
+            this.Selector.hide(speed); 
+
+        return this;
+    };
+    //this.Remove = function () {
+
+    //    if (this.Selector)
+    //        this.Selector.detach();
+
+    //    return this;
+    //};
+    this.HTML = function (argsArray) {
+
+        var currentHtml = this.Content;
+       // if (this.Selector) {
+
+            if (argsArray) {
+                currentHtml = currentHtml.SearchAndReplace.apply(currentHtml, argsArray);
+                //this.Content = Selector.html(newHtml);
+            }
+            //currentHtml = this.Selector.html();
+        //}
+        return currentHtml;
+    };
+};
 Apps.PreInit();

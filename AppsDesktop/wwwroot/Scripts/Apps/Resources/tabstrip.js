@@ -9,7 +9,7 @@
 define(['./util.js'], function (Util) {
 
     var Me = {
-
+        Tabs: [],
         Initialize: function (tabstripId) {
 
             //if (baseFolder)
@@ -59,7 +59,9 @@ define(['./util.js'], function (Util) {
                             newTabstripTabsHTML += '</li>';
                             $(newTabstripHTML.children()[0]).append($(newTabstripTabsHTML));
 
+                            let tabModel = new Me.TabModel(tabstripId, tabIndex, tabTemplateId);
 
+                            Me.Tabs.push(tabModel);
                         });
 
                         // newTabstripHTML += ' ';
@@ -79,7 +81,24 @@ define(['./util.js'], function (Util) {
             });
 
         },
+        TabModel: function (tabstripId, tabIndex, templateid) {
 
+            var result = {
+                TabstripID: tabstripId,
+                Index: tabIndex,
+                TemplateID: templateid,
+                Content: ''
+            };
+            return result;
+        },
+        Content: function (tabstripId, tabIndex, content) {
+            let result = '';
+            let tab = Enumerable.From(this.Tabs).Where('$.TabstripID == "' + tabstripId + '" && $.Index == ' + tabIndex).ToArray();
+            if (tab.length == 1) {
+                tab.Content = content;
+                result = tab.Content; //Return existing in case not setting
+            }
+        },
         Select: function (tabstripId, tabIndex) {
 
             //In server mode tab selection must happen AFTER page load

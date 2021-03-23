@@ -1,20 +1,19 @@
 ﻿define(['./ResultsInterval/ResultsInterval.js'], function (resultsinterval) {
     var Me = {
         ResultsInterval: resultsinterval,
-        CurrentTableRow: null,
+        CurrentTestPlanRow: null,
         Initialize() {
 
-            Me.UI.Drop();
-                //Data sources
-                Apps.Data.RegisterGET('TestPlan','/api/Test/GetTestPlan?testPlanId={0}')
-                Apps.Data.RegisterGET('TestPlans', '/api/Test/GetTestPlans?appId={0}');
-                Apps.Data.RegisterGET('TestPlanModel', '/api/Test/GetTestPlanModel');
-                Apps.Data.RegisterGET('RunFunctional', '/api/TestRun/RunFunctional?appId={0}&type={1}&uniqueId={2}');
-                Apps.Data.RegisterGET('LatestResults', '/api/TestRun/GetLatestResults?type={0}&uniqueId={1}');
+            Me.UI.Show(400);
 
-                Apps.Data.RegisterPOST('UpsertTestPlan', '/api/Test/UpsertTestPlan');
-
-                Apps.Data.TestPlanModel.Refresh();
+            //Data sources
+            Apps.Data.RegisterGET('TestPlan', '/api/Test/GetTestPlan?testPlanId={0}')
+            Apps.Data.RegisterGET('TestPlans', '/api/Test/GetTestPlans?appId={0}');
+            Apps.Data.RegisterGET('TestPlanModel', '/api/Test/GetTestPlanModel');
+            Apps.Data.RegisterGET('RunFunctional', '/api/TestRun/RunFunctional?appId={0}&type={1}&uniqueId={2}');
+            Apps.Data.RegisterGET('LatestResults', '/api/TestRun/GetLatestResults?type={0}&uniqueId={1}');
+            Apps.Data.RegisterPOST('UpsertTestPlan', '/api/Test/UpsertTestPlan');
+            Apps.Data.TestPlanModel.Refresh();
 
         },
         IntervalID: null,

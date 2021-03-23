@@ -1,0 +1,111 @@
+﻿<script id="AppWidgetContainer" type="text/template">
+
+    <div id="Apps_AppContainer_Div" style="margin:20px;"></div>
+
+</script>
+
+<script id="App" type="text/template">
+
+    <!--
+        0 = ID
+        1 = App Name
+        2 = Machine Name
+        3 = Working Folder
+        4 = App escaped string
+    -->
+    <div class="Apps_App_DivStyle Apps_App_DivStyle_ID{0}">
+
+        <div class="dropdown">
+            <i class="fas fa-ellipsis-v" style="cursor:pointer;position:absolute;right:4px;top:4px;"></i>
+            <div class="dropdown-content">
+                <a href="#" onclick="Apps.Components.Apps.Edit({0});">Edit</a>
+                <a href="#" onclick="Apps.Components.Apps.Archive({0});">Delete</a>
+                <a href="#" onclick="Apps.Components.Plan.Apps.App.Run({0});">Run</a>
+                <a href="#" onclick="Apps.Components.Create.Code.Show({0});">Code</a>
+                <a href="#" onclick="Apps.Components.Publish.ShowList({0});">Publishing</a>
+                <a href="#" onclick="Apps.Components.Plan.Apps.AddAppsJS({0});">Add AppsJS</a>
+            </div>
+        </div>
+
+
+        <div class="Apps_AppName_Label_ID{0}" style="margin-left:5px;font-size: 1.5vw;font-weight:600;">#{0} {1}</div>
+        <div class="Apps_MachineName_Label_ID{0}" style="margin-left:5px;font-size:.75vw;">{2}</div>
+
+
+        <div>
+            <textarea style="font-size:.6vw;width:19vw;margin-left:5px;margin-right:6px;">{3}</textarea>
+        </div>
+
+        <div>
+            <span style="font-size: 1.5vh; position: relative; top: -4px; margin-left: 6px; margin-right: 2px;">AppsJS</span>
+            <div id="Apps_AppsJSExists_Div_ID{0}" style="display:inline-block;width:1vw;height:2vh;border-radius:1vw;background-color:lightgrey;"></div>
+        </div>
+
+        <div id="Apps_Plan_Div_ID{0}"
+             class="Apps_Plan_Style"
+             onclick="Apps.Components.Apps.Event('ShowAppViewTab', [{0}, 0]);"
+             data-ping-machinename="{2}"
+             data-ping-workingfolder="{3}">
+            <span style="font-size: .6vw; position: absolute; bottom: 0px; left: 33%; ">PLAN</span>
+            <i class="fas fa-book-reader iconcontainer" style="font-size: 1.2vw; position: absolute; top: 3px; left: 36%; "></i>
+        </div>
+
+        <div id="Apps_Create_Div_ID{0}"
+             class="Apps_Create_Style"
+             onclick="Apps.Components.Apps.ShowAppViewTab({0}, 1);"
+             data-ping-machinename="{2}"
+             data-ping-workingfolder="{3}">
+            <span style="font-size: .6vw; position: absolute; bottom: 0px; left: 30%; ">CREATE</span>
+            <i class="fas fa-plus iconcontainer" style="font-size: 1.2vw; position: absolute; top: 3px; left: 41%; "></i>
+        </div>
+
+        <div id="Apps_Test_Div_ID{0}"
+             class="Apps_Test_Style"
+             onclick="Apps.Components.Apps.ShowAppViewTab({0}, 2);"
+             data-ping-machinename="{2}"
+             data-ping-workingfolder="{3}">
+            <span style="font-size: .6vw; position: absolute; bottom: 0px; left: 30%; ">TEST</span>
+            <i class="fas fa-vial iconcontainer" style="font-size: 1.2vw; position: absolute; top: 3px; left: 33%; "></i>
+        </div>
+
+        <div id="Apps_Publish_Div_ID{0}"
+             class="Apps_Publish_Style"
+             onclick="Apps.Components.Apps.ShowAppViewTab({0}, 3);"
+             data-ping-machinename="{2}"
+             data-ping-workingfolder="{3}">
+            <span style="font-size: .6vw; position: absolute; bottom: 0px; left: 30%; ">PUBLISH</span>
+            <i class="fas fa-file-export iconcontainer" style="font-size:1.2vw; position:absolute; top:3px; left:42%;"></i>
+        </div>
+
+        <div id="Apps_Track_Div_ID{0}" title="Track"
+             class="Apps_Track_Style "
+             onclick="Apps.Components.Apps.ShowAppViewTab({0}, 4);"
+             data-ping-machinename="{2}"
+             data-ping-workingfolder="{3}">
+            <span style="font-size: .6vw; position: absolute; bottom: 0px; left: 30%; ">TRACK</span>
+            <i class="fas fa-file iconcontainer" style="font-size: 1.2vw; position: absolute; top: 3px; left: 39%;"></i>
+        </div>
+
+        <i class="fas fa-cog" style="cursor: pointer; bottom: 6px; position: absolute; right: 3px;"
+           onclick="Apps.Components.Plan.Apps.Show({0});"></i>
+    </div>
+
+</script>
+<script id="SystemContainer" type="text/template">
+    <!--
+        0 = system id
+    -->
+
+    <div id="Apps_SystemContainer_Div_ID{0}" class="Apps_SystemContainer_DivStyle">
+        <div class="dropdown" style="position: relative; left: 5px; top: -17px;">
+            <i class="fas fa-bars" style="cursor:pointer;"></i>
+            <div class="dropdown-content">
+                <a href="#" onclick="Apps.Components.Plan.Apps.Edit({0});">Stories</a>
+            </div>
+        </div>
+
+        <span class="Apps_SystemName_Label_ID{0}"
+              style="position:absolute;margin-left:26px;margin-top:-18px;font-size: 20px;font-weight:600;">{1}</span>
+
+    </div>
+</script>

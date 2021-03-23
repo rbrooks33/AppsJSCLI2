@@ -2,7 +2,8 @@
     var Me = {
         AppsData: Apps.Components.Apps.Data,
         Initialize: function (parent) {
-                Me.UI.Drop();
+            Me.UI.Drop();
+            Apps.Data.RegisterGET('CreateSoftware', '/api/Create/CreateAppSoftware?softwareType=[0]');
         },
         Show: function () {
 
@@ -65,19 +66,17 @@
             }
         },
         New: function (softwareType) {
+
             if (softwareType === 'net_core_web_service') {
-                //
-                Apps.Get2('/api/Create/CreateAppSoftware?softwareType=3', function (result) {
-
-                    if (result.Success) {
-                        Apps.Notify('info', 'created!');
-                        Apps.Components.Helpers.Dialogs.Close('Create_Software_List_Dialog');
-                    }
-                    else
-                        Apps.Notify('warning', 'not create');
-
+                Apps.Data.CreateSoftware.Refresh([3], function () {
+                    Apps.Components.Helpers.Dialogs.Close('Create_Software_List_Dialog');
                 });
             }
+            else if (softwareType === 'net_webapp_with_appsjs131') {
+
+            }
+
+            Apps.Notify('info', 'created!');
         }
     };
     return Me;
