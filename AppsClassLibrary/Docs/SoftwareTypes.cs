@@ -13,6 +13,7 @@ namespace Flows
         CoreDesktopApp = 4,
         WinFormApplication = 5,
         CoreConsoleApp = 6,
-        DotNetConsoleApp = 7
+        DotNetConsoleApp = 7,
+        Unknown = 0
     }
 }

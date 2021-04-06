@@ -20,13 +20,15 @@ namespace AppsDesktop
         private LiteDatabase _db;
         private AppsData _data;
         private OpenQA.Selenium.Chrome.ChromeDriver _driver; // = new OpenQA.Selenium.Chrome.ChromeDriver(Environment.CurrentDirectory + "\\Libraries");
+        private AppsContext _ctx;
 
-        public TestRunController(IWebHostEnvironment env, AppsData data, OpenQA.Selenium.Chrome.ChromeDriver driver)
+        public TestRunController(IWebHostEnvironment env, AppsData data, OpenQA.Selenium.Chrome.ChromeDriver driver, AppsContext ctx)
         {
             _env = env;
             _db = data.AppsDB;
             _data = data;
             _driver = driver;
+            _ctx = ctx;
         }
         [HttpGet]
         [Route("GetTestRunModel")]
@@ -114,7 +116,7 @@ namespace AppsDesktop
 
                 triList.Upsert(tri);
 
-                var testController = new TestController(_env, _data, _driver);
+                var testController = new TestController(_env, _data, _driver, _ctx);
 
                 switch (type)
                 {

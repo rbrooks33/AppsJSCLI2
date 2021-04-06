@@ -23,7 +23,19 @@
                     $.each(apps, function (index, app) {
                         if (app.SystemID <= 0) {
 
-                            let appHTML = Me.UI.Templates.App.HTML([app.AppID, app.AppName, app.MachineName, escape(app.WorkingFolder), escape(JSON.stringify(app))]);
+                            let softwareTypeName = Enumerable.From(Apps.Data.SoftwareTypes.Data).Where(function (st) {
+                                return st.SoftwareTypeID == app.SoftwareType;
+                            }).ToArray()[0].SoftwareTypeName;
+
+                            let appHTML = Me.UI.Templates.App.HTML(
+                                [
+                                    app.AppID,
+                                    app.AppName,
+                                    app.MachineName,
+                                    escape(app.WorkingFolder),
+                                    escape(JSON.stringify(app)),
+                                    softwareTypeName
+                                ]);
 
                             let existingAppDiv = $('.Apps_App_DivStyle_ID' + app.AppID);
 

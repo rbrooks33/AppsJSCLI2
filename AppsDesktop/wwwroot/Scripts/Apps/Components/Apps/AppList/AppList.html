@@ -12,11 +12,12 @@
         2 = Machine Name
         3 = Working Folder
         4 = App escaped string
+        5 = Software type (string)
     -->
     <div class="Apps_App_DivStyle Apps_App_DivStyle_ID{0}">
 
         <div class="dropdown">
-            <i class="fas fa-ellipsis-v" style="cursor:pointer;position:absolute;right:4px;top:4px;"></i>
+            <i class="fas fa-ellipsis-v" style="cursor:pointer;position:absolute;right:0px;top:4px;"></i>
             <div class="dropdown-content">
                 <a href="#" onclick="Apps.Components.Apps.Edit({0});">Edit</a>
                 <a href="#" onclick="Apps.Components.Apps.Archive({0});">Delete</a>
@@ -27,10 +28,9 @@
             </div>
         </div>
 
-
         <div class="Apps_AppName_Label_ID{0}" style="margin-left:5px;font-size: 1.5vw;font-weight:600;">#{0} {1}</div>
-        <div class="Apps_MachineName_Label_ID{0}" style="margin-left:5px;font-size:.75vw;">{2}</div>
-
+        <div class="Apps_SoftwareType_Label_ID{0}" style="margin-left:5px;font-size:.75vw;"><b>Software Type:</b> {5}</div>
+        <div class="Apps_MachineName_Label_ID{0}" style="margin-left:5px;font-size:.75vw;"><b>Machine:</b> {2}</div>
 
         <div>
             <textarea style="font-size:.6vw;width:19vw;margin-left:5px;margin-right:6px;">{3}</textarea>
@@ -43,43 +43,45 @@
 
         <div id="Apps_Plan_Div_ID{0}"
              class="Apps_Plan_Style"
-             onclick="Apps.Components.Apps.Event('ShowAppViewTab', [{0}, 0]);"
-             data-ping-machinename="{2}"
-             data-ping-workingfolder="{3}">
+             onclick="Apps.Components.Apps.Event('ShowApp', [{0}, 1]);"
+             data-machinename="{2}"
+             data-workingfolder="{3}">
             <span style="font-size: .6vw; position: absolute; bottom: 0px; left: 33%; ">PLAN</span>
             <i class="fas fa-book-reader iconcontainer" style="font-size: 1.2vw; position: absolute; top: 3px; left: 36%; "></i>
         </div>
 
         <div id="Apps_Create_Div_ID{0}"
              class="Apps_Create_Style"
-             onclick="Apps.Components.Apps.ShowAppViewTab({0}, 1);"
-             data-ping-machinename="{2}"
-             data-ping-workingfolder="{3}">
+             onclick="Apps.Components.Apps.ShowApp({0}, 1);"
+             data-machinename="{2}"
+             data-workingfolder="{3}">
             <span style="font-size: .6vw; position: absolute; bottom: 0px; left: 30%; ">CREATE</span>
             <i class="fas fa-plus iconcontainer" style="font-size: 1.2vw; position: absolute; top: 3px; left: 41%; "></i>
         </div>
 
         <div id="Apps_Test_Div_ID{0}"
              class="Apps_Test_Style"
-             onclick="Apps.Components.Apps.ShowAppViewTab({0}, 2);"
-             data-ping-machinename="{2}"
-             data-ping-workingfolder="{3}">
+             onclick="Apps.Components.Apps.ShowApp({0}, 2);"
+             data-machinename="{2}"
+             data-workingfolder="{3}">
             <span style="font-size: .6vw; position: absolute; bottom: 0px; left: 30%; ">TEST</span>
             <i class="fas fa-vial iconcontainer" style="font-size: 1.2vw; position: absolute; top: 3px; left: 33%; "></i>
         </div>
 
         <div id="Apps_Publish_Div_ID{0}"
              class="Apps_Publish_Style"
-             onclick="Apps.Components.Apps.ShowAppViewTab({0}, 3);"
-             data-ping-machinename="{2}"
-             data-ping-workingfolder="{3}">
+             onclick="Apps.Components.Apps.ShowApp({0}, 3);"
+             data-machinename="{2}"
+             data-workingfolder="{3}">
             <span style="font-size: .6vw; position: absolute; bottom: 0px; left: 30%; ">PUBLISH</span>
             <i class="fas fa-file-export iconcontainer" style="font-size:1.2vw; position:absolute; top:3px; left:42%;"></i>
         </div>
 
         <div id="Apps_Track_Div_ID{0}" title="Track"
              class="Apps_Track_Style "
-             onclick="Apps.Components.Apps.ShowAppViewTab({0}, 4);"
+             onclick="Apps.Components.Apps.ShowApp({0}, 4);"
+             data-machinename="{2}"
+             data-workingfolder="{3}"
              data-ping-machinename="{2}"
              data-ping-workingfolder="{3}">
             <span style="font-size: .6vw; position: absolute; bottom: 0px; left: 30%; ">TRACK</span>

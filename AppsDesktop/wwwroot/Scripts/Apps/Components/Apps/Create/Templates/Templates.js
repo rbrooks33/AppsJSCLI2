@@ -65,7 +65,7 @@
             });
         },
         Hide: function () {
-            Apps.UI.Templates.Hide(400);
+            Me.UI.Hide(400);
         },
         New: function () {
             Apps.Post2('/api/Create/UpsertTemplate', JSON.stringify(Me.TemplateModel), function (result) {

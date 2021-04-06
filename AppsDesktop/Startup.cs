@@ -22,6 +22,7 @@ namespace AppsDesktop
         public IConfiguration Configuration { get; }
         //readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public LiteDB.LiteDatabase AppsDB;
+        public DbContext AppsContext;
         //public LiteDB.LiteDatabase FlowsDB;
         public string output;
 
@@ -39,6 +40,9 @@ namespace AppsDesktop
             //Action<OpenQA.Selenium.Chrome.ChromeDriver> chromeDriver = (cd => { 
 
             //});
+
+            //services.addeaddeAddEntityFrameworkSqlite().AddDbContext<DatabaseContext>();
+            
             services.AddSingleton<OpenQA.Selenium.Chrome.ChromeDriver>(new OpenQA.Selenium.Chrome.ChromeDriver(Environment.CurrentDirectory + "\\Libraries"));
 
             //Main db
@@ -47,6 +51,10 @@ namespace AppsDesktop
                 opt.AppsDBPath = System.Environment.CurrentDirectory + "\\Business\\Data\\Apps.db";
                 opt.AppsDB = new LiteDB.LiteDatabase(opt.AppsDBPath);
             });
+
+            //Main ef context
+            Action<AppsContext> contextOptions = (opt => { opt = new AppsContext(); });
+            services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<AppsContext>>().Value);
 
             ////Flows db
             //Action<FlowsData> flowDBOptions = (opt =>
@@ -57,6 +65,7 @@ namespace AppsDesktop
 
             services.Configure(liteDBOptions);
             services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<AppsData>>().Value);
+
 
             //services.Configure(flowDBOptions);
             //services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<FlowsData>>().Value);

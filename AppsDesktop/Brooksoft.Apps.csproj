@@ -117,8 +117,12 @@
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="5.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
     <PackageReference Include="Microsoft.CodeAnalysis" Version="3.8.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.2" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="5.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.1" />
     <PackageReference Include="Microsoft.Web.Administration" Version="11.1.0" />
@@ -136,7 +140,6 @@
     <Folder Include="Business\Ops\PostBuildScripts\" />
     <Folder Include="Models\Software\" />
     <Folder Include="wwwroot\Scripts\Apps\Components\Helpers\Intervals\" />
-    <Folder Include="wwwroot\Scripts\Apps\Components\Helpers\Docs\" />
   </ItemGroup>
 
   <ItemGroup>

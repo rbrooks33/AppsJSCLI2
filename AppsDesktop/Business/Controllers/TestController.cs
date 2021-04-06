@@ -19,14 +19,16 @@ namespace AppsDesktop.Controllers
         private IWebHostEnvironment _env;
         private LiteDatabase _db;
         private AppsData _data;
+        private AppsContext _ctx;
         private OpenQA.Selenium.Chrome.ChromeDriver _driver; // = new OpenQA.Selenium.Chrome.ChromeDriver(Environment.CurrentDirectory + "\\Libraries");
 
-        public TestController(IWebHostEnvironment env, AppsData data, OpenQA.Selenium.Chrome.ChromeDriver driver)
+        public TestController(IWebHostEnvironment env, AppsData data, OpenQA.Selenium.Chrome.ChromeDriver driver, AppsContext ctx)
         {
             _env = env;
             _db = data.AppsDB;
             _data = data;
             _driver = driver;
+            _ctx = ctx;
         }
 
         [HttpGet]
@@ -47,7 +49,7 @@ namespace AppsDesktop.Controllers
 
             try
             {
-                var testRunController = new TestRunController(_env, _data, _driver);
+                var testRunController = new TestRunController(_env, _data, _driver, _ctx);
                 var testplans = _db.GetCollection<TestPlan>("TestPlans");
                 var tests = _db.GetCollection<Test>("Tests");
                 var teststeps = _db.GetCollection<TestStep>("TestSteps");
@@ -89,7 +91,7 @@ namespace AppsDesktop.Controllers
         public AppsResult GetTestPlan(int testPlanId)
         {
             var result = new AppsResult();
-            var testRunController = new TestRunController(_env, _data, _driver);
+            var testRunController = new TestRunController(_env, _data, _driver, _ctx);
 
             try
             {
@@ -151,7 +153,7 @@ namespace AppsDesktop.Controllers
         public AppsResult GetTests(int testPlanId)
         {
             var result = new AppsResult();
-            var testRunController = new TestRunController(_env, _data, _driver);
+            var testRunController = new TestRunController(_env, _data, _driver, _ctx);
 
             try
             {
@@ -247,7 +249,7 @@ namespace AppsDesktop.Controllers
             {
                 if (testId > 0)
                 {
-                    var testRunController = new TestRunController(_env, _data, _driver);
+                    var testRunController = new TestRunController(_env, _data, _driver, _ctx);
                     var steps = _db.GetCollection<TestStep>("Steps");
 
                     var appSteps = steps.Query().Where(s => s.TestID == testId && s.Archived == false).ToList();
@@ -330,7 +332,7 @@ namespace AppsDesktop.Controllers
 
             try
             {
-                var apps = new AppsController(_env, _data);
+                var apps = new AppsController(_env, _data, _ctx);
                 var appResult = apps.GetApp(appId);
 
                 if (appResult.Success)

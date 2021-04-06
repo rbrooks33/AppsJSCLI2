@@ -15,6 +15,7 @@ namespace AppsDesktop.Models.Docs
             Order = 0;
         }
         [Key]
+        public int ID { get; set; }
         public int DocID { get; set; }
         public int DocTypeID { get; set; }
         public int UniqueID { get; set; } //ID unique within the doc type

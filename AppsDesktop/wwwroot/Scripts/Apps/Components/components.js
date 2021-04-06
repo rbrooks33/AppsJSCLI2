@@ -189,7 +189,15 @@
                   "Initialize": true,
                   "UI": true
 
+              },
+              {
+                  "Name": "Docs",
+                  "Load": true,
+                  "Initialize": true,
+                  "UI": true
+
               }
+
           ]
       },
     

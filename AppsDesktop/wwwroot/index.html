@@ -32,7 +32,7 @@
             Apps.connection.start().catch(err => console.error(err.toString()));
             Apps.connection.on("Ping", function (machineName, workingFolder) {
 
-                Apps.Components.Plan.Apps.Ping(machineName, workingFolder);
+                Apps.Components.Apps.Ping(machineName, workingFolder);
 
             });
             Apps.connection.on("TestProgress", function (status, message) {
@@ -79,6 +79,7 @@
             <div class="dropdown-content">
                 <a href="#" onclick="Apps.Components.Apps.Publish.Tools.Show();">Permissions</a>
                 <a href="#" onclick="Apps.Components.Apps.Create.Templates.Show();">Templates</a>
+                <a href="#" onclick="Apps.Components.Helpers.Docs.Show();">Docs</a>
             </div>
         </div>
 

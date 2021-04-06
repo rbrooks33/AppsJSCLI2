@@ -17,11 +17,13 @@ namespace AppsDesktop.Controllers
     {
         private IWebHostEnvironment _env;
         private LiteDatabase _db;
+        private AppsContext _ctx;
 
-        public AppsController(IWebHostEnvironment env, AppsData data)
+        public AppsController(IWebHostEnvironment env, AppsData data, AppsContext ctx)
         {
             _env = env;
             _db = data.AppsDB;
+            _ctx = ctx;
         }
 
         [HttpPost]
@@ -253,6 +255,40 @@ namespace AppsDesktop.Controllers
                 var objs = _db.GetCollection<Models.Software.System>("Systems"); // db.Softwares.Add(software);
 
                 result.Data = objs.FindAll().ToList();
+                result.Success = true;
+            }
+            catch (System.Exception ex)
+            {
+                new AppFlows.Helpers.AppsSystem.Exception(ex, ref result);
+            }
+
+            return result;
+        }
+
+        public class SoftwareTypeModel
+        {
+            public int SoftwareTypeID { get; set; }
+            public string SoftwareTypeName { get; set; }
+        }
+        [HttpGet]
+        [Route("GetSoftwareTypes")]
+        public AppsResult GetSoftwareTypes()
+        {
+            var result = new AppsResult();
+            var softwareTypeList = new List<SoftwareTypeModel>();
+
+            try
+            {
+                foreach(int stid in Enum.GetValues<SoftwareTypes>())
+                {
+                    var sft = new SoftwareTypeModel()
+                    {
+                        SoftwareTypeID = stid,
+                        SoftwareTypeName = Enum.GetName<SoftwareTypes>((SoftwareTypes)stid)
+                    };
+                    softwareTypeList.Add(sft);
+                }
+                result.Data = softwareTypeList;
                 result.Success = true;
             }
             catch (System.Exception ex)

@@ -9,7 +9,10 @@
             //Data sources
             Apps.Data.RegisterGET('Systems', '/api/Apps/GetSystems');
             Apps.Data.RegisterGET('App', '/api/Apps/GetApp?appId={0}');
+            Apps.Data.RegisterGET('SoftwareTypes', '/api/Apps/GetSoftwareTypes');
             Apps.Data.RegisterPOST('UpsertApp', '/api/Apps/UpsertApp');
+
+            Apps.Data.SoftwareTypes.Refresh();
 
             //Adjust dropdown menu for home page
             $('.dropdown-content').css('top', '35px');
@@ -26,6 +29,17 @@
             $('.AppContentStyle').height(windowHeight - 59);
             $('.tabstripApp-tabstrip-custom').height(windowHeight - 59 - 83);
 
+        },
+        ShowApp: function (appId, tabIndex) {
+
+            Apps.Components.Apps.Track.Events.HideEvents();
+
+            Me.AppList.UI.Templates.AppWidgetContainer.Hide(400);
+            Me.UI.Templates.AppTabstrip.Show(400);
+
+            Me.LoadAppAndShowAppView(appId, function () {
+                Apps.Tabstrips.Select('tabstripApp', tabIndex);
+            });
         },
         TabSelected: function (tabId, tabIndex) {
 
@@ -120,19 +134,8 @@
             clearInterval(Me.IntervalID);
         },
         CloseAppView: function () {
-            Me.UI.Templates.AppTabstrip.Hide(400);
-            Me.UI.Templates.AppWidgetContainer.Show(400);
-        },
-        ShowAppViewTab: function (appId, tabIndex) {
-
-            Apps.Components.Apps.Track.Events.HideEvents();
-
-            Me.AppList.UI.Templates.AppWidgetContainer.Hide(400);
-            Me.UI.Templates.AppTabstrip.Show(400);
-
-            Me.LoadAppAndShowAppView(appId, function () {
-                Apps.Tabstrips.Select('tabstripApp', tabIndex);
-            });
+            Me.UI.Templates.AppTabstrip.Hide(400); //Hide tabstrip that edits one app
+            Me.AppList.UI.Templates.AppWidgetContainer.Show(400); //Show app icon list
         },
         GetAppModel: function (callback) {
             Apps.Get2('/api/Apps/GetAppModel', function (result) {
@@ -172,17 +175,23 @@
                     Apps.Util.RefreshCombobox(Apps.Data.Systems.Data, 'Apps_EditAppSystem_Select', app.SystemID, 'Select A System', 'SystemID', 'SystemName', function () {
                         //Selected
                     });
+
+                    Apps.Util.RefreshCombobox(Apps.Data.SoftwareTypes.Data, 'Apps_EditSoftwareType_Select', app.SoftwareType, 'Select A Software Type', 'SoftwareTypeID', 'SoftwareTypeName', function () {
+                        //Selected
+                    });
                 });
             });
         },
         Save: function () {
 
             let systemId = $('#Apps_EditAppSystem_Select').val();
+            let softwareTypeId = $('#Apps_EditSoftwareType_Select').val();
             let app = Apps.Data.App.Data[0];
 
             app.AppName = $('#Apps_EditAppName_Textbox').val();
             app.IsEnabled = $('#Apps_EditAppEnabled_Checkbox').prop('checked');
             app.SystemID = systemId === null ? 0 : systemId;
+            app.SoftwareType = softwareTypeId;
             app.MachineName = $('#Apps_EditApp_MachineName_Textbox').val();
             app.WorkingFolder = $('#Apps_EditApp_WorkingFolder_Textbox').val();
             app.ProjectFileFullName = $('#Apps_EditApp_ProjectFile_Textbox').val();
@@ -287,7 +296,7 @@
         },
         Event: function (sender, args) {
             switch (sender) {
-                case 'ShowAppViewTab': Me.ShowAppViewTab(args[0], args[1]); break;
+                case 'ShowApp': Me.ShowApp(args[0], args[1]); break;
             }
         },
         Test: function () {
