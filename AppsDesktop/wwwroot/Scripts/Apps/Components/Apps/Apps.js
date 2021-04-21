@@ -7,12 +7,14 @@
             Me.UI.Templates.AppTabstrip.Drop();
 
             //Data sources
+            Apps.Data.RegisterGET('AppModel', '/api/Apps/GetAppModel');
             Apps.Data.RegisterGET('Systems', '/api/Apps/GetSystems');
             Apps.Data.RegisterGET('App', '/api/Apps/GetApp?appId={0}');
             Apps.Data.RegisterGET('SoftwareTypes', '/api/Apps/GetSoftwareTypes');
             Apps.Data.RegisterPOST('UpsertApp', '/api/Apps/UpsertApp');
 
             Apps.Data.SoftwareTypes.Refresh();
+            Apps.Data.AppModel.Refresh();
 
             //Adjust dropdown menu for home page
             $('.dropdown-content').css('top', '35px');
@@ -137,16 +139,6 @@
             Me.UI.Templates.AppTabstrip.Hide(400); //Hide tabstrip that edits one app
             Me.AppList.UI.Templates.AppWidgetContainer.Show(400); //Show app icon list
         },
-        GetAppModel: function (callback) {
-            Apps.Get2('/api/Apps/GetAppModel', function (result) {
-                if (result.Success) {
-                    callback(result.Data);
-                }
-                else
-                    Apps.Notify('warning', 'Failed to get app model.');
-            });
-        },
-
         Edit: function (appId) {
 
             Apps.Data.Systems.Refresh(null, function (systemsResult) {
@@ -219,13 +211,11 @@
         },
         New: function (newWhat) {
             if (newWhat == 'app') {
-                Me.GetAppModel(function (app) {
-                    Me.CurrentApp = app;
-                    let isChecked = app.IsEnabled ? 'checked' : '';
-                    let editAppHTML = Apps.Util.GetHTML('Apps_EditApp_Template', [Me.CurrentApp.AppName, isChecked])
-                    Apps.Components.Helpers.Dialogs.Content('Apps_EditApp_Dialog', editAppHTML);
-                    Apps.Components.Helpers.Dialogs.Open('Apps_EditApp_Dialog');
-                });
+                let app = Apps.Data.AppModel.Data;
+                let isChecked = app.IsEnabled ? 'checked' : '';
+                let editAppHTML = Me.UI.Templates.EditApp.HTML([app.AppName, isChecked]);
+                Apps.Components.Helpers.Dialogs.Content('Apps_EditApp_Dialog', editAppHTML);
+                Apps.Components.Helpers.Dialogs.Open('Apps_EditApp_Dialog');
             }
             else if (newWhat == 'system') {
                 Me.GetSystemModel(function (system) {

@@ -426,7 +426,10 @@
                 //}
 
                 //Make require moduletype default (rb 3/12/2021)
-                if (c.Load && (c.ModuleType === 'require' || c.ModuleType == null)) {
+                //Make load==true default (rb 4/19/2021)
+                if (
+                    (c.Load == null || c.Load == true) &&
+                    (c.ModuleType === 'require' || c.ModuleType == null)) {
 
                     if (Apps.Settings.Debug)
                         console.log('loading component: ' + c.Name + ' (via ' + c.ModuleType + ')');
@@ -925,7 +928,7 @@
                 Apps.HandleAjaxResult(false, data.d, callback);
             },
             error: function (data) {
-                Apps.HandleAjaxResult(true, data.d, callback);
+                Apps.HandleAjaxResult(true, data, callback);
             }
         });
 
