@@ -13,7 +13,7 @@ namespace Flows
 
         public static void Load()
         {
-            var flowsDb = new LiteDB.LiteDatabase(System.Environment.CurrentDirectory + "\\Flows.db");
+            var flowsDb = new LiteDB.LiteDatabase(System.Environment.CurrentDirectory + "\\Business\\Data\\Flows.db");
             FlowsData.FlowTable = flowsDb.GetCollection<AppFlowEvent>("Flows");
         }
     }
